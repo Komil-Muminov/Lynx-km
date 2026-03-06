@@ -50,7 +50,14 @@
 - TypeScript
 - Rspeedy (сборщик)
 
-12. Для работы с API всегда используй:
+12. **Стек Backend**:
+
+- Node.js
+- Express
+- TypeScript
+- MongoDB + Mongoose
+
+13. Для работы с API всегда используй:
 
 - кастомные хуки из @shared/api/hooks useGetFolders и useMutationQuery
 - `_axios` из `@shared/api`
@@ -174,6 +181,13 @@
     - framer-motion
     - react-toastify
 37. Анимации реализуй через встроенные средства (CSS Keyframes) или специализированные библиотеки для Lynx.
+
+## Backend (Node.js)
+
+38. Используй только TypeScript для Backend.
+39. Придерживайся модульной структуры.
+40. Всегда валидируй входящие данные (например, через Zod или аналоги).
+41. Логируй важные события и ошибки.
 
 ## Конфигурация
 
