@@ -1,0 +1,40 @@
+.cart-button-container {
+  position: absolute;
+  bottom: 24px;
+  left: 16px;
+  right: 16px;
+}
+
+.cart-button {
+  background-color: #000000;
+  border-radius: 16px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.cart-button__info {
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-button__count {
+  color: #a0a0a0;
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+.cart-button__price {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.cart-button__action {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: bold;
+}
