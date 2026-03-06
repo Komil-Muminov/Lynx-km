@@ -1,0 +1,95 @@
+.kitchen-orders {
+  display: flex;
+  flex-direction: column;
+}
+
+.kitchen-orders__title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #1a1a1a;
+  margin-bottom: 16px;
+}
+
+.kitchen-orders__scroll {
+  flex: 1;
+}
+
+.kitchen-orders__card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.kitchen-orders__card--pending {
+  border-left: 6px solid #ff3b30;
+}
+
+.kitchen-orders__card--cooking {
+  border-left: 6px solid #ff9500;
+}
+
+.kitchen-orders__card-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+.kitchen-orders__table {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.kitchen-orders__status-label {
+  font-size: 12px;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.kitchen-orders__items {
+  margin-bottom: 16px;
+}
+
+.kitchen-orders__item-txt {
+  font-size: 15px;
+  color: #333333;
+  margin-bottom: 4px;
+}
+
+.kitchen-orders__actions {
+  display: flex;
+  flex-direction: row;
+}
+
+.kitchen-orders__btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.kitchen-orders__btn--start {
+  background-color: #ff9500;
+}
+
+.kitchen-orders__btn--ready {
+  background-color: #34c759;
+}
+
+.kitchen-orders__btn-txt {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.kitchen-orders__loading, .kitchen-orders__empty {
+  text-align: center;
+  color: #888;
+  padding: 20px;
+}

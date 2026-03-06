@@ -1,0 +1,68 @@
+import React from 'react';
+import { useGetQuery, useMutationQuery } from '@shared/api/hooks/index.js';
+import { useQueryClient } from '@tanstack/react-query';
+import './ActiveCalls.css';
+
+interface ICall {
+  _id: string;
+  tableId: string;
+  type: 'waiter' | 'hookah' | 'payment';
+  status: 'pending' | 'resolved';
+  createdAt: string;
+}
+
+interface IProps {
+  restaurantId: string;
+}
+
+export const ActiveCalls = ({ restaurantId }: IProps) => {
+  const queryClient = useQueryClient();
+  
+  const { data: calls, isLoading } = useGetQuery<ICall[]>(
+    ['active-calls', restaurantId],
+    `http://localhost:5000/api/calls/restaurant/${restaurantId}`
+  );
+
+  const resolveMutation = useMutationQuery();
+
+  const handleResolve = (callId: string) => {
+    resolveMutation.mutate(
+      {
+        url: `http://localhost:5000/api/calls/${callId}/resolve`,
+        method: 'PUT',
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['active-calls', restaurantId] });
+        }
+      }
+    );
+  };
+
+  if (isLoading) return <text className="active-calls__loading">Загрузка вызовов...</text>;
+
+  return (
+    <view className="active-calls">
+      <text className="active-calls__title">Активные вызовы</text>
+      {calls?.length === 0 ? (
+        <text className="active-calls__empty">Вызовов пока нет</text>
+      ) : (
+        <scroll-view className="active-calls__list" scroll-y>
+          {calls?.map((call) => (
+            <view key={call._id} className="active-calls__item">
+              <view className="active-calls__info">
+                <text className="active-calls__table">Стол: {call.tableId}</text>
+                <text className="active-calls__type">
+                  {call.type === 'waiter' ? '🙋‍♂️ Официант' : call.type === 'hookah' ? '💨 Кальянщик' : '💳 Счет'}
+                </text>
+              </view>
+              <view className="active-calls__action" bindtap={() => handleResolve(call._id)}>
+                <text className="active-calls__action-text">Принял</text>
+              </view>
+            </view>
+          ))}
+        </scroll-view>
+      )}
+    </view>
+  );
+};

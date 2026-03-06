@@ -1,0 +1,42 @@
+.chef-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: #1a1a1a; /* Темная тема для повара (меньше бликов) */
+}
+
+.chef-page__header {
+  padding: 24px 16px 16px;
+  background-color: #2c2c2e;
+  border-bottom: 2px solid #ff3b30;
+}
+
+.chef-page__title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.chef-page__subtitle {
+  font-size: 14px;
+  color: #8e8e93;
+}
+
+.chef-page__content {
+  flex: 1;
+  padding: 16px;
+}
+
+.chef-page__footer {
+  padding: 16px;
+  background-color: #2c2c2e;
+  display: flex;
+  justify-content: center;
+}
+
+.chef-page__status {
+  color: #ff9500;
+  font-size: 14px;
+  font-weight: bold;
+}
