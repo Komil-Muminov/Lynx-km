@@ -1,1 +1,1 @@
-export { GuestMenu } from './GuestMenu.js';
+export { GuestMenu } from './ui.js';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useGetQuery } from '@shared/api/hooks/index.js';
 import { useCart } from '@app/providers/index.js';
-import { MenuItemCard } from '@entities/Menu/index.js';
+import { Menu } from '@entities/Menu/index.js';
 import type { IMenu, IMenuItem } from '@entities/Menu/index.js';
 import './MenuList.css';
 
@@ -53,7 +53,7 @@ export const MenuList = ({ restaurantId }: IProps) => {
   return (
     <view className="menu-list">
       {menu.items.map((item) => (
-        <MenuItemCard 
+        <Menu 
           key={item._id} 
           item={item} 
           onAdd={handleAddToCart} 

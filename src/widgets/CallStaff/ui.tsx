@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useMutationQuery } from '@shared/api/hooks/index.js';
 import { ECallType } from './model.js';
-import './CallStaffWidget.css';
+import './CallStaff.css';
 
 interface IProps {
   restaurantId: string;

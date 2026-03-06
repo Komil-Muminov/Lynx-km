@@ -1,6 +1,6 @@
 import React from 'react';
 import type { IMenuItem } from './model.js';
-import './MenuItemCard.css';
+import './Menu.css';
 
 interface IProps {
   item: IMenuItem;

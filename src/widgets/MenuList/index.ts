@@ -1,1 +1,1 @@
-export { MenuList } from './MenuList.js';
+export { MenuList } from './ui.js';

@@ -1,1 +1,1 @@
-export { CartButton } from './CartButton.js';
+export { CartButton } from './ui.js';
