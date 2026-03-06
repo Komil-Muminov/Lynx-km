@@ -1,1 +1,1 @@
-export { KitchenOrders } from './KitchenOrders.js';
+export { KitchenOrders } from './ui.js';

@@ -47,7 +47,6 @@
 .kitchen-orders__status-label {
   font-size: 12px;
   color: #666;
-  text-transform: uppercase;
 }
 
 .kitchen-orders__items {

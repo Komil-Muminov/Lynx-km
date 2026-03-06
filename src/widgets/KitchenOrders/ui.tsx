@@ -58,7 +58,7 @@ export const KitchenOrders = ({ restaurantId }: IProps) => {
             <view className="kitchen-orders__card-header">
               <text className="kitchen-orders__table">Стол: {order.tableId}</text>
               <text className="kitchen-orders__status-label">
-                {order.status === 'pending' ? 'В очереди' : 'Готовится'}
+                {(order.status === 'pending' ? 'В очереди' : 'Готовится').toUpperCase()}
               </text>
             </view>
             
