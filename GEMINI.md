@@ -59,10 +59,10 @@
 
 13. Для работы с API всегда используй:
 
-- кастомные хуки из @shared/api/hooks useGetFolders и useMutationQuery
+- кастомные хуки из @shared/api/hooks useGetQuery и useMutationQuery
 - `_axios` из `@shared/api`
 
-13. Никогда не используй:
+14. Никогда не используй:
 
 - fetch
 - axios напрямую
