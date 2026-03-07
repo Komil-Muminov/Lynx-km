@@ -3,8 +3,14 @@ import { ManagerStats } from '@widgets/ManagerStats/index.js';
 import { ManagerMenuList } from '@widgets/ManagerMenuList/index.js';
 import './ManagerHome.css';
 
+/**
+ * Страница: ManagerHome (Руководитель)
+ * Отвечает за: Объединение виджетов статистики и управления меню.
+ * Является главной точкой входа для роли Администратора кафе.
+ */
 export const ManagerHome = () => {
-  // Для демо используем ID из мока
+  // хардкод для демо-режима. 
+  // В будущем получаем ID заведения из сессии или токена авторизации.
   const restaurantId = '65b2a1c9e8d4a3b2c1f0e4d5';
 
   return (
