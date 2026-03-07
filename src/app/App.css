@@ -7,6 +7,12 @@
   background-color: #f7f7f8;
 }
 
+.app-content {
+  display: flex;
+  flex: 1;
+  width: 100%;
+}
+
 /* Тёмная тема */
 .app-container--dark {
   background-color: #1a1a1a;

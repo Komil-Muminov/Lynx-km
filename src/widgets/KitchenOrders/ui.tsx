@@ -1,21 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useGetQuery, useMutationQuery } from '@shared/api/hooks/index.js';
 import { useQueryClient } from '@tanstack/react-query';
+import dayjs from 'dayjs';
+import type { IOrder } from '@entities/Order/index.js';
 import './KitchenOrders.css';
-
-interface IOrderItem {
-  itemId: string;
-  name: string;
-  quantity: number;
-}
-
-interface IOrder {
-  _id: string;
-  tableId: string;
-  items: IOrderItem[];
-  status: 'pending' | 'cooking' | 'ready' | 'paid';
-  createdAt: string;
-}
 
 interface IProps {
   restaurantId: string;

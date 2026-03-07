@@ -32,7 +32,7 @@ export const createOrder = async (req: Request, res: Response) => {
 export const updateOrderStatus = async (req: Request, res: Response) => {
   try {
     const { orderId } = req.params;
-    const { status } = req.body; // 'pending' | 'cooking' | 'ready' | 'paid' | 'cancelled'
+    const { status, discount, tips } = req.body; // 'pending' | 'cooking' | 'ready' | 'paid' | 'cancelled'
 
     const order = await Order.findById(orderId);
     if (!order) {
@@ -46,6 +46,11 @@ export const updateOrderStatus = async (req: Request, res: Response) => {
 
     const oldStatus = order.status;
     order.status = status;
+    
+    // Если передана скидка или чаевые, сохраняем (обычно при status='paid')
+    if (discount !== undefined) order.discount = discount;
+    if (tips !== undefined) order.tips = tips;
+
     await order.save();
 
     // ГЛАВНАЯ ЛОГИКА: Если заказ оплачен, фиксируем комиссию 1 дирам
@@ -149,5 +154,27 @@ export const getManagerStats = async (req: Request, res: Response) => {
   } catch (error) {
     console.error('Get manager stats error:', error);
     res.status(500).json({ message: 'Ошибка при получении статистики' });
+  }
+};
+
+/**
+ * История чеков для менеджера конкретного заведения
+ */
+export const getOrderHistory = async (req: Request, res: Response) => {
+  try {
+    const { restaurantId } = req.params;
+    
+    // Получаем последние 50 оплаченных заказов
+    const history = await Order.find({
+      restaurantId,
+      status: 'paid'
+    })
+    .sort({ createdAt: -1 })
+    .limit(50);
+    
+    res.json(history);
+  } catch (error) {
+    console.error('Get order history error:', error);
+    res.status(500).json({ message: 'Ошибка при получении истории заказов' });
   }
 };

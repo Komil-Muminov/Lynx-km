@@ -1,14 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useGetQuery, useMutationQuery } from '@shared/api/hooks/index.js';
+import dayjs from 'dayjs';
+import type { IOrder } from '@entities/Order/index.js';
 import { useQueryClient } from '@tanstack/react-query';
 import './CheckoutOrders.css';
-
-interface IOrder {
-  _id: string;
-  tableId: string;
-  totalAmount: number;
-  status: 'pending' | 'cooking' | 'ready' | 'paid';
-}
 
 interface IProps {
   restaurantId: string;
@@ -22,14 +17,14 @@ export const CheckoutOrders = ({ restaurantId }: IProps) => {
     `http://localhost:5000/api/orders/restaurant/${restaurantId}`
   );
 
-  const payMutation = useMutationQuery();
+  const statusMutation = useMutationQuery();
 
-  const handlePayment = (orderId: string) => {
-    payMutation.mutate(
+  const handleUpdateStatus = (orderId: string, newStatus: string) => {
+    statusMutation.mutate(
       {
         url: `http://localhost:5000/api/orders/${orderId}/status`,
         method: 'PUT',
-        data: { status: 'paid' }
+        data: { status: newStatus }
       },
       {
         onSuccess: () => {
@@ -39,31 +34,108 @@ export const CheckoutOrders = ({ restaurantId }: IProps) => {
     );
   };
 
-  if (isLoading) return <text className="checkout__loading">Загрузка счетов...</text>;
-
-  const readyOrders = orders?.filter(o => o.status === 'ready');
+  if (isLoading) return <text className="checkout-orders__loading">Загрузка кассы...</text>;
 
   return (
-    <view className="checkout">
-      <text className="checkout__title">Готовы к оплате</text>
+    <view className="checkout-orders">
+      <text className="checkout-orders__title">Неоплаченные заказы</text>
       
-      <scroll-view className="checkout__list" scroll-y>
-        {readyOrders?.map((order) => (
-          <view key={order._id} className="checkout__card">
-            <view className="checkout__info">
-              <text className="checkout__table">Стол: {order.tableId}</text>
-              <text className="checkout__amount">{order.totalAmount} дирам</text>
+      <scroll-view className="checkout-orders__scroll" scroll-y>
+        {orders?.filter(o => o.status !== 'paid').map((order) => {
+          // Локальные стейты для каждого заказа (в идеале вынести в отдельный компонент Card, но для тестового задания оставим)
+          const [discountVal, setDiscountVal] = useState<number>(0);
+          const [tipsVal, setTipsVal] = useState<number>(0);
+          const [isPrinting, setIsPrinting] = useState(false);
+
+          const finalPrice = Math.max(0, order.totalPrice - (order.totalPrice * (discountVal / 100))) + tipsVal;
+
+          const handlePay = () => {
+            setIsPrinting(true);
+            
+            // Имитация печати чека
+            setTimeout(() => {
+               statusMutation.mutate(
+                {
+                  url: `http://localhost:5000/api/orders/${order._id}/status`,
+                  method: 'PUT',
+                  data: { status: 'paid', discount: discountVal, tips: tipsVal }
+                },
+                {
+                  onSuccess: () => {
+                    setIsPrinting(false);
+                    queryClient.invalidateQueries({ queryKey: ['checkout-orders', restaurantId] });
+                  }
+                }
+              );
+            }, 1500); // 1.5 секунды "печатает"
+          };
+
+          return (
+            <view key={order._id} className={`checkout-orders__card ${isPrinting ? 'checkout-orders__card--printing' : ''}`}>
+              <view className="checkout-orders__card-header">
+                <text className="checkout-orders__table">Стол: {order.tableId}</text>
+                <text className={`checkout-orders__status-label checkout-orders__status-label--${order.status}`}>
+                  {order.status === 'ready' ? 'Готов к выдаче' : 'В процессе'}
+                </text>
+              </view>
+              
+              <text className="checkout-orders__amount">Сумма заказа: {order.totalPrice} д.</text>
+              
+              <view className="checkout-orders__modifiers">
+                 <view className="checkout-orders__mod-group">
+                   <text className="checkout-orders__mod-label">Скидка (%)</text>
+                   <view className="checkout-orders__mod-controls">
+                     <view className="checkout-orders__mod-btn" bindtap={() => setDiscountVal(prev => Math.max(0, prev - 5))}>
+                       <text className="checkout-orders__mod-btn-txt">-</text>
+                     </view>
+                     <text className="checkout-orders__mod-val">{discountVal}%</text>
+                     <view className="checkout-orders__mod-btn" bindtap={() => setDiscountVal(prev => Math.min(100, prev + 5))}>
+                       <text className="checkout-orders__mod-btn-txt">+</text>
+                     </view>
+                   </view>
+                 </view>
+
+                 <view className="checkout-orders__mod-group">
+                   <text className="checkout-orders__mod-label">Чаевые (д.)</text>
+                   <view className="checkout-orders__mod-controls">
+                     <view className="checkout-orders__mod-btn" bindtap={() => setTipsVal(prev => Math.max(0, prev - 10))}>
+                       <text className="checkout-orders__mod-btn-txt">-</text>
+                     </view>
+                     <text className="checkout-orders__mod-val">{tipsVal}</text>
+                     <view className="checkout-orders__mod-btn" bindtap={() => setTipsVal(prev => prev + 10)}>
+                       <text className="checkout-orders__mod-btn-txt">+</text>
+                     </view>
+                   </view>
+                 </view>
+              </view>
+
+              <view className="checkout-orders__total-bar">
+                 <text className="checkout-orders__total-label">К оплате:</text>
+                 <text className="checkout-orders__total-val">{Math.round(finalPrice)} д.</text>
+              </view>
+              
+              <view className="checkout-orders__actions">
+                <view 
+                  className={`checkout-orders__btn checkout-orders__btn--paid ${isPrinting ? 'checkout-orders__btn--printing' : ''}`} 
+                  bindtap={isPrinting ? undefined : handlePay}
+                >
+                  <text className="checkout-orders__btn-txt">
+                    {isPrinting ? '🖨 Печать чека...' : 'Оплатить'}
+                  </text>
+                </view>
+              </view>
+
+              {/* Псевдо-чек для анимации */}
+              {isPrinting && (
+                <view className="checkout-orders__receipt-anim">
+                  <view className="checkout-orders__receipt-paper" />
+                </view>
+              )}
             </view>
-            <view className="checkout__btn" bindtap={() => handlePayment(order._id)}>
-              <text className="checkout__btn-txt">Оплачено</text>
-            </view>
-          </view>
-        ))}
-        {readyOrders?.length === 0 && (
-          <text className="checkout__empty">Нет активных счетов для оплаты</text>
-        )}
+          );
+        })}
+        {orders?.length === 0 && <text className="checkout-orders__empty">Все заказы оплачены!</text>}
       </scroll-view>
-      
       <view className="checkout__summary">
         <text className="checkout__summary-txt">
           Всего оплачено сегодня: {orders?.filter(o => o.status === 'paid').length || 0}

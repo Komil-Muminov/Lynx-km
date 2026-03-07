@@ -1,20 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import type { IMenuItem } from './model.js';
-import { useCart } from '@app/providers/index.js';
 import './Menu.css';
 
 interface IProps {
   item: IMenuItem;
+  quantity: number;
   onAdd: (item: IMenuItem) => void;
+  onRemove: (itemId: string) => void;
 }
 
-export const MenuItemCard = ({ item, onAdd }: IProps) => {
-  const { items, removeItem } = useCart();
+export const MenuItemCard = memo(({ item, quantity, onAdd, onRemove }: IProps) => {
   const [isAdded, setIsAdded] = useState(false);
-
-  // Количество данной позиции в корзине
-  const cartItem = items.find(i => i.menuItem._id === item._id);
-  const quantity = cartItem?.quantity ?? 0;
 
   const handleAdd = () => {
     onAdd(item);
@@ -44,7 +40,7 @@ export const MenuItemCard = ({ item, onAdd }: IProps) => {
             quantity > 0 ? (
               /* Счётчик — если уже добавлено */
               <view className="menu-card__qty">
-                <view className="menu-card__qty-btn" bindtap={() => removeItem(item._id)}>
+                <view className="menu-card__qty-btn" bindtap={() => onRemove(item._id)}>
                   <text className="menu-card__qty-icon">−</text>
                 </view>
                 <text className="menu-card__qty-val">{quantity}</text>
@@ -70,4 +66,7 @@ export const MenuItemCard = ({ item, onAdd }: IProps) => {
       </view>
     </view>
   );
-};
+});
+
+// Задаем displayName для отладки
+MenuItemCard.displayName = 'MenuItemCard';

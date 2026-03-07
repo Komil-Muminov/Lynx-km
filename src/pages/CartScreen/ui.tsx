@@ -1,7 +1,40 @@
-import React from 'react';
+import React, { memo, useCallback } from 'react';
 import { useCart } from '@app/providers/index.js';
 import { useMutationQuery } from '@shared/api/hooks/index.js';
+import type { IMenuItem } from '@entities/Menu/model.js';
 import './CartScreen.css';
+
+interface ICartItemProps {
+  menuItem: IMenuItem;
+  quantity: number;
+  onAdd: (item: IMenuItem) => void;
+  onRemove: (id: string) => void;
+}
+
+const CartItemCard = memo(({ menuItem, quantity, onAdd, onRemove }: ICartItemProps) => (
+  <view className="cart-screen__item">
+    <view className="cart-screen__item-info">
+      {menuItem.imageUrl && (
+        <image src={menuItem.imageUrl} className="cart-screen__img" mode="aspectFill" />
+      )}
+      <view className="cart-screen__item-text">
+        <text className="cart-screen__item-name">{menuItem.name}</text>
+        <text className="cart-screen__item-price">{menuItem.price * quantity} дирам</text>
+      </view>
+    </view>
+    <view className="cart-screen__counter">
+      <view className="cart-screen__counter-btn" bindtap={() => onRemove(menuItem._id)}>
+        <text className="cart-screen__counter-icon">−</text>
+      </view>
+      <text className="cart-screen__counter-val">{quantity}</text>
+      <view className="cart-screen__counter-btn" bindtap={() => onAdd(menuItem)}>
+        <text className="cart-screen__counter-icon">+</text>
+      </view>
+    </view>
+  </view>
+));
+
+CartItemCard.displayName = 'CartItemCard';
 
 interface IProps {
   restaurantId: string;
@@ -14,7 +47,7 @@ export const CartScreen = ({ restaurantId, tableId, onBack }: IProps) => {
 
   const orderMutation = useMutationQuery();
 
-  const handleOrder = () => {
+  const handleOrder = useCallback(() => {
     const orderData = {
       restaurantId,
       tableId,
@@ -41,7 +74,15 @@ export const CartScreen = ({ restaurantId, tableId, onBack }: IProps) => {
         }
       }
     );
-  };
+  }, [items, restaurantId, tableId, totalPrice, orderMutation, onBack]);
+
+  const handleAdd = useCallback((item: IMenuItem) => {
+    addItem(item);
+  }, [addItem]);
+
+  const handleRemove = useCallback((id: string) => {
+    removeItem(id);
+  }, [removeItem]);
 
   // Пустая корзина
   if (items.length === 0) {
@@ -79,26 +120,13 @@ export const CartScreen = ({ restaurantId, tableId, onBack }: IProps) => {
       {/* Список товаров */}
       <scroll-view className="cart-screen__list" scroll-y>
         {items.map(({ menuItem, quantity }) => (
-          <view key={menuItem._id} className="cart-screen__item">
-            <view className="cart-screen__item-info">
-              {menuItem.imageUrl && (
-                <image src={menuItem.imageUrl} className="cart-screen__img" mode="aspectFill" />
-              )}
-              <view className="cart-screen__item-text">
-                <text className="cart-screen__item-name">{menuItem.name}</text>
-                <text className="cart-screen__item-price">{menuItem.price * quantity} дирам</text>
-              </view>
-            </view>
-            <view className="cart-screen__counter">
-              <view className="cart-screen__counter-btn" bindtap={() => removeItem(menuItem._id)}>
-                <text className="cart-screen__counter-icon">−</text>
-              </view>
-              <text className="cart-screen__counter-val">{quantity}</text>
-              <view className="cart-screen__counter-btn" bindtap={() => addItem(menuItem)}>
-                <text className="cart-screen__counter-icon">+</text>
-              </view>
-            </view>
-          </view>
+          <CartItemCard 
+            key={menuItem._id} 
+            menuItem={menuItem} 
+            quantity={quantity} 
+            onAdd={handleAdd} 
+            onRemove={handleRemove} 
+          />
         ))}
       </scroll-view>
 

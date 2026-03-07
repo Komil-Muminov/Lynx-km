@@ -30,6 +30,14 @@ router.get(
   orderController.getManagerStats
 );
 
+// /api/orders/history/:restaurantId
+router.get(
+  '/history/:restaurantId',
+  protect,
+  authorize(EUserRole.SUPER_ADMIN, EUserRole.ADMIN),
+  orderController.getOrderHistory
+);
+
 // /api/orders/stats/platform
 router.get(
   '/stats/platform', 

@@ -52,7 +52,125 @@
   font-weight: bold;
 }
 
+.checkout-orders__btn-txt {
+  color: #1a1a1a;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* Модификаторы цены */
+.checkout-orders__modifiers {
+  flex-direction: column;
+  gap: 12px;
+  margin: 16px 0;
+  padding: 12px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+.checkout-orders__mod-group {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.checkout-orders__mod-label {
+  font-size: 14px;
+  color: #616161;
+}
+
+.checkout-orders__mod-controls {
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.checkout-orders__mod-btn {
+  width: 28px;
+  height: 28px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkout-orders__mod-btn-txt {
+  font-size: 18px;
+  font-weight: bold;
+  color: #424242;
+}
+
+.checkout-orders__mod-val {
+  width: 40px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+/* Итого */
+.checkout-orders__total-bar {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-top: 16px;
+  border-top: 1px dashed #e0e0e0;
+}
+
+.checkout-orders__total-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.checkout-orders__total-val {
+  font-size: 24px;
+  font-weight: bold;
+  color: #4caf50;
+}
+
+/* Анимация чека */
+.checkout-orders__card--printing {
+  overflow: hidden;
+  border-color: #ff9800;
+}
+
+.checkout-orders__btn--printing {
+  background-color: #ffb74d;
+  opacity: 0.7;
+}
+
+.checkout-orders__receipt-anim {
+  /* В Lynx keyframes реализуются по-особенному, здесь делаем базовую имитацию выезжающего блока */
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 0;
+  background-color: #fff9c4;
+  border: 1px dashed #fbc02d;
+  z-index: 10;
+  /* Анимация выезжающего листа */
+  animation: printReceipt 1.5s ease-out forwards;
+}
+
+@keyframes printReceipt {
+  0% { height: 0; opacity: 1; }
+  50% { height: 60%; opacity: 1; }
+  100% { height: 60%; opacity: 0; transform: translateY(-20px); }
+}
+
 .checkout__empty, .checkout__loading {
+  text-align: center;
+  color: #888;
+  padding: 24px;
+}
+
+.checkout-orders__empty, .checkout-orders__loading {
   text-align: center;
   color: #888;
   padding: 24px;

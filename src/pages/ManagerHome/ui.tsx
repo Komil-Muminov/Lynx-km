@@ -1,6 +1,7 @@
 import React from 'react';
 import { ManagerStats } from '@widgets/ManagerStats/index.js';
 import { ManagerMenuList } from '@widgets/ManagerMenuList/index.js';
+import { ManagerOrderHistory } from '@widgets/ManagerOrderHistory/index.js';
 import './ManagerHome.css';
 
 /**
@@ -23,6 +24,7 @@ export const ManagerHome = () => {
       <scroll-view className="manager-home__content" scroll-y>
         <ManagerStats restaurantId={restaurantId} />
         <ManagerMenuList restaurantId={restaurantId} />
+        <ManagerOrderHistory restaurantId={restaurantId} />
       </scroll-view>
     </view>
   );

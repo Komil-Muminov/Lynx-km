@@ -1,122 +1,114 @@
 import React, { useState } from 'react';
 import { useGetQuery, useMutationQuery } from '@shared/api/hooks/index.js';
 import { useQueryClient } from '@tanstack/react-query';
+import dayjs from 'dayjs';
+import type { IOrder } from '@entities/Order/index.js';
 import './NewOrders.css';
-
-interface IMockOrder {
-  _id: string;
-  tableId: string;
-  items: {
-    name: string;
-    quantity: number;
-    price: number;
-  }[];
-  totalPrice: number;
-  status: 'pending' | 'preparing' | 'ready' | 'delivered';
-  createdAt: string;
-}
 
 interface IProps {
   restaurantId: string;
 }
 
-type TTab = 'pending' | 'preparing';
-
-export const NewOrdersWidget = ({ restaurantId }: IProps) => {
+export const NewOrders = ({ restaurantId }: IProps) => {
+  const [activeTab, setActiveTab] = useState<'pending' | 'cooking'>('pending');
   const queryClient = useQueryClient();
-  const [activeTab, setActiveTab] = useState<TTab>('pending');
 
-  const { data: orders, isLoading } = useGetQuery<IMockOrder[]>(
-    ['new-orders', restaurantId],
-    `/api/orders/restaurant/${restaurantId}?status=pending`,
+  const { data: orders, isLoading } = useGetQuery<IOrder[]>(
+    ['orders', restaurantId],
+    `/api/orders/active?restaurantId=${restaurantId}`,
     {},
-    { refetchInterval: 15000 } // Автообновление каждые 15 сек
+    {
+      refetchInterval: 15000,
+      useMock: true
+    }
   );
 
   const statusMutation = useMutationQuery();
 
-  const handleUpdateStatus = (orderId: string, status: string) => {
-    statusMutation.mutate(
-      { url: `/api/orders/${orderId}/status`, method: 'PATCH', data: { status } },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['new-orders', restaurantId] });
-        }
+  const handleStatusChange = (orderId: string, newStatus: string) => {
+    statusMutation.mutate({
+      url: `/api/orders/${orderId}/status`,
+      method: 'PUT',
+      data: { status: newStatus }
+    }, {
+      onSuccess: () => {
+         queryClient.invalidateQueries({ queryKey: ['orders', restaurantId] });
       }
-    );
+    });
   };
 
-  if (isLoading) return <text className="new-orders__loading">Загрузка заказов...</text>;
+  if (isLoading) return <view className="new-orders__loading"><text>Синхронизация заказов...</text></view>;
 
-  const pendingOrders = orders?.filter(o => o.status === 'pending') ?? [];
-  const preparingOrders = orders?.filter(o => o.status === 'preparing') ?? [];
-  const displayed = activeTab === 'pending' ? pendingOrders : preparingOrders;
+  const filteredOrders = orders?.filter(o => o.status === activeTab) || [];
 
   return (
     <view className="new-orders">
-      {/* Заголовок с вкладками */}
-      <view className="new-orders__header">
-        <view
+      <view className="new-orders__tabs">
+        <view 
           className={`new-orders__tab ${activeTab === 'pending' ? 'new-orders__tab--active' : ''}`}
           bindtap={() => setActiveTab('pending')}
         >
-          <text className="new-orders__tab-text">
-            Новые {pendingOrders.length > 0 ? `(${pendingOrders.length})` : ''}
+          <text className={`new-orders__tab-txt ${activeTab === 'pending' ? 'new-orders__tab-txt--active' : ''}`}>
+            Новые ({orders?.filter(o => o.status === 'pending').length || 0})
           </text>
         </view>
-        <view
-          className={`new-orders__tab ${activeTab === 'preparing' ? 'new-orders__tab--active' : ''}`}
-          bindtap={() => setActiveTab('preparing')}
+        <view 
+          className={`new-orders__tab ${activeTab === 'cooking' ? 'new-orders__tab--active' : ''}`}
+          bindtap={() => setActiveTab('cooking')}
         >
-          <text className="new-orders__tab-text">
-            В работе {preparingOrders.length > 0 ? `(${preparingOrders.length})` : ''}
+          <text className={`new-orders__tab-txt ${activeTab === 'cooking' ? 'new-orders__tab-txt--active' : ''}`}>
+            В работе ({orders?.filter(o => o.status === 'cooking').length || 0})
           </text>
         </view>
       </view>
 
-      {displayed.length === 0 ? (
-        <text className="new-orders__empty">
-          {activeTab === 'pending' ? 'Новых заказов нет 🎉' : 'В работе пусто'}
-        </text>
-      ) : (
-        <scroll-view className="new-orders__list" scroll-y>
-          {displayed.map((order) => (
-            <view key={order._id} className="new-orders__item">
-              <view className="new-orders__info">
-                <text className="new-orders__table">{order.tableId}</text>
-                <text className="new-orders__summary">
-                  {order.items.length} поз. · {order.totalPrice} дирам
+      <scroll-view className="new-orders__list" scroll-y>
+        {filteredOrders.length === 0 ? (
+          <view className="new-orders__empty">
+            <text className="new-orders__empty-txt">Пока нет заказов в этой категории</text>
+          </view>
+        ) : (
+          filteredOrders.map(order => (
+            <view key={order._id} className="order-card">
+              <view className="order-card__header">
+                <text className="order-card__table">{order.tableId}</text>
+                <text className="order-card__time">
+                  {dayjs(order.createdAt).format('HH:mm')}
                 </text>
-                <view className="new-orders__items">
-                  {order.items.map((item, idx) => (
-                    <text key={idx} className="new-orders__item-name">
-                      • {item.name} x{item.quantity}
-                    </text>
-                  ))}
-                </view>
               </view>
-              <view className="new-orders__actions">
-                {activeTab === 'pending' && (
-                  <view
-                    className="new-orders__btn new-orders__btn--accept"
-                    bindtap={() => handleUpdateStatus(order._id, 'preparing')}
-                  >
-                    <text className="new-orders__btn-text">Принять</text>
+              
+              <view className="order-card__items">
+                {order.items.map((item, idx) => (
+                  <view key={idx} className="order-card__item">
+                    <text className="order-card__item-name">{item.name}</text>
+                    <text className="order-card__item-qty">x{item.quantity}</text>
                   </view>
+                ))}
+              </view>
+
+              <view className="order-card__footer">
+                <text className="order-card__total">{order.totalPrice} д.</text>
+                {order.status === 'pending' && (
+                   <view 
+                     className="order-card__btn order-card__btn--accept"
+                     bindtap={() => handleStatusChange(order._id, 'cooking')}
+                   >
+                     <text className="order-card__btn-txt">Принять в работу</text>
+                   </view>
                 )}
-                {activeTab === 'preparing' && (
-                  <view
-                    className="new-orders__btn new-orders__btn--served"
-                    bindtap={() => handleUpdateStatus(order._id, 'delivered')}
-                  >
-                    <text className="new-orders__btn-text">Подано ✓</text>
-                  </view>
+                {order.status === 'cooking' && (
+                   <view 
+                     className="order-card__btn order-card__btn--deliver"
+                     bindtap={() => handleStatusChange(order._id, 'delivered')}
+                   >
+                     <text className="order-card__btn-txt">Подано</text>
+                   </view>
                 )}
               </view>
             </view>
-          ))}
-        </scroll-view>
-      )}
+          ))
+        )}
+      </scroll-view>
     </view>
   );
 };

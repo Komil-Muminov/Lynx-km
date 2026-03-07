@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { useGetQuery } from '@shared/api/hooks/index.js';
 import { useCart } from '@app/providers/index.js';
 import { Menu } from '@entities/Menu/index.js';
@@ -10,7 +10,7 @@ interface IProps {
 }
 
 export const MenuList = ({ restaurantId }: IProps) => {
-  const { addItem } = useCart();
+  const { items: cartItems, addItem, removeItem } = useCart();
   const [selectedCategory, setSelectedCategory] = useState('Все');
 
   const { data: menu, isLoading, isError } = useGetQuery<IMenu>(
@@ -20,9 +20,18 @@ export const MenuList = ({ restaurantId }: IProps) => {
     { enabled: !!restaurantId }
   );
 
-  const handleAddToCart = (item: IMenuItem) => {
+  const handleAddToCart = useCallback((item: IMenuItem) => {
     addItem(item);
-  };
+  }, [addItem]);
+
+  const handleRemoveFromCart = useCallback((itemId: string) => {
+    removeItem(itemId);
+  }, [removeItem]);
+
+  const categories = useMemo(() => {
+    if (!menu) return ['Все'];
+    return ['Все', ...Array.from(new Set(menu.items.map(i => i.category)))];
+  }, [menu]);
 
   if (isLoading) {
     return (
@@ -63,8 +72,6 @@ export const MenuList = ({ restaurantId }: IProps) => {
     );
   }
 
-  // Уникальные категории + "Все"
-  const categories = ['Все', ...Array.from(new Set(menu.items.map(i => i.category)))];
   const filtered = selectedCategory === 'Все'
     ? menu.items
     : menu.items.filter(i => i.category === selectedCategory);
@@ -84,14 +91,19 @@ export const MenuList = ({ restaurantId }: IProps) => {
         ))}
       </scroll-view>
 
-      {/* Отфильтрованный список */}
-      {filtered.map((item) => (
-        <Menu
-          key={item._id}
-          item={item}
-          onAdd={handleAddToCart}
-        />
-      ))}
+      {/* Отфильтрованный список с мемоизированными карточками */}
+      {filtered.map((item) => {
+        const quantity = cartItems.find(i => i.menuItem._id === item._id)?.quantity || 0;
+        return (
+          <Menu
+            key={item._id}
+            item={item}
+            quantity={quantity}
+            onAdd={handleAddToCart}
+            onRemove={handleRemoveFromCart}
+          />
+        );
+      })}
     </view>
   );
 };

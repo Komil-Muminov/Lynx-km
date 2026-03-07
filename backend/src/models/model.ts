@@ -64,6 +64,8 @@ export interface IOrder extends Document {
   }>;
   totalAmount: number;
   commissionAmount: number; // Всегда 1 дирам
+  discount?: number; // Скидка в процентах (0-100)
+  tips?: number; // Чаевые в абсолютном значении (дирамы)
   status: 'pending' | 'cooking' | 'ready' | 'paid' | 'cancelled';
   createdAt: Date;
 }
@@ -117,6 +119,8 @@ const OrderSchema = new Schema<IOrder>({
   }],
   totalAmount: { type: Number, required: true },
   commissionAmount: { type: Number, default: 1 }, // Тот самый 1 дирам
+  discount: { type: Number, default: 0 },
+  tips: { type: Number, default: 0 },
   status: { 
     type: String, 
     enum: ['pending', 'cooking', 'ready', 'paid', 'cancelled'], 

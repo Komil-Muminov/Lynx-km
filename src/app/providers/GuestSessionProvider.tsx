@@ -97,7 +97,9 @@ export const GuestSessionProvider = ({ children }: IProps) => {
 
     return (
       <GuestSessionContext.Provider value={{ session, setSession, isLoading }}>
-        {children}
+        <view className="session-container">
+          {children}
+        </view>
       </GuestSessionContext.Provider>
     );
   }
@@ -131,7 +133,9 @@ export const GuestSessionProvider = ({ children }: IProps) => {
 
   return (
     <GuestSessionContext.Provider value={{ session, setSession, isLoading: false }}>
-      {children}
+      <view className="session-container">
+        {children}
+      </view>
     </GuestSessionContext.Provider>
   );
 };

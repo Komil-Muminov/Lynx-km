@@ -5,9 +5,9 @@ import { WaiterHome } from '@pages/WaiterHome/index.js';
 import { ChefHome } from '@pages/ChefHome/index.js';
 import { CashierHome } from '@pages/CashierHome/index.js';
 import { ManagerHome } from '@pages/ManagerHome/index.js';
+import { Header } from '@widgets/Header/index.js';
 import { _axios } from '@shared/api/_axios.js';
 import './App.css';
-
 export const App = () => {
   const [role, setRole] = useState<'guest' | 'waiter' | 'chef' | 'cashier' | 'admin'>('guest');
   const [isDark, setIsDark] = useState(false);
@@ -52,17 +52,21 @@ export const App = () => {
             </view>
           </view>
 
-          {/* Гостевой экран оборачиваем в провайдер сессии,
-              который читает параметры QR и грузит данные ресторана */}
-          {role === 'guest' && (
-            <GuestSessionProvider>
-              <GuestMenu />
-            </GuestSessionProvider>
-          )}
-          {role === 'waiter' && <WaiterHome />}
-          {role === 'chef' && <ChefHome />}
-          {role === 'cashier' && <CashierHome />}
-          {role === 'admin' && <ManagerHome />}
+          {/* Глобальная шапка приложения */}
+          <Header />
+
+          {/* Глобальная контентная область для экранов (занимает всё оставшееся место) */}
+          <view className="app-content">
+            {role === 'guest' && (
+              <GuestSessionProvider>
+                <GuestMenu />
+              </GuestSessionProvider>
+            )}
+            {role === 'waiter' && <WaiterHome />}
+            {role === 'chef' && <ChefHome />}
+            {role === 'cashier' && <CashierHome />}
+            {role === 'admin' && <ManagerHome />}
+          </view>
         </view>
       </CartProvider>
     </QueryProvider>

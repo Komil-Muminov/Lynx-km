@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useCallback } from 'react';
 import { useGetQuery, useMutationQuery } from '@shared/api/hooks/index.js';
 import type { IMenu, IMenuItem } from '@entities/Menu/model.js';
 import './ManagerMenuList.css';
@@ -8,13 +8,13 @@ interface IManagerMenuListProps {
 }
 
 /**
- * Рендер отдельной карточки блюда в списке менеджера
+ * Мемоизированный компонент карточки блюда списка менеджера
  */
-const renderMenuItem = (item: IMenuItem, onToggle: (item: IMenuItem) => void) => {
+const ManagerMenuItem = memo(({ item, onToggle }: { item: IMenuItem; onToggle: (item: IMenuItem) => void }) => {
   const isOff = !item.isAvailable;
   
   return (
-    <view key={item._id} className="manager-menu__item">
+    <view className="manager-menu__item">
       <view className="manager-menu__item-info">
         <text className={`manager-menu__item-name ${isOff ? 'manager-menu__item-name--disabled' : ''}`}>
           {item.name}
@@ -33,7 +33,9 @@ const renderMenuItem = (item: IMenuItem, onToggle: (item: IMenuItem) => void) =>
       </view>
     </view>
   );
-};
+});
+
+ManagerMenuItem.displayName = 'ManagerMenuItem';
 
 /**
  * Виджет: ManagerMenuList
@@ -50,7 +52,7 @@ export const ManagerMenuList = ({ restaurantId }: IManagerMenuListProps) => {
 
   const toggleMutation = useMutationQuery();
 
-  const handleToggle = (item: IMenuItem) => {
+  const handleToggle = useCallback((item: IMenuItem) => {
     toggleMutation.mutate({
       url: `/api/menu/${restaurantId}/items/${item._id}/availability`,
       method: 'PATCH',
@@ -58,7 +60,7 @@ export const ManagerMenuList = ({ restaurantId }: IManagerMenuListProps) => {
     }, {
       onSuccess: () => refetch()
     });
-  };
+  }, [restaurantId, toggleMutation, refetch]);
 
   if (isLoading) {
     return (
@@ -72,7 +74,9 @@ export const ManagerMenuList = ({ restaurantId }: IManagerMenuListProps) => {
     <view className="manager-menu">
       <text className="manager-menu__title">Управление наличием</text>
       <scroll-view className="manager-menu__list" scroll-y>
-        {menu?.items.map((item) => renderMenuItem(item, handleToggle))}
+        {menu?.items.map((item) => (
+          <ManagerMenuItem key={item._id} item={item} onToggle={handleToggle} />
+        ))}
       </scroll-view>
     </view>
   );
