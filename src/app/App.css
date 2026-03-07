@@ -40,9 +40,9 @@
 /* Debug-bar — панель для переключения роли и темы */
 .debug-bar {
   position: absolute;
-  top: 40px;
+  top: 90px;
   right: 16px;
-  z-index: 100;
+  z-index: 9999;
   display: flex;
   flex-direction: row;
   gap: 8px;
