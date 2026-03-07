@@ -112,3 +112,18 @@ export const MOCK_ORDERS: IMockOrder[] = [
     createdAt: new Date().toISOString()
   }
 ];
+
+export const MOCK_MANAGER_STATS = {
+  todayRevenue: 450000,
+  todayOrdersCount: 15,
+  todayCommission: 15, // 1 дирам с заказа
+  averageBill: 30000
+};
+
+export const MOCK_SCAN_RESULT = {
+  restaurantId: '65b2a1c9e8d4a3b2c1f0e4d5',
+  tableId: 'Стол №5',
+  restaurantName: 'Демо-ресторан',
+  restaurantType: 'restaurant',
+  logoUrl: ''
+};
