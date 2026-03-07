@@ -42,7 +42,7 @@ export const KitchenOrders = ({ restaurantId }: IProps) => {
       
       <scroll-view className="kitchen-orders__scroll" scroll-y>
         {orders?.filter(o => o.status === 'pending' || o.status === 'cooking').map((order) => (
-          <view key={order._id} className={`kitchen-orders__card kitchen-orders__card--${order.status}`}>
+          <view key={order._id} className={`kitchen-orders__card kitchen-orders__card-${order.status}`}>
             <view className="kitchen-orders__card-header">
               <text className="kitchen-orders__table">Стол: {order.tableId}</text>
               <text className="kitchen-orders__status-label">
@@ -61,14 +61,14 @@ export const KitchenOrders = ({ restaurantId }: IProps) => {
             <view className="kitchen-orders__actions">
               {order.status === 'pending' ? (
                 <view 
-                  className="kitchen-orders__btn kitchen-orders__btn--start" 
+                  className="kitchen-orders__btn kitchen-orders__btn-start" 
                   bindtap={() => handleUpdateStatus(order._id, 'cooking')}
                 >
                   <text className="kitchen-orders__btn-txt">Начать готовить</text>
                 </view>
               ) : (
                 <view 
-                  className="kitchen-orders__btn kitchen-orders__btn--ready" 
+                  className="kitchen-orders__btn kitchen-orders__btn-ready" 
                   bindtap={() => handleUpdateStatus(order._id, 'ready')}
                 >
                   <text className="kitchen-orders__btn-txt">Готово!</text>

@@ -51,7 +51,7 @@ export const ManagerStats = ({ restaurantId }: IManagerStatsProps) => {
       <view className="manager-stats__grid">
         <view className="manager-stats__card">
           <text className="manager-stats__label">Выручка за сегодня</text>
-          <text className="manager-stats__value manager-stats__value--revenue">
+          <text className="manager-stats__value manager-stats__value-revenue">
             {stats.todayRevenue} дирам
           </text>
         </view>
@@ -68,7 +68,7 @@ export const ManagerStats = ({ restaurantId }: IManagerStatsProps) => {
         
         <view className="manager-stats__card">
           <text className="manager-stats__label">Комиссия (1с/заказ)</text>
-          <text className="manager-stats__value manager-stats__value--commission">
+          <text className="manager-stats__value manager-stats__value-commission">
             {stats.todayCommission} дирам
           </text>
         </view>

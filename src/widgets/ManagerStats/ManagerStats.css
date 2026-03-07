@@ -17,7 +17,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-.app-container--dark .manager-stats__card {
+.app-container-dark .manager-stats__card {
   background-color: #2a2a2a;
 }
 
@@ -33,15 +33,15 @@
   color: #1a1a1a;
 }
 
-.app-container--dark .manager-stats__value {
+.app-container-dark .manager-stats__value {
   color: #fff;
 }
 
-.manager-stats__value--revenue {
+.manager-stats__value-revenue {
   color: #4caf50;
 }
 
-.manager-stats__value--commission {
+.manager-stats__value-commission {
   color: #ff9800;
 }
 

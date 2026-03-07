@@ -99,3 +99,4 @@ digraph brainstorming {
 - **Explore alternatives** - Always propose 2-3 approaches before settling
 - **Incremental validation** - Present design, get approval before moving on
 - **Be flexible** - Go back and clarify when something doesn't make sense
+- **Strict CSS Naming** - CSS files must ALWAYS be named `style.css` without exception

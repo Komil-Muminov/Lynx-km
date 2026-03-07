@@ -22,11 +22,11 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.kitchen-orders__card--pending {
+.kitchen-orders__card-pending {
   border-left: 6px solid #ff3b30;
 }
 
-.kitchen-orders__card--cooking {
+.kitchen-orders__card-cooking {
   border-left: 6px solid #ff9500;
 }
 
@@ -73,11 +73,11 @@
   align-items: center;
 }
 
-.kitchen-orders__btn--start {
+.kitchen-orders__btn-start {
   background-color: #ff9500;
 }
 
-.kitchen-orders__btn--ready {
+.kitchen-orders__btn-ready {
   background-color: #34c759;
 }
 
