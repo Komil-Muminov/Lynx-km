@@ -125,3 +125,7 @@
   font-size: 12px;
   font-weight: bold;
 }
+
+.active-calls__list {
+  max-height: 250px;
+}
