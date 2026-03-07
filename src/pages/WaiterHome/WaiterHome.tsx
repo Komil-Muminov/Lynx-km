@@ -1,6 +1,6 @@
 import React from 'react';
 import { ActiveCalls } from '@widgets/ActiveCalls/index.js';
-// В будущем добавим виджет списка заказов для официанта
+import { NewOrders } from '@widgets/NewOrders/index.js';
 import './WaiterHome.css';
 
 export const WaiterHome = () => {
@@ -16,13 +16,7 @@ export const WaiterHome = () => {
       
       <scroll-view className="waiter-page__content" scroll-y>
         <ActiveCalls restaurantId={restaurantId} />
-        
-        <view className="waiter-page__section">
-          <text className="waiter-page__section-title">Активные заказы</text>
-          <view className="waiter-page__card-info">
-            <text className="waiter-page__card-text">Здесь будет список всех заказов столов...</text>
-          </view>
-        </view>
+        <NewOrders restaurantId={restaurantId} />
       </scroll-view>
       
       <view className="waiter-page__footer">

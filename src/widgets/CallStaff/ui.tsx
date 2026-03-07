@@ -17,7 +17,7 @@ export const CallStaffWidget = ({ restaurantId, tableId }: IProps) => {
   const handleCall = (type: ECallType) => {
     mutation.mutate(
       {
-        url: 'http://localhost:5000/api/calls', // Позже заменим на getEnvVar
+        url: '/api/calls', // Используем относительный путь
         method: 'POST',
         data: { restaurantId, tableId, type },
       },

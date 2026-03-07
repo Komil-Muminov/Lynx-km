@@ -1,0 +1,87 @@
+.new-orders {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.new-orders__title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+}
+
+.new-orders__loading, .new-orders__empty {
+  font-size: 14px;
+  color: #888888;
+  text-align: center;
+  padding: 20px;
+}
+
+.new-orders__list {
+  max-height: 400px;
+}
+
+.new-orders__item {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background-color: #f0f7ff;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  border-left: 4px solid #007aff;
+}
+
+.new-orders__info {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+
+.new-orders__table {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333333;
+}
+
+.new-orders__summary {
+  font-size: 14px;
+  color: #007aff;
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+.new-orders__items {
+  margin-top: 8px;
+}
+
+.new-orders__item-name {
+  font-size: 13px;
+  color: #666666;
+  margin-bottom: 2px;
+}
+
+.new-orders__actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.new-orders__btn {
+  padding: 10px 20px;
+  border-radius: 20px;
+}
+
+.new-orders__btn--accept {
+  background-color: #007aff;
+}
+
+.new-orders__btn-text {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: bold;
+}

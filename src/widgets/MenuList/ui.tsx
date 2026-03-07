@@ -12,10 +12,10 @@ interface IProps {
 export const MenuList = ({ restaurantId }: IProps) => {
   const { addItem } = useCart();
 
-  // На время тестов используем хардкод-url, позже добавим getEnvVar
+  // Используем относительный URL, так как BASE_URL настроен в _axios
   const { data: menu, isLoading, isError } = useGetQuery<IMenu>(
     ['menu', restaurantId],
-    `http://localhost:5000/api/menu/${restaurantId}`,
+    `/api/menu/${restaurantId}`,
     {},
     { enabled: !!restaurantId }
   );
@@ -36,7 +36,7 @@ export const MenuList = ({ restaurantId }: IProps) => {
     return (
       <view className="menu-list__state">
         <text className="menu-list__message menu-list__message--error">
-          Не удалось загрузить меню :(
+          Не удалось загрузить меню :( 
         </text>
       </view>
     );

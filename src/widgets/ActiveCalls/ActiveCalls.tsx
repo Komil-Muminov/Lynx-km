@@ -20,7 +20,7 @@ export const ActiveCalls = ({ restaurantId }: IProps) => {
   
   const { data: calls, isLoading } = useGetQuery<ICall[]>(
     ['active-calls', restaurantId],
-    `http://localhost:5000/api/calls/restaurant/${restaurantId}`
+    `/api/calls/restaurant/${restaurantId}`
   );
 
   const resolveMutation = useMutationQuery();
@@ -28,7 +28,7 @@ export const ActiveCalls = ({ restaurantId }: IProps) => {
   const handleResolve = (callId: string) => {
     resolveMutation.mutate(
       {
-        url: `http://localhost:5000/api/calls/${callId}/resolve`,
+        url: `/api/calls/${callId}/resolve`,
         method: 'PUT',
       },
       {
@@ -44,11 +44,11 @@ export const ActiveCalls = ({ restaurantId }: IProps) => {
   return (
     <view className="active-calls">
       <text className="active-calls__title">Активные вызовы</text>
-      {calls?.length === 0 ? (
+      {!calls || calls.length === 0 ? (
         <text className="active-calls__empty">Вызовов пока нет</text>
       ) : (
         <scroll-view className="active-calls__list" scroll-y>
-          {calls?.map((call) => (
+          {calls.map((call) => (
             <view key={call._id} className="active-calls__item">
               <view className="active-calls__info">
                 <text className="active-calls__table">Стол: {call.tableId}</text>

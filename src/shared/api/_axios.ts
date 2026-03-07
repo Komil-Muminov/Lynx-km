@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // В будущем здесь можно будет использовать getEnvVar из @shared/config
-const BASE_URL = ''; 
+const BASE_URL = 'http://localhost:5000'; 
 
 export const _axios = axios.create({
   baseURL: BASE_URL,
