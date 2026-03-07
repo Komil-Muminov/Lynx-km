@@ -1,1 +1,1 @@
-export { NewOrdersWidget as NewOrders } from './ui.js';
+export { NewOrders } from './ui.js';
