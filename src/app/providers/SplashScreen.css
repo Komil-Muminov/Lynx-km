@@ -1,0 +1,150 @@
+.splash {
+  display: flex;
+  flex: 1;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background-color: #1a1a1a;
+}
+
+.splash--error {
+  background-color: #1a0000;
+}
+
+.splash__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.splash__icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.splash__title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.splash__sub {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 32px;
+}
+
+/* Три мигающие точки */
+.splash__loader {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.splash__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: #ff5722;
+  animation: dotBounce 1.2s ease-in-out infinite;
+}
+
+.splash__dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.splash__dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes dotBounce {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* Экран сканирования QR */
+.qr-scan {
+  display: flex;
+  flex: 1;
+  height: 100vh;
+  background-color: #1a1a1a;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-scan__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.qr-scan__title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.qr-scan__sub {
+  font-size: 16px;
+  color: #888;
+  margin-bottom: 40px;
+}
+
+.qr-scan__frame {
+  width: 260px;
+  height: 260px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.03);
+  margin-bottom: 60px;
+}
+
+.qr-scan__corner {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-style: solid;
+  border-color: #ff5722;
+}
+
+.qr-scan__corner--tl { top: 0; left: 0; border-width: 4px 0 0 4px; }
+.qr-scan__corner--tr { top: 0; right: 0; border-width: 4px 4px 0 0; }
+.qr-scan__corner--bl { bottom: 0; left: 0; border-width: 0 0 4px 4px; }
+.qr-scan__corner--br { bottom: 0; right: 0; border-width: 0 4px 4px 0; }
+
+.qr-scan__icon {
+  font-size: 80px;
+  opacity: 0.2;
+}
+
+.qr-scan__hint {
+  position: absolute;
+  bottom: -40px;
+  font-size: 14px;
+  color: #ff5722;
+  font-weight: 600;
+}
+
+.qr-scan__skip {
+  padding: 12px 24px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+}
+
+.qr-scan__skip-text {
+  color: #888;
+  font-size: 14px;
+  font-weight: 500;
+}

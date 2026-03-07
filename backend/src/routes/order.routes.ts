@@ -22,6 +22,14 @@ router.put(
   orderController.updateOrderStatus
 );
 
+// /api/orders/stats/restaurant/:restaurantId
+router.get(
+  '/stats/restaurant/:restaurantId',
+  protect,
+  authorize(EUserRole.SUPER_ADMIN, EUserRole.ADMIN),
+  orderController.getManagerStats
+);
+
 // /api/orders/stats/platform
 router.get(
   '/stats/platform', 

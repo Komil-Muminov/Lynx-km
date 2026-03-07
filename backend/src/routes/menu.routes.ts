@@ -22,4 +22,11 @@ router.post(
   menuController.addItem
 );
 
+router.patch(
+  '/:restaurantId/items/:itemId/availability',
+  protect,
+  authorize(EUserRole.SUPER_ADMIN, EUserRole.ADMIN),
+  menuController.toggleItemAvailability
+);
+
 export default router;

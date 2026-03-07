@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { QueryProvider, CartProvider } from './providers/index.js';
+import { QueryProvider, CartProvider, GuestSessionProvider } from './providers/index.js';
 import { GuestMenu } from '@pages/GuestMenu/index.js';
 import { WaiterHome } from '@pages/WaiterHome/index.js';
 import { ChefHome } from '@pages/ChefHome/index.js';
 import { CashierHome } from '@pages/CashierHome/index.js';
+import { ManagerHome } from '@pages/ManagerHome/index.js';
 import { _axios } from '@shared/api/_axios.js';
 import './App.css';
 
 export const App = () => {
-  // Расширяем переключатель ролей для тестов всех сценариев
-  const [role, setRole] = useState<'guest' | 'waiter' | 'chef' | 'cashier'>('guest');
+  const [role, setRole] = useState<'guest' | 'waiter' | 'chef' | 'cashier' | 'admin'>('guest');
+  const [isDark, setIsDark] = useState(false);
 
-  // Временный эффект для имитации авторизации (прокидываем токен в axios)
   useEffect(() => {
     if (role !== 'guest') {
-      // Имитируем наличие токена для персонала
       _axios.defaults.headers.common['Authorization'] = `Bearer debug-token-${role}`;
     } else {
       delete _axios.defaults.headers.common['Authorization'];
@@ -25,27 +24,45 @@ export const App = () => {
     if (role === 'guest') setRole('waiter');
     else if (role === 'waiter') setRole('chef');
     else if (role === 'chef') setRole('cashier');
+    else if (role === 'cashier') setRole('admin');
     else setRole('guest');
   };
+
+  const roleLabel = role === 'guest' 
+    ? '👤 Гость' 
+    : role === 'waiter' 
+    ? '🍽 Оф-ант' 
+    : role === 'chef' 
+    ? '👨‍🍳 Повар' 
+    : role === 'cashier' 
+    ? '💳 Кассир' 
+    : '🤵 Рук-ль';
 
   return (
     <QueryProvider>
       <CartProvider>
-        <view className="app-container">
-          <view className="debug-toggle" bindtap={toggleRole}>
-            <text className="debug-toggle__text">
-              Роль: {
-                role === 'guest' ? 'Гость' : 
-                role === 'waiter' ? 'Официант' : 
-                role === 'chef' ? 'Повар' : 'Кассир'
-              } (сменить)
-            </text>
+        <view className={`app-container ${isDark ? 'app-container--dark' : ''}`}>
+          {/* Панель отладки: роль + тема */}
+          <view className="debug-bar">
+            <view className="debug-toggle" bindtap={toggleRole}>
+              <text className="debug-toggle__text">{roleLabel} (сменить)</text>
+            </view>
+            <view className="debug-theme" bindtap={() => setIsDark(!isDark)}>
+              <text className="debug-toggle__text">{isDark ? '☀️' : '🌙'}</text>
+            </view>
           </view>
 
-          {role === 'guest' && <GuestMenu />}
+          {/* Гостевой экран оборачиваем в провайдер сессии,
+              который читает параметры QR и грузит данные ресторана */}
+          {role === 'guest' && (
+            <GuestSessionProvider>
+              <GuestMenu />
+            </GuestSessionProvider>
+          )}
           {role === 'waiter' && <WaiterHome />}
           {role === 'chef' && <ChefHome />}
           {role === 'cashier' && <CashierHome />}
+          {role === 'admin' && <ManagerHome />}
         </view>
       </CartProvider>
     </QueryProvider>

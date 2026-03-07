@@ -65,3 +65,30 @@ export const addItem = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Ошибка при добавлении блюда' });
   }
 };
+/**
+ * Переключение доступности блюда (isAvailable)
+ */
+export const toggleItemAvailability = async (req: Request, res: Response) => {
+  try {
+    const { restaurantId, itemId } = req.params;
+    const { isAvailable } = req.body;
+
+    const menu = await Menu.findOne({ restaurantId });
+    if (!menu) {
+      return res.status(404).json({ message: 'Меню не найдено' });
+    }
+
+    const item = menu.items.find(i => (i as any)._id.toString() === itemId);
+    if (!item) {
+      return res.status(404).json({ message: 'Блюдо не найдено' });
+    }
+
+    item.isAvailable = isAvailable;
+    await menu.save();
+
+    res.json(item);
+  } catch (error) {
+    console.error('Toggle item error:', error);
+    res.status(500).json({ message: 'Ошибка при изменении статуса блюда' });
+  }
+};

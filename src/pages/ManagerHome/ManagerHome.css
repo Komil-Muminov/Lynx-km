@@ -1,0 +1,40 @@
+.manager-home {
+  flex: 1;
+  background-color: #f8f9fa;
+  height: 100vh;
+}
+
+.app-container--dark .manager-home {
+  background-color: #1a1a1a;
+}
+
+.manager-home__header {
+  padding: 40px 20px 20px;
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+}
+
+.app-container--dark .manager-home__header {
+  background-color: #222;
+  border-color: #333;
+}
+
+.manager-home__title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1a1a1a;
+}
+
+.app-container--dark .manager-home__title {
+  color: #fff;
+}
+
+.manager-home__sub {
+  font-size: 14px;
+  color: #888;
+  margin-top: 4px;
+}
+
+.manager-home__content {
+  flex: 1;
+}

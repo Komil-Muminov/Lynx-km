@@ -48,3 +48,19 @@
   color: #ffffff;
   font-size: 24px;
 }
+
+.call-staff__btn--sent {
+  background-color: #34c759;
+  box-shadow: 0 4px 12px rgba(52, 199, 89, 0.4);
+  flex-direction: row;
+  width: auto;
+  padding: 0 16px;
+  border-radius: 28px;
+}
+
+.call-staff__sent-label {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  margin-left: 6px;
+}

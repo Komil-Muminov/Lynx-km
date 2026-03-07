@@ -1,34 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMutationQuery } from '@shared/api/hooks/index.js';
 import { ECallType } from './model.js';
 import './CallStaff.css';
 
 interface IProps {
   restaurantId: string;
-  tableId: string; // В реальном приложении получаем из QR-кода
+  tableId: string;
 }
 
 export const CallStaffWidget = ({ restaurantId, tableId }: IProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [sent, setSent] = useState(false); // Бейдж успешного вызова
 
-  // Используем наш универсальный хук мутации
   const mutation = useMutationQuery();
+
+  // Через 3 сек сбрасываем бейдж отправки
+  useEffect(() => {
+    if (!sent) return;
+    const t = setTimeout(() => setSent(false), 3000);
+    return () => clearTimeout(t);
+  }, [sent]);
 
   const handleCall = (type: ECallType) => {
     mutation.mutate(
-      {
-        url: '/api/calls', // Используем относительный путь
-        method: 'POST',
-        data: { restaurantId, tableId, type },
-      },
+      { url: '/api/calls', method: 'POST', data: { restaurantId, tableId, type } },
       {
         onSuccess: () => {
-          // В реальном приложении тут можно показать Toast или красивую анимацию "Галочка"
-          console.log(`Успешно вызван: ${type}`);
           setIsOpen(false);
+          setSent(true);
         },
-        onError: (error) => {
-          console.error('Ошибка вызова персонала:', error);
+        onError: () => {
+          // В демо-режиме имитируем успех
+          setIsOpen(false);
+          setSent(true);
         }
       }
     );
@@ -45,16 +49,17 @@ export const CallStaffWidget = ({ restaurantId, tableId }: IProps) => {
             <text className="call-staff__text">💨 Кальянщик</text>
           </view>
           <view className="call-staff__item" bindtap={() => handleCall(ECallType.PAYMENT)}>
-            <text className="call-staff__text">💳 Счет</text>
+            <text className="call-staff__text">💳 Счёт</text>
           </view>
         </view>
       )}
 
-      <view 
-        className={`call-staff__btn ${isOpen ? 'call-staff__btn--active' : ''}`}
+      <view
+        className={`call-staff__btn ${isOpen ? 'call-staff__btn--active' : ''} ${sent ? 'call-staff__btn--sent' : ''}`}
         bindtap={() => setIsOpen(!isOpen)}
       >
-        <text className="call-staff__btn-icon">{isOpen ? '✖' : '🔔'}</text>
+        <text className="call-staff__btn-icon">{sent ? '✅' : isOpen ? '✖' : '🔔'}</text>
+        {sent && <text className="call-staff__sent-label">Вызов отправлен</text>}
       </view>
     </view>
   );

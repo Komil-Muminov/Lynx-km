@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import mongoose from 'mongoose';
 import { Order, Commission, EUserRole } from '../models/model';
 
 /**
@@ -98,6 +99,55 @@ export const getPlatformStats = async (req: Request, res: Response) => {
       paidOrdersCount: totalOrders
     });
   } catch (error) {
+    res.status(500).json({ message: 'Ошибка при получении статистики' });
+  }
+};
+/**
+ * Статистика для менеджера конкретного заведения
+ */
+export const getManagerStats = async (req: Request, res: Response) => {
+  try {
+    const { restaurantId } = req.params;
+
+    // Начало сегодняшнего дня
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const stats = await Order.aggregate([
+      { 
+        $match: { 
+          restaurantId: new mongoose.Types.ObjectId(restaurantId),
+          status: 'paid',
+          createdAt: { $gte: startOfDay }
+        } 
+      },
+      {
+        $group: {
+          _id: null,
+          todayRevenue: { $sum: '$totalAmount' },
+          todayOrdersCount: { $sum: 1 },
+          todayCommission: { $sum: '$commissionAmount' }
+        }
+      }
+    ]);
+
+    const result = stats[0] || {
+      todayRevenue: 0,
+      todayOrdersCount: 0,
+      todayCommission: 0
+    };
+
+    // Добавим средний чек
+    const averageBill = result.todayOrdersCount > 0 
+      ? Math.round(result.todayRevenue / result.todayOrdersCount) 
+      : 0;
+
+    res.json({
+      ...result,
+      averageBill
+    });
+  } catch (error) {
+    console.error('Get manager stats error:', error);
     res.status(500).json({ message: 'Ошибка при получении статистики' });
   }
 };
