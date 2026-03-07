@@ -1,0 +1,127 @@
+.active-calls {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.active-calls--loading {
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.active-calls__txt {
+  font-size: 14px;
+  color: #888888;
+  text-align: center;
+}
+
+.active-calls__header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.active-calls__title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #1a1a1a;
+  flex: 1;
+}
+
+.active-calls__badge {
+  background-color: #ff3b30;
+  border-radius: 12px;
+  padding: 2px 8px;
+  min-width: 22px;
+  align-items: center;
+  justify-content: center;
+}
+
+.active-calls__badge-txt {
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.active-calls__scroll {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Карточка вызова */
+.call-card {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  border-radius: 14px;
+  margin-right: 12px;
+  min-width: 160px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  animation: slideInRight 0.4s ease-out;
+}
+
+.call-card--waiter {
+  background-color: #f0f7ff;
+  border-left: 4px solid #007aff;
+}
+
+.call-card--bill {
+  background-color: #fff9f0;
+  border-left: 4px solid #ff9500;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.call-card__header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.call-card__table {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333333;
+}
+
+.call-card__time {
+  font-size: 12px;
+  color: #8e8e93;
+}
+
+.call-card__reason {
+  font-size: 14px;
+  color: #1c1c1e;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.call-card__btn {
+  background-color: #34c759;
+  padding: 6px 12px;
+  border-radius: 10px;
+  align-self: flex-start;
+}
+
+.call-card__btn-txt {
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+}
