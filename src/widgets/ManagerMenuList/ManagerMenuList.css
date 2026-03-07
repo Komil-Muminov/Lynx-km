@@ -32,8 +32,17 @@
   background-color: #2a2a2a;
 }
 
+.manager-menu__item-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  margin-right: 12px;
+  background-color: #f0f0f0;
+}
+
 .manager-menu__item-info {
   flex: 1;
+  justify-content: center;
 }
 
 .manager-menu__item-name {
@@ -94,4 +103,12 @@
 .manager-menu__loading {
   padding: 20px;
   align-items: center;
+}
+
+.manager-menu__item-image-skeleton {
+  margin-right: 12px;
+}
+
+.manager-menu__skeleton-text {
+  margin-bottom: 4px;
 }

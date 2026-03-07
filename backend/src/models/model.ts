@@ -63,9 +63,9 @@ export interface IOrder extends Document {
     priceAtOrder: number;
   }>;
   totalAmount: number;
-  commissionAmount: number; // Всегда 1 дирам
+  commissionAmount: number; // Всегда 1 сомони
   discount?: number; // Скидка в процентах (0-100)
-  tips?: number; // Чаевые в абсолютном значении (дирамы)
+  tips?: number; // Чаевые в абсолютном значении (сомони)
   status: 'pending' | 'cooking' | 'ready' | 'paid' | 'cancelled';
   createdAt: Date;
 }
@@ -118,7 +118,7 @@ const OrderSchema = new Schema<IOrder>({
     priceAtOrder: Number
   }],
   totalAmount: { type: Number, required: true },
-  commissionAmount: { type: Number, default: 1 }, // Тот самый 1 дирам
+  commissionAmount: { type: Number, default: 1 }, // Тот самый 1 сомони
   discount: { type: Number, default: 0 },
   tips: { type: Number, default: 0 },
   status: { 

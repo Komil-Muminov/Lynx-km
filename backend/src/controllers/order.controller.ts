@@ -14,7 +14,7 @@ export const createOrder = async (req: Request, res: Response) => {
       tableId,
       items,
       totalAmount,
-      commissionAmount: 1, // Твой 1 дирам
+      commissionAmount: 1, // Твой 1 сомони
       status: 'pending'
     });
 
@@ -53,7 +53,7 @@ export const updateOrderStatus = async (req: Request, res: Response) => {
 
     await order.save();
 
-    // ГЛАВНАЯ ЛОГИКА: Если заказ оплачен, фиксируем комиссию 1 дирам
+    // ГЛАВНАЯ ЛОГИКА: Если заказ оплачен, фиксируем комиссию 1 сомони
     if (status === 'paid' && oldStatus !== 'paid') {
       const commission = new Commission({
         orderId: order._id,

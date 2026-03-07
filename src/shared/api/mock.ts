@@ -116,7 +116,7 @@ export const MOCK_ORDERS: IMockOrder[] = [
 export const MOCK_MANAGER_STATS = {
   todayRevenue: 450000,
   todayOrdersCount: 15,
-  todayCommission: 15, // 1 дирам с заказа
+  todayCommission: 15, // 1 сомони с заказа
   averageBill: 30000
 };
 

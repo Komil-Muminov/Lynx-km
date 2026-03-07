@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useCart } from '@app/providers/index.js';
+import { formatPrice } from '@shared/lib/format.js';
 import './CartButton.css';
 
 interface IProps {
@@ -10,7 +11,6 @@ export const CartButton = ({ onCartPress }: IProps) => {
   const { totalCount, totalPrice } = useCart();
   const [isBumping, setIsBumping] = useState(false);
 
-  // Срабатывает при каждом изменении количества товаров
   useEffect(() => {
     if (totalCount === 0) return;
     setIsBumping(true);
@@ -26,9 +26,11 @@ export const CartButton = ({ onCartPress }: IProps) => {
         className={`cart-button ${isBumping ? 'cart-button--bump' : ''}`}
         bindtap={onCartPress}
       >
-        <view className="cart-button__info">
-          <text className="cart-button__count">{totalCount} позиций</text>
-          <text className="cart-button__price">{totalPrice} дирам</text>
+        <view className="cart-button__content">
+          <text className="cart-button__icon">🛒</text>
+          <view className="cart-button__info">
+            <text className="cart-button__price">{formatPrice(totalPrice)}</text>
+          </view>
         </view>
         <text className="cart-button__action">К заказу ➔</text>
       </view>

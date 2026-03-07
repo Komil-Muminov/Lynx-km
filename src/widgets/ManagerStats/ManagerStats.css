@@ -49,3 +49,7 @@
   padding: 20px;
   align-items: center;
 }
+
+.manager-stats__label-skeleton {
+  margin-bottom: 8px;
+}

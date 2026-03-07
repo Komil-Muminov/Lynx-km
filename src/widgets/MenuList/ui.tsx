@@ -95,13 +95,14 @@ export const MenuList = ({ restaurantId }: IProps) => {
       {filtered.map((item) => {
         const quantity = cartItems.find(i => i.menuItem._id === item._id)?.quantity || 0;
         return (
-          <Menu
-            key={item._id}
-            item={item}
-            quantity={quantity}
-            onAdd={handleAddToCart}
-            onRemove={handleRemoveFromCart}
-          />
+          <view key={item._id}>
+            <Menu
+              item={item}
+              quantity={quantity}
+              onAdd={handleAddToCart}
+              onRemove={handleRemoveFromCart}
+            />
+          </view>
         );
       })}
     </view>

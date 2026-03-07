@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useGetQuery } from '@shared/api/hooks/index.js';
 import type { IOrder } from '@entities/Order/index.js';
+import { formatPrice } from '@shared/lib/format.js';
+import { Skeleton } from '@shared/ui/Skeleton/index.js';
 import dayjs from 'dayjs';
 import './ManagerOrderHistory.css';
 
@@ -29,8 +31,21 @@ export const ManagerOrderHistory = ({ restaurantId }: IProps) => {
 
   if (isLoading) {
     return (
-      <view className="order-history order-history--loading">
-        <text className="order-history__txt">Загружаем историю чеков...</text>
+      <view className="order-history">
+        <text className="order-history__title">Последние чеки</text>
+        <view className="order-history__list">
+          {[1, 2, 3].map((i) => (
+            <view key={i} className="history-card">
+              <view className="history-card__main">
+                <view className="history-card__info">
+                  <Skeleton width={100} height={18} className="order-history__skeleton-label" />
+                  <Skeleton width={60} height={14} />
+                </view>
+                <Skeleton width={80} height={24} />
+              </view>
+            </view>
+          ))}
+        </view>
       </view>
     );
   }
@@ -55,7 +70,7 @@ export const ManagerOrderHistory = ({ restaurantId }: IProps) => {
           const isExpanded = expandedOrderId === order._id;
           
           return (
-            <view key={order._id} className="history-card" bindtap={() => toggleExpand(order._id)}>
+            <view key={order._id} className="history-card press-effect" bindtap={() => toggleExpand(order._id)}>
               <view className="history-card__main">
                 <view className="history-card__info">
                   <text className="history-card__table">Стол: {order.tableId}</text>
@@ -65,7 +80,7 @@ export const ManagerOrderHistory = ({ restaurantId }: IProps) => {
                 </view>
                 
                 <view className="history-card__amount-box">
-                  <text className="history-card__amount">{order.totalPrice} д.</text>
+                  <text className="history-card__amount">{formatPrice(order.totalPrice, true)}</text>
                   <text className={`history-card__chevron ${isExpanded ? 'history-card__chevron--up' : ''}`}>▼</text>
                 </view>
               </view>
@@ -79,14 +94,14 @@ export const ManagerOrderHistory = ({ restaurantId }: IProps) => {
                       <text className="history-card__item-name">{item.name}</text>
                       <view className="history-card__item-right">
                         <text className="history-card__item-qty">x{item.quantity}</text>
-                        <text className="history-card__item-price">{item.price * item.quantity} д.</text>
+                        <text className="history-card__item-price">{formatPrice(item.price * item.quantity, true)}</text>
                       </view>
                     </view>
                   ))}
                   <view className="history-card__meta">
                     <text className="history-card__meta-txt">ID: {order._id.slice(-6)}</text>
                     <text className="history-card__meta-txt">
-                      Комиссия системы: 1 д.
+                      Комиссия системы: {formatPrice(1, true)}
                     </text>
                   </view>
                 </view>

@@ -1,5 +1,7 @@
 import React from 'react';
 import { useGetQuery } from '@shared/api/hooks/index.js';
+import { formatPrice } from '@shared/lib/format.js';
+import { Skeleton } from '@shared/ui/Skeleton/index.js';
 import './ManagerStats.css';
 
 interface IStats {
@@ -31,8 +33,15 @@ export const ManagerStats = ({ restaurantId }: IManagerStatsProps) => {
 
   if (isLoading) {
     return (
-      <view className="manager-stats__loading">
-        <text>Загрузка статистики...</text>
+      <view className="manager-stats">
+        <view className="manager-stats__grid">
+          {[1, 2, 3, 4].map((i) => (
+            <view key={i} className="manager-stats__card">
+              <Skeleton width="60%" height={24} className="manager-stats__label-skeleton" />
+              <Skeleton width="80%" height={48} className="manager-stats__value-skeleton" />
+            </view>
+          ))}
+        </view>
       </view>
     );
   }
@@ -52,7 +61,7 @@ export const ManagerStats = ({ restaurantId }: IManagerStatsProps) => {
         <view className="manager-stats__card">
           <text className="manager-stats__label">Выручка за сегодня</text>
           <text className="manager-stats__value manager-stats__value-revenue">
-            {stats.todayRevenue} дирам
+            {formatPrice(stats.todayRevenue)}
           </text>
         </view>
         
@@ -63,13 +72,13 @@ export const ManagerStats = ({ restaurantId }: IManagerStatsProps) => {
         
         <view className="manager-stats__card">
           <text className="manager-stats__label">Средний чек</text>
-          <text className="manager-stats__value">{stats.averageBill} дирам</text>
+          <text className="manager-stats__value">{formatPrice(stats.averageBill)}</text>
         </view>
         
         <view className="manager-stats__card">
-          <text className="manager-stats__label">Комиссия (1с/заказ)</text>
+          <text className="manager-stats__label">Комиссия (текущая)</text>
           <text className="manager-stats__value manager-stats__value-commission">
-            {stats.todayCommission} дирам
+            {formatPrice(stats.todayCommission)}
           </text>
         </view>
       </view>
