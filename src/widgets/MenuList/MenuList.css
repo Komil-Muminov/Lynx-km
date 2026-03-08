@@ -14,7 +14,6 @@
 .menu-list__tabs {
   flex-direction: row;
   margin-bottom: 20px;
-  white-space: nowrap;
 }
 
 .menu-list__tab {

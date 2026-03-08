@@ -61,6 +61,6 @@
 
 /* Контент с вертикальным скроллом */
 .bottom-sheet__content {
-  overflow: auto;
+  overflow: hidden;
   padding: 0 20px 32px;
 }
