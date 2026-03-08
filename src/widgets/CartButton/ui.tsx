@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useCart } from '@app/providers/index.js';
 import { formatPrice } from '@shared/lib/format.js';
-import './CartButton.css';
+import './style.css';
 
 interface IProps {
   onCartPress: () => void;
@@ -9,30 +9,66 @@ interface IProps {
 
 export const CartButton = ({ onCartPress }: IProps) => {
   const { totalCount, totalPrice } = useCart();
-  const [isBumping, setIsBumping] = useState(false);
 
+  /** Анимация прыжка бейджа при изменении кол-ва */
+  const [isBumping, setIsBumping] = useState(false);
+  /** Контроль класса появления/скрытия бара */
+  const [isVisible, setIsVisible] = useState(false);
+  /** Предыдущее значение count для отслеживания изменений */
+  const prevCount = useRef(0);
+
+  /* Показываем / скрываем бар */
   useEffect(() => {
-    if (totalCount === 0) return;
+    setIsVisible(totalCount > 0);
+  }, [totalCount > 0]);
+
+  /* Триггерим bump только при реальном изменении числа */
+  useEffect(() => {
+    if (totalCount === 0 || totalCount === prevCount.current) return;
+    prevCount.current = totalCount;
     setIsBumping(true);
-    const timer = setTimeout(() => setIsBumping(false), 300);
-    return () => clearTimeout(timer);
+    const t = setTimeout(() => setIsBumping(false), 400);
+    return () => clearTimeout(t);
   }, [totalCount]);
 
+  /* Не рендерим вообще если корзина пустая */
   if (totalCount === 0) return null;
 
+  /* Формируем подпись «N позиц...» */
+  const itemsLabel = (() => {
+    const n = totalCount;
+    if (n === 1) return '1 позиция';
+    if (n >= 2 && n <= 4) return `${n} позиции`;
+    return `${n} позиций`;
+  })();
+
   return (
-    <view className="cart-button-container">
-      <view
-        className={`cart-button ${isBumping ? 'cart-button--bump' : ''}`}
-        bindtap={onCartPress}
-      >
-        <view className="cart-button__content">
-          <text className="cart-button__icon">🛒</text>
-          <view className="cart-button__info">
-            <text className="cart-button__price">{formatPrice(totalPrice)}</text>
+    <view className={`cart-bar ${isVisible ? 'cart-bar--visible' : 'cart-bar--hidden'}`}>
+      <view className="cart-bar__btn" bindtap={onCartPress}>
+
+        {/* Пульсирующий зелёный индикатор */}
+        <view className="cart-bar__pulse" />
+
+        {/* Левая часть: бейдж-счётчик + подпись */}
+        <view className="cart-bar__left">
+          <view className={`cart-bar__badge ${isBumping ? 'cart-bar__badge--bump' : ''}`}>
+            <text className="cart-bar__count">{totalCount}</text>
+          </view>
+
+          <view className="cart-bar__label">
+            <text className="cart-bar__label-title">Ваша корзина</text>
+            <text className="cart-bar__label-items">{itemsLabel}</text>
           </view>
         </view>
-        <text className="cart-button__action">К заказу ➔</text>
+
+        {/* Правая часть: итоговая сумма + стрелка */}
+        <view className="cart-bar__right">
+          <text className="cart-bar__price">{formatPrice(totalPrice, true)}</text>
+          <view className="cart-bar__arrow">
+            <text className="cart-bar__arrow-icon">›</text>
+          </view>
+        </view>
+
       </view>
     </view>
   );

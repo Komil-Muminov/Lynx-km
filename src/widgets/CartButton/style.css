@@ -1,0 +1,174 @@
+/* Обёртка — липнет к нижнему краю экрана */
+.cart-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 150;
+  padding: 12px 16px 28px; /* 28px — запас под home indicator */
+  /* Glassmorphism снизу */
+  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.96) 30%);
+}
+
+/* Анимация появления снизу при первом рендере */
+.cart-bar--visible {
+  animation: barSlideUp 0.42s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
+}
+
+/* Анимация скрытия */
+.cart-bar--hidden {
+  animation: barSlideDown 0.32s ease-in forwards;
+}
+
+@keyframes barSlideUp {
+  from { transform: translateY(100px); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+
+@keyframes barSlideDown {
+  from { transform: translateY(0);     opacity: 1; }
+  to   { transform: translateY(100px); opacity: 0; }
+}
+
+/* Основная кнопка-бар */
+.cart-bar__btn {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 20px;
+  padding: 16px 20px;
+  overflow: hidden;
+  position: relative;
+  /* Тёмный премиальный градиент */
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  box-shadow:
+    0 8px 32px rgba(15, 52, 96, 0.45),
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    0 1px 0 rgba(255,255,255,0.08) inset;
+}
+
+/* Бегущий shimmer поверх кнопки */
+.cart-bar__btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.08) 50%,
+    transparent 100%
+  );
+  animation: shimmerRun 3s ease-in-out infinite;
+}
+
+@keyframes shimmerRun {
+  0%   { left: -100%; }
+  100% { left: 200%; }
+}
+
+/* Левая часть: бейдж + лейбл */
+.cart-bar__left {
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Круглый бейдж с количеством */
+.cart-bar__badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.45);
+  /* Анимация "прыжка" при изменении количества */
+  transition: transform 0.15s ease;
+}
+
+.cart-bar__badge--bump {
+  animation: badgeBump 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
+}
+
+@keyframes badgeBump {
+  0%  { transform: scale(1);    }
+  30% { transform: scale(1.45); }
+  60% { transform: scale(0.9);  }
+  80% { transform: scale(1.1);  }
+  100%{ transform: scale(1);    }
+}
+
+.cart-bar__count {
+  font-size: 15px;
+  font-weight: 800;
+  color: #fff;
+}
+
+/* Текст «Ваша корзина» */
+.cart-bar__label {
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cart-bar__label-title {
+  font-size: 11px;
+  color: rgba(255,255,255,0.55);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.cart-bar__label-items {
+  font-size: 14px;
+  color: rgba(255,255,255,0.9);
+  font-weight: 600;
+}
+
+/* Правая часть: цена + стрелка */
+.cart-bar__right {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.cart-bar__price {
+  font-size: 18px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+
+/* Кружок со стрелкой */
+.cart-bar__arrow {
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  background-color: rgba(255, 255, 255, 0.12);
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-bar__arrow-icon {
+  font-size: 16px;
+  color: #fff;
+}
+
+/* Пульсирующий акцентный индикатор (точка активности) */
+.cart-bar__pulse {
+  position: absolute;
+  top: 12px;
+  right: 62px;
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background-color: #38ef7d;
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(56,239,125,0.5); }
+  50%       { opacity: 0.8; transform: scale(1.2); box-shadow: 0 0 0 6px rgba(56,239,125,0); }
+}
