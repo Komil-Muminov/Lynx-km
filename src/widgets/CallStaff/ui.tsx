@@ -42,13 +42,13 @@ export const CallStaffWidget = ({ restaurantId, tableId }: IProps) => {
     <view className="call-staff">
       {isOpen && (
         <view className="call-staff__menu">
-          <view className="call-staff__item" bindtap={() => handleCall(ECallType.WAITER)}>
+          <view className="call-staff__item call-staff__item--1" bindtap={() => handleCall(ECallType.WAITER)}>
             <text className="call-staff__text">🙋‍♂️ Позвать официанта</text>
           </view>
-          <view className="call-staff__item" bindtap={() => handleCall(ECallType.HOOKAH)}>
+          <view className="call-staff__item call-staff__item--2" bindtap={() => handleCall(ECallType.HOOKAH)}>
             <text className="call-staff__text">💨 Кальянщик</text>
           </view>
-          <view className="call-staff__item" bindtap={() => handleCall(ECallType.PAYMENT)}>
+          <view className="call-staff__item call-staff__item--3" bindtap={() => handleCall(ECallType.PAYMENT)}>
             <text className="call-staff__text">💳 Счёт</text>
           </view>
         </view>

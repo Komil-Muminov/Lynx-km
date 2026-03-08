@@ -8,18 +8,59 @@
 }
 
 .call-staff__menu {
-  display: flex;
-  flex-direction: column;
-  background-color: #ffffff;
-  border-radius: 12px;
-  padding: 8px;
-  margin-bottom: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 180px;
+  height: 180px;
+  pointer-events: none;
 }
 
 .call-staff__item {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  background-color: #ffffff;
   padding: 12px 16px;
-  border-bottom: 1px solid #f0f0f0;
+  border-radius: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  pointer-events: auto;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+.call-staff__item--1 {
+  bottom: 80px;
+  right: 0px;
+  animation: radialOut1 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+}
+
+.call-staff__item--2 {
+  bottom: 60px;
+  right: 80px;
+  animation: radialOut2 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+}
+
+.call-staff__item--3 {
+  bottom: -20px;
+  right: 80px;
+  animation: radialOut3 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+}
+
+@keyframes radialOut1 {
+  0% { transform: scale(0.5); opacity: 0; bottom: 15px; right: 15px; }
+  100% { transform: scale(1); opacity: 1; bottom: 85px; right: 0px; }
+}
+
+@keyframes radialOut2 {
+  0% { transform: scale(0.5); opacity: 0; bottom: 15px; right: 15px; }
+  100% { transform: scale(1); opacity: 1; bottom: 65px; right: 85px; }
+}
+
+@keyframes radialOut3 {
+  0% { transform: scale(0.5); opacity: 0; bottom: 15px; right: 15px; }
+  100% { transform: scale(1); opacity: 1; bottom: -5px; right: 85px; }
 }
 
 .call-staff__text {
