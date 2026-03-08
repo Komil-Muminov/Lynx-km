@@ -8,6 +8,8 @@ import './style.css';
 export const Header = () => {
   return (
     <view className="header">
+      {/* Фоновый blur-слой вместо ::before (Lynx не поддерживает псевдо-элементы) */}
+      <view className="header__blur-layer" />
       {/* Лого + название */}
       <view className="header__logo-container">
         <view className="header__logo-icon-wrapper">
