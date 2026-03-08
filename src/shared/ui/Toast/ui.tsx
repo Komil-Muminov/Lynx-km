@@ -34,14 +34,12 @@ export const Toast = ({ message, visible, type = 'info', duration = 3000, onClos
         </view>
       </view>
 
-      {/* Прогресс-бар — показывает сколько осталось */}
-      {visible && (
-        <view className="toast__progress">
-          <view
-            className={`toast__progress-fill ${durationClass}`}
-          />
-        </view>
-      )}
+      {/* Прогресс-бар — всегда в DOM, видимость через условный класс или наличие children */}
+      <view className={`toast__progress ${visible ? '' : 'toast__progress--hidden'}`}>
+        <view
+          className={`toast__progress-fill ${durationClass}`}
+        />
+      </view>
     </view>
   );
 };

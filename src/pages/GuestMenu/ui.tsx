@@ -31,9 +31,9 @@ export const GuestMenu = () => {
         <text className="guest-menu__title">{restaurantName || 'Меню ресторана'}</text>
         <text className="guest-menu__table">{tableId}</text>
       </view>
-      <scroll-view className="guest-menu__content" scroll-y>
+      <view className="guest-menu__content">
         <MenuList restaurantId={restaurantId} />
-      </scroll-view>
+      </view>
       <CallStaff restaurantId={restaurantId} tableId={tableId} />
       <CartButton onCartPress={() => setShowCart(true)} />
     </view>

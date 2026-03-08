@@ -6,7 +6,6 @@ import type { IMenu, IMenuItem } from '@entities/Menu/index.js';
 import { Skeleton } from '@shared/ui/Skeleton/index.js';
 import { EmptyState } from '@shared/ui/EmptyState/index.js';
 import { BottomSheet } from '@shared/ui/BottomSheet/index.js';
-import { PullToRefresh } from '@shared/ui/PullToRefresh/index.js';
 import { MenuSearch } from '@features/MenuSearch/index.js';
 import { useFavorites } from '@features/Favorites/index.js';
 import { useHaptic } from '@shared/lib/hooks/index.js';
@@ -25,13 +24,12 @@ export const MenuList = ({ restaurantId }: IProps) => {
   const [selectedCategory, setSelectedCategory] = useState('Все');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeDish, setActiveDish] = useState<IMenuItem | null>(null);
-  const [refreshing, setRefreshing] = useState(false);
 
   const { data: menu, isLoading, isError, refetch } = useGetQuery<IMenu>(
     ['menu', restaurantId],
     `/api/menu/${restaurantId}`,
     {},
-    { enabled: !!restaurantId }
+    { enabled: !!restaurantId, useMock: true }
   );
 
   const handleAddToCart = useCallback((item: IMenuItem) => {
@@ -42,12 +40,7 @@ export const MenuList = ({ restaurantId }: IProps) => {
     removeItem(itemId);
   }, [removeItem]);
 
-  const handleRefresh = async () => {
-    setRefreshing(true);
-    trigger('medium');
-    await refetch();
-    setRefreshing(false);
-  };
+
 
   /** Категории + "Избранное" если есть */
   const categories = useMemo(() => {
@@ -109,7 +102,7 @@ export const MenuList = ({ restaurantId }: IProps) => {
             <view className="menu-list__skeleton-info">
               <Skeleton width="80%" height="24px" className="menu-list__skeleton-line" />
               <Skeleton width="60%" height="16px" className="menu-list__skeleton-line" />
-              <view style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
+              <view style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: '10px' }}>
                 <Skeleton width="70px" height="24px" borderRadius="12px" />
                 <Skeleton width="90px" height="32px" borderRadius="16px" />
               </view>
@@ -158,20 +151,12 @@ export const MenuList = ({ restaurantId }: IProps) => {
         ))}
       </scroll-view>
 
-      {/* Список блюд с Pull-to-Refresh */}
+      {/* Список блюд */}
       <scroll-view 
         className="menu-list__scroll" 
         scroll-y 
         style={{ flex: 1 }}
-        bindscrolltoupper={() => !refreshing && handleRefresh()}
       >
-        <refresh-view 
-            className="menu-list__refresh"
-            refreshing={refreshing} 
-            bindrefresh={handleRefresh}
-        >
-          <PullToRefresh refreshing={refreshing} />
-        </refresh-view>
 
         {filtered.length > 0 ? (
           <view className="menu-list__items">

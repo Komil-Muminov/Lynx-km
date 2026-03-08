@@ -16,9 +16,11 @@ interface ICartItemProps {
 const CartItemCard = memo(({ menuItem, quantity, onAdd, onRemove }: ICartItemProps) => (
   <view className="cart-screen__item">
     <view className="cart-screen__item-info">
-      {menuItem.imageUrl && (
-        <image src={menuItem.imageUrl} className="cart-screen__img" mode="aspectFill" />
-      )}
+      <image
+        src={menuItem.imageUrl || ''}
+        className={`cart-screen__img ${menuItem.imageUrl ? '' : 'cart-screen__img--hidden'}`}
+        mode="aspectFill"
+      />
       <view className="cart-screen__item-text">
         <text className="cart-screen__item-name">{menuItem.name}</text>
         <text className="cart-screen__item-price">{formatPrice(menuItem.price * quantity)}</text>

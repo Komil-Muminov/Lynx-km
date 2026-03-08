@@ -37,8 +37,8 @@ export const ManagerStats = ({ restaurantId }: IManagerStatsProps) => {
         <view className="manager-stats__grid">
           {[1, 2, 3, 4].map((i) => (
             <view key={i} className="manager-stats__card">
-              <Skeleton width="60%" height={24} className="manager-stats__label-skeleton" />
-              <Skeleton width="80%" height={48} className="manager-stats__value-skeleton" />
+              <Skeleton width="60%" height="24px" className="manager-stats__label-skeleton" />
+              <Skeleton width="80%" height="48px" className="manager-stats__value-skeleton" />
             </view>
           ))}
         </view>

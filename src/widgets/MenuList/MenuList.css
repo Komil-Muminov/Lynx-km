@@ -2,7 +2,15 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding-bottom: 20px;
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* -- Скролл -- */
+.menu-list__scroll {
+  flex: 1;
+  height: 100%;
 }
 
 /* -- Поиск -- */
@@ -72,6 +80,8 @@
 }
 
 .menu-list__items {
+  display: flex;
+  flex-direction: column;
   padding-top: 4px;
 }
 

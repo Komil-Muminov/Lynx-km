@@ -43,10 +43,12 @@ export const MenuItemCard = memo(({ item, quantity, onAdd, onRemove, onPress }: 
   return (
     <view className="menu-card" bindtap={() => onPress?.(item)}>
       <view className="menu-card__image-container">
-        {item.imageUrl && (
-          <image src={item.imageUrl} className="menu-card__image" mode="aspectFill" />
-        )}
-        <view 
+        <image
+          src={item.imageUrl || ''}
+          className={`menu-card__image ${item.imageUrl ? '' : 'menu-card__image--hidden'}`}
+          mode="aspectFill"
+        />
+        <view
           className={`menu-card__favorite ${activeFavorite ? 'menu-card__favorite--active' : ''}`}
           bindtap={handleFavorite}
         >

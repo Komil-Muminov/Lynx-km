@@ -114,6 +114,14 @@
   margin-right: 12px;
 }
 
+/* Скрываем image если нет URL (Lynx: условный && рядом с другим узлом крашит) */
+.cart-screen__img--hidden {
+  width: 0;
+  height: 0;
+  margin-right: 0;
+  opacity: 0;
+}
+
 .cart-screen__item-text {
   display: flex;
   flex-direction: column;
