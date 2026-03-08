@@ -1,0 +1,75 @@
+/* Обёртка — центрирует содержимое */
+.empty-state {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+}
+
+/* Круглый фон иллюстрации */
+.empty-state__icon-wrapper {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, rgba(102,126,234,0.12), rgba(118,75,162,0.12));
+  border: 1.5px solid rgba(102,126,234,0.2);
+  animation: emptyFloat 3s ease-in-out infinite;
+}
+
+.empty-state__icon-wrapper--error {
+  background: linear-gradient(135deg, rgba(255,59,48,0.1), rgba(255,100,80,0.1));
+  border: 1.5px solid rgba(255,59,48,0.2);
+}
+
+/* Плавающая анимация иконки */
+@keyframes emptyFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+
+.empty-state__icon {
+  font-size: 44px;
+}
+
+/* Заголовок */
+.empty-state__title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1a1a2e;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.empty-state__title--error {
+  color: #ff3b30;
+}
+
+/* Подсказка */
+.empty-state__hint {
+  font-size: 13px;
+  color: #999;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* Декоративные точки снизу */
+.empty-state__dots {
+  flex-direction: row;
+  gap: 6px;
+  margin-top: 20px;
+}
+
+.empty-state__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background-color: #ddd;
+}
+
+.empty-state__dot--active {
+  width: 18px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+}

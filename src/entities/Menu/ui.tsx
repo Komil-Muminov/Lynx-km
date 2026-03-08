@@ -8,9 +8,11 @@ interface IProps {
   quantity: number;
   onAdd: (item: IMenuItem) => void;
   onRemove: (itemId: string) => void;
+  /** Клик по карточке — открывает Bottom Sheet с деталями */
+  onPress?: (item: IMenuItem) => void;
 }
 
-export const MenuItemCard = memo(({ item, quantity, onAdd, onRemove }: IProps) => {
+export const MenuItemCard = memo(({ item, quantity, onAdd, onRemove, onPress }: IProps) => {
   const [isAdded, setIsAdded] = useState(false);
 
   const handleAdd = () => {
@@ -26,7 +28,7 @@ export const MenuItemCard = memo(({ item, quantity, onAdd, onRemove }: IProps) =
   }, [isAdded]);
 
   return (
-    <view className="menu-card">
+    <view className="menu-card" bindtap={() => onPress?.(item)}>
       {item.imageUrl && (
         <image src={item.imageUrl} className="menu-card__image" mode="aspectFill" />
       )}
@@ -40,7 +42,7 @@ export const MenuItemCard = memo(({ item, quantity, onAdd, onRemove }: IProps) =
           {item.isAvailable ? (
             quantity > 0 ? (
               /* Счётчик — если уже добавлено */
-              <view className="menu-card__qty">
+              <view className="menu-card__qty" bindtap={(e: any) => e?.stopPropagation?.()}>
                 <view className="menu-card__qty-btn press-effect" bindtap={() => onRemove(item._id)}>
                   <text className="menu-card__qty-icon">−</text>
                 </view>
@@ -50,7 +52,7 @@ export const MenuItemCard = memo(({ item, quantity, onAdd, onRemove }: IProps) =
                 </view>
               </view>
             ) : (
-              /* Кнопка добавить — если ещё нет в корзине */
+              /* Кнопка добавить */
               <view
                 className={`menu-card__add-btn press-effect ${isAdded ? 'menu-card__add-btn--success' : ''}`}
                 bindtap={handleAdd}
@@ -69,5 +71,4 @@ export const MenuItemCard = memo(({ item, quantity, onAdd, onRemove }: IProps) =
   );
 });
 
-// Задаем displayName для отладки
 MenuItemCard.displayName = 'MenuItemCard';

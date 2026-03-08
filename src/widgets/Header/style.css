@@ -1,0 +1,115 @@
+/* Glassmorphism-шапка — эффект матового стекла */
+.header {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  /* Полупрозрачный фигурный фон */
+  background-color: rgba(255, 255, 255, 0.72);
+  /* Более богатая тень для эффекта «парения» */
+  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.08), 0 1px 0 rgba(255, 255, 255, 0.9) inset;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+  z-index: 100;
+  position: relative;
+}
+
+/* Псевдо-элемент блюра через отдельный слой (Lynx поддерживает backdrop-filter не везде) */
+.header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(240,240,255,0.65) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: -1;
+  border-radius: inherit;
+}
+
+/* Тёмная тема */
+.app-container--dark .header {
+  background-color: rgba(18, 18, 30, 0.72);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.4), 0 1px 0 rgba(255, 255, 255, 0.05) inset;
+}
+
+.app-container--dark .header::before {
+  background: linear-gradient(135deg, rgba(30,30,50,0.85) 0%, rgba(20,20,40,0.65) 100%);
+}
+
+/* Логотип */
+.header__logo-container {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Иконка-обёртка с анимированным градиентным бордером */
+.header__logo-icon-wrapper {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f8c84b 0%, #e05fe0 50%, #3b7ef8 100%);
+  animation: logoPulse 3s ease-in-out infinite;
+}
+
+@keyframes logoPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(248, 200, 75, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(248, 200, 75, 0); }
+}
+
+/* Искорки поверх иконки */
+.header__logo-sparkle {
+  position: absolute;
+  color: #fff;
+}
+
+.header__logo-sparkle--main {
+  font-size: 18px;
+  top: 2px;
+  left: 6px;
+}
+
+.header__logo-sparkle--small {
+  font-size: 10px;
+  top: 2px;
+  right: 2px;
+  opacity: 0.8;
+}
+
+/* Название */
+.header__title {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  /* Градиентный текст через SVG-трюк — fallback просто тёмный */
+  color: #1a1a2e;
+}
+
+.app-container--dark .header__title {
+  color: #f0f0ff;
+}
+
+/* Правый блок (слот для бейджей, уведомлений) */
+.header__right {
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Бейдж время/статус ресторана */
+.header__badge {
+  background: linear-gradient(135deg, #f8c84b, #ff8c42);
+  padding: 4px 12px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(248, 200, 75, 0.4);
+}
+
+.header__badge-text {
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
