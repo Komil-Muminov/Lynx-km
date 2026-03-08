@@ -20,7 +20,7 @@ export const AdminDashboardScreen = ({ restaurantId, onBack }: IAdminDashboardSc
         <text className="dashboard__title">Аналитика ресторана</text>
       </view>
 
-      {isLoading && (
+      {isLoading ? (
         <scroll-view className="dashboard__content" scroll-y>
           <view className="dashboard__card">
             <Skeleton width="40%" height="20px" className="dashboard__skeleton-title" />
@@ -39,43 +39,34 @@ export const AdminDashboardScreen = ({ restaurantId, onBack }: IAdminDashboardSc
             <Skeleton width="40%" height="40px" />
           </view>
         </scroll-view>
-      )}
-
-      {isError && (
+      ) : isError ? (
         <view className="dashboard__error">
           <text className="dashboard__error-text">Не удалось загрузить аналитику. Попробуйте позже.</text>
         </view>
-      )}
-
-      {!isLoading && !isError && data && (
+      ) : data ? (
         <scroll-view className="dashboard__content" scroll-y>
-          
           <view className="dashboard__card">
             <text className="dashboard__card-title">Общая выручка</text>
             <text className="dashboard__card-value dashboard__card-value--green">
               {formatPrice(data.revenue)}
             </text>
           </view>
-          
           <view className="dashboard__card">
             <text className="dashboard__card-title">Количество заказов</text>
             <text className="dashboard__card-value">{data.totalOrders}</text>
           </view>
-          
           <view className="dashboard__card">
             <text className="dashboard__card-title">Сумма комиссии системы</text>
             <text className="dashboard__card-value dashboard__card-value--green">
               {formatPrice(data.commission)}
             </text>
           </view>
-
           <view className="dashboard__card">
             <text className="dashboard__card-title">Сумма чаевых</text>
             <text className="dashboard__card-value">{formatPrice(data.tips)}</text>
           </view>
-
         </scroll-view>
-      )}
+      ) : null}
     </view>
   );
 };

@@ -88,22 +88,21 @@ export const NewOrders = ({ restaurantId }: IProps) => {
 
               <view className="order-card__footer">
                 <text className="order-card__total">{order.totalPrice} д.</text>
-                {order.status === 'pending' && (
-                   <view 
-                     className="order-card__btn order-card__btn--accept"
-                     bindtap={() => handleStatusChange(order._id, 'cooking')}
-                   >
-                     <text className="order-card__btn-txt">Принять в работу</text>
-                   </view>
-                )}
-                {order.status === 'cooking' && (
-                   <view 
-                     className="order-card__btn order-card__btn--deliver"
-                     bindtap={() => handleStatusChange(order._id, 'delivered')}
-                   >
-                     <text className="order-card__btn-txt">Подано</text>
-                   </view>
-                )}
+                {order.status === 'pending' ? (
+                  <view
+                    className="order-card__btn order-card__btn--accept"
+                    bindtap={() => handleStatusChange(order._id, 'cooking')}
+                  >
+                    <text className="order-card__btn-txt">Принять в работу</text>
+                  </view>
+                ) : order.status === 'cooking' ? (
+                  <view
+                    className="order-card__btn order-card__btn--deliver"
+                    bindtap={() => handleStatusChange(order._id, 'delivered')}
+                  >
+                    <text className="order-card__btn-txt">Подано</text>
+                  </view>
+                ) : null}
               </view>
             </view>
           ))

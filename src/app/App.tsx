@@ -57,17 +57,21 @@ export const App = () => {
             {/* Глобальная шапка приложения */}
             <Header />
 
-            {/* Глобальная контентная область для экранов (занимает всё оставшееся место) */}
+            {/* Контентная область — ровно один активный экран всегда */}
             <view className="app-content">
-              {role === 'guest' && (
+              {role === 'guest' ? (
                 <GuestSessionProvider>
                   <GuestMenu />
                 </GuestSessionProvider>
+              ) : role === 'waiter' ? (
+                <WaiterHome />
+              ) : role === 'chef' ? (
+                <ChefHome />
+              ) : role === 'cashier' ? (
+                <CashierHome />
+              ) : (
+                <ManagerHome />
               )}
-              {role === 'waiter' && <WaiterHome />}
-              {role === 'chef' && <ChefHome />}
-              {role === 'cashier' && <CashierHome />}
-              {role === 'admin' && <ManagerHome />}
             </view>
           </view>
         </FavoritesProvider>
