@@ -1,0 +1,29 @@
+/* Стили индикатора обновления */
+.pull-refresh {
+  width: 100%;
+  height: 60px;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+}
+
+.pull-refresh__spinner {
+  width: 28px;
+  height: 28px;
+  border-radius: 14px;
+  border: 3px solid rgba(102, 126, 234, 0.15);
+  border-top-color: #667eea;
+  animation: pullSpinner 0.8s linear infinite;
+}
+
+@keyframes pullSpinner {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.pull-refresh__text {
+  font-size: 13px;
+  color: #999;
+  margin-top: 6px;
+  font-weight: 500;
+}

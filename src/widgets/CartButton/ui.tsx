@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useCart } from '@app/providers/index.js';
 import { formatPrice } from '@shared/lib/format.js';
+import { useHaptic } from '@shared/lib/hooks/index.js';
 import './style.css';
 
 interface IProps {
@@ -9,6 +10,7 @@ interface IProps {
 
 export const CartButton = ({ onCartPress }: IProps) => {
   const { totalCount, totalPrice } = useCart();
+  const { trigger } = useHaptic();
 
   /** Анимация прыжка бейджа при изменении кол-ва */
   const [isBumping, setIsBumping] = useState(false);
@@ -44,7 +46,7 @@ export const CartButton = ({ onCartPress }: IProps) => {
 
   return (
     <view className={`cart-bar ${isVisible ? 'cart-bar--visible' : 'cart-bar--hidden'}`}>
-      <view className="cart-bar__btn" bindtap={onCartPress}>
+      <view className="cart-bar__btn" bindtap={() => { trigger('medium'); onCartPress(); }}>
 
         {/* Пульсирующий зелёный индикатор */}
         <view className="cart-bar__pulse" />

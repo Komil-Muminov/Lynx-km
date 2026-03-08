@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { QueryProvider, CartProvider, GuestSessionProvider } from './providers/index.js';
+import { FavoritesProvider } from '@features/Favorites/index.js';
 import { GuestMenu } from '@pages/GuestMenu/index.js';
 import { WaiterHome } from '@pages/WaiterHome/index.js';
 import { ChefHome } from '@pages/ChefHome/index.js';
@@ -41,33 +42,35 @@ export const App = () => {
   return (
     <QueryProvider>
       <CartProvider>
-        <view className={`app-container ${isDark ? 'app-container--dark' : ''}`}>
-          {/* Панель отладки: роль + тема */}
-          <view className="debug-bar">
-            <view className="debug-toggle" bindtap={toggleRole}>
-              <text className="debug-toggle__text">{roleLabel} (сменить)</text>
+        <FavoritesProvider>
+          <view className={`app-container ${isDark ? 'app-container--dark' : ''}`}>
+            {/* Панель отладки: роль + тема */}
+            <view className="debug-bar">
+              <view className="debug-toggle" bindtap={toggleRole}>
+                <text className="debug-toggle__text">{roleLabel} (сменить)</text>
+              </view>
+              <view className="debug-theme" bindtap={() => setIsDark(!isDark)}>
+                <text className="debug-toggle__text">{isDark ? '☀️' : '🌙'}</text>
+              </view>
             </view>
-            <view className="debug-theme" bindtap={() => setIsDark(!isDark)}>
-              <text className="debug-toggle__text">{isDark ? '☀️' : '🌙'}</text>
+
+            {/* Глобальная шапка приложения */}
+            <Header />
+
+            {/* Глобальная контентная область для экранов (занимает всё оставшееся место) */}
+            <view className="app-content">
+              {role === 'guest' && (
+                <GuestSessionProvider>
+                  <GuestMenu />
+                </GuestSessionProvider>
+              )}
+              {role === 'waiter' && <WaiterHome />}
+              {role === 'chef' && <ChefHome />}
+              {role === 'cashier' && <CashierHome />}
+              {role === 'admin' && <ManagerHome />}
             </view>
           </view>
-
-          {/* Глобальная шапка приложения */}
-          <Header />
-
-          {/* Глобальная контентная область для экранов (занимает всё оставшееся место) */}
-          <view className="app-content">
-            {role === 'guest' && (
-              <GuestSessionProvider>
-                <GuestMenu />
-              </GuestSessionProvider>
-            )}
-            {role === 'waiter' && <WaiterHome />}
-            {role === 'chef' && <ChefHome />}
-            {role === 'cashier' && <CashierHome />}
-            {role === 'admin' && <ManagerHome />}
-          </view>
-        </view>
+        </FavoritesProvider>
       </CartProvider>
     </QueryProvider>
   );

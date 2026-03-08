@@ -2,26 +2,37 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding-bottom: 20px;
+}
+
+/* -- Поиск -- */
+.menu-list__search-wrap {
+  margin-bottom: 12px;
 }
 
 /* -- Вкладки категорий -- */
 .menu-list__tabs {
-  display: flex;
   flex-direction: row;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   white-space: nowrap;
 }
 
 .menu-list__tab {
-  padding: 8px 18px;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 16px;
   border-radius: 20px;
-  background-color: #efefef;
-  margin-right: 8px;
+  background-color: #f5f5f7;
+  margin-right: 10px;
   flex-shrink: 0;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
 }
 
 .menu-list__tab--active {
-  background-color: #1a1a1a;
+  background-color: #1a1a2e;
+  border-color: rgba(102, 126, 234, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .menu-list__tab-text {
@@ -34,34 +45,70 @@
   color: #ffffff;
 }
 
-/* -- Состояние загрузки / пустое -- */
-.menu-list__state {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+/* Бейдж с количеством в табе */
+.menu-list__tab-badge {
+  background-color: rgba(0,0,0,0.06);
+  padding: 2px 6px;
+  border-radius: 10px;
+  margin-left: 6px;
+}
+
+.menu-list__tab--active .menu-list__tab-badge {
+  background-color: rgba(255,255,255,0.2);
+}
+
+.menu-list__tab-badge-text {
+  font-size: 11px;
+  font-weight: 700;
+  color: #999;
+}
+
+.menu-list__tab--active .menu-list__tab-badge-text {
+  color: #fff;
+}
+
+/* -- Скролл и Pull-to-Refresh -- */
+.menu-list__scroll {
+  flex: 1;
+}
+
+.menu-list__items {
+  padding-top: 4px;
+}
+
+.menu-list__refresh {
+  width: 100%;
   align-items: center;
+  justify-content: center;
+}
+
+/* -- Скелетон -- */
+.menu-list__skeleton {
+  flex-direction: row;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.menu-list__skeleton-image-wrap {
+  width: 100px;
+  height: 100px;
+  margin-right: 16px;
+}
+
+.menu-list__skeleton-info {
+  flex: 1;
+  flex-direction: column;
+}
+
+.menu-list__skeleton-line {
+  margin-bottom: 8px;
+}
+
+/* Состояние «пусто» */
+.menu-list__state {
+  flex-direction: column;
   padding: 40px 20px;
 }
-
-.menu-list__empty-icon {
-  font-size: 48px;
-  margin-bottom: 12px;
-}
-
-.menu-list__message {
-  font-size: 16px;
-  color: #666666;
-  text-align: center;
-}
-
-.menu-list__message--error {
-  color: #ff3b30;
-}
-
-.menu-list__message-hint {
-  font-size: 13px;
-  color: #aaa;
-  margin-top: 4px;
-}
-
-/* -- Скелетон-загрузчик вынесен в @shared/ui/Skeleton -- */

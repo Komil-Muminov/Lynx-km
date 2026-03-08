@@ -6,6 +6,10 @@ import type { IMenu, IMenuItem } from '@entities/Menu/index.js';
 import { Skeleton } from '@shared/ui/Skeleton/index.js';
 import { EmptyState } from '@shared/ui/EmptyState/index.js';
 import { BottomSheet } from '@shared/ui/BottomSheet/index.js';
+import { PullToRefresh } from '@shared/ui/PullToRefresh/index.js';
+import { MenuSearch } from '@features/MenuSearch/index.js';
+import { useFavorites } from '@features/Favorites/index.js';
+import { useHaptic } from '@shared/lib/hooks/index.js';
 import { renderDishSheet } from './lib.js';
 import './MenuList.css';
 
@@ -15,11 +19,15 @@ interface IProps {
 
 export const MenuList = ({ restaurantId }: IProps) => {
   const { items: cartItems, addItem, removeItem } = useCart();
+  const { isFavorite } = useFavorites();
+  const { trigger } = useHaptic();
+  
   const [selectedCategory, setSelectedCategory] = useState('Все');
-  /** Блюдо, открытое в Bottom Sheet */
+  const [searchQuery, setSearchQuery] = useState('');
   const [activeDish, setActiveDish] = useState<IMenuItem | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
 
-  const { data: menu, isLoading, isError } = useGetQuery<IMenu>(
+  const { data: menu, isLoading, isError, refetch } = useGetQuery<IMenu>(
     ['menu', restaurantId],
     `/api/menu/${restaurantId}`,
     {},
@@ -34,10 +42,51 @@ export const MenuList = ({ restaurantId }: IProps) => {
     removeItem(itemId);
   }, [removeItem]);
 
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    trigger('medium');
+    await refetch();
+    setRefreshing(false);
+  };
+
+  /** Категории + "Избранное" если есть */
   const categories = useMemo(() => {
     if (!menu) return ['Все'];
-    return ['Все', ...Array.from(new Set(menu.items.map(i => i.category)))];
-  }, [menu]);
+    const base = ['Все', ...Array.from(new Set(menu.items.map(i => i.category)))];
+    // Добавляем категорию "Любимое" если есть хоть одно избранное
+    const hasFavorites = menu.items.some(i => isFavorite(i._id));
+    return hasFavorites ? [...base, '❤️ Любимое'] : base;
+  }, [menu, isFavorite]);
+
+  /** Подсчет количества блюд в каждой категории для бейджей */
+  const categoryCounts = useMemo(() => {
+    if (!menu) return {};
+    const counts: Record<string, number> = {};
+    menu.items.forEach(item => {
+      counts[item.category] = (counts[item.category] || 0) + 1;
+    });
+    counts['Все'] = menu.items.length;
+    counts['❤️ Любимое'] = menu.items.filter(i => isFavorite(i._id)).length;
+    return counts;
+  }, [menu, isFavorite]);
+
+  /** Фильтрация: Поиск + Категория */
+  const filtered = useMemo(() => {
+    if (!menu) return [];
+    
+    return menu.items.filter(item => {
+      // 1. Фильтр поиска
+      const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                           item.description.toLowerCase().includes(searchQuery.toLowerCase());
+      
+      if (!matchesSearch) return false;
+
+      // 2. Фильтр категории
+      if (selectedCategory === 'Все') return true;
+      if (selectedCategory === '❤️ Любимое') return isFavorite(item._id);
+      return item.category === selectedCategory;
+    });
+  }, [menu, searchQuery, selectedCategory, isFavorite]);
 
   /* -- Состояния загрузки и ошибок -- */
 
@@ -47,18 +96,23 @@ export const MenuList = ({ restaurantId }: IProps) => {
         <scroll-view className="menu-list__tabs" scroll-x>
           {[1, 2, 3, 4].map(i => (
             <view key={i} className="menu-list__tab">
-              <Skeleton width="60px" height="20px" borderRadius="10px" />
+              <Skeleton width="80px" height="32px" borderRadius="16px" />
             </view>
           ))}
         </scroll-view>
 
         {[1, 2, 3].map(i => (
           <view key={i} className="menu-list__skeleton">
-            <Skeleton width="100px" height="100px" borderRadius="12px" className="menu-list__skeleton-img" />
+            <view className="menu-list__skeleton-image-wrap">
+               <Skeleton width="100px" height="100px" borderRadius="12px" />
+            </view>
             <view className="menu-list__skeleton-info">
-              <Skeleton width="80%" height="20px" className="menu-list__skeleton-line" />
+              <Skeleton width="80%" height="24px" className="menu-list__skeleton-line" />
               <Skeleton width="60%" height="16px" className="menu-list__skeleton-line" />
-              <Skeleton width="40%" height="24px" className="menu-list__skeleton-line" />
+              <view style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
+                <Skeleton width="70px" height="24px" borderRadius="12px" />
+                <Skeleton width="90px" height="32px" borderRadius="16px" />
+              </view>
             </view>
           </view>
         ))}
@@ -71,63 +125,81 @@ export const MenuList = ({ restaurantId }: IProps) => {
       <EmptyState
         icon="📡"
         title="Не удалось загрузить меню"
-        hint="Проверьте подключение к сети и попробуйте ещё раз"
+        hint="Проверьте подключение к сети и потяните вниз для обновления"
         variant="error"
       />
     );
   }
 
-  if (menu.items.length === 0) {
-    return (
-      <EmptyState
-        icon="🍽"
-        title="Меню пока пустое"
-        hint="Шеф-повар уже работает над этим 👨‍🍳"
-      />
-    );
-  }
-
-  const filtered = selectedCategory === 'Все'
-    ? menu.items
-    : menu.items.filter(i => i.category === selectedCategory);
-
-  /* Текущее количество в корзине для активного блюда */
   const activeDishQty = activeDish
     ? cartItems.find(i => i.menuItem._id === activeDish._id)?.quantity ?? 0
     : 0;
 
   return (
     <view className="menu-list">
-      {/* Горизонтальный скролл категорий */}
+      {/* Поиск */}
+      <view className="menu-list__search-wrap">
+        <MenuSearch value={searchQuery} onChange={setSearchQuery} />
+      </view>
+
+      {/* Категории с бейджами */}
       <scroll-view className="menu-list__tabs" scroll-x>
         {categories.map(cat => (
           <view
             key={cat}
             className={`menu-list__tab ${selectedCategory === cat ? 'menu-list__tab--active' : ''}`}
-            bindtap={() => setSelectedCategory(cat)}
+            bindtap={() => { trigger('selection'); setSelectedCategory(cat); }}
           >
             <text className="menu-list__tab-text">{cat}</text>
+            <view className="menu-list__tab-badge">
+              <text className="menu-list__tab-badge-text">{categoryCounts[cat] || 0}</text>
+            </view>
           </view>
         ))}
       </scroll-view>
 
-      {/* Список блюд. Клик по карточке открывает Bottom Sheet */}
-      {filtered.map((item) => {
-        const quantity = cartItems.find(i => i.menuItem._id === item._id)?.quantity || 0;
-        return (
-          <view key={item._id}>
-            <Menu
-              item={item}
-              quantity={quantity}
-              onAdd={handleAddToCart}
-              onRemove={handleRemoveFromCart}
-              onPress={setActiveDish}
-            />
-          </view>
-        );
-      })}
+      {/* Список блюд с Pull-to-Refresh */}
+      <scroll-view 
+        className="menu-list__scroll" 
+        scroll-y 
+        style={{ flex: 1 }}
+        bindscrolltoupper={() => !refreshing && handleRefresh()}
+      >
+        <refresh-view 
+            className="menu-list__refresh"
+            refreshing={refreshing} 
+            bindrefresh={handleRefresh}
+        >
+          <PullToRefresh refreshing={refreshing} />
+        </refresh-view>
 
-      {/* Bottom Sheet с деталями выбранного блюда */}
+        {filtered.length > 0 ? (
+          <view className="menu-list__items">
+            {filtered.map((item) => {
+              const quantity = cartItems.find(i => i.menuItem._id === item._id)?.quantity || 0;
+              return (
+                <view key={item._id}>
+                  <Menu
+                    item={item}
+                    quantity={quantity}
+                    onAdd={handleAddToCart}
+                    onRemove={handleRemoveFromCart}
+                    onPress={setActiveDish}
+                  />
+                </view>
+              );
+            })}
+          </view>
+        ) : (
+          <EmptyState
+            icon={searchQuery ? '🔍' : '🍽'}
+            title={searchQuery ? 'Ничего не найдено' : 'В этой категории пусто'}
+            hint={searchQuery ? 'Попробуйте изменить запрос' : 'Выберите другую категорию'}
+          />
+        )}
+      </scroll-view>
+
+      {/* Bottom Sheet детали */}
       <BottomSheet
         isOpen={!!activeDish}
         onClose={() => setActiveDish(null)}

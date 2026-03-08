@@ -1,0 +1,50 @@
+/* Обёртка строки поиска */
+.menu-search {
+  flex-direction: row;
+  align-items: center;
+  background-color: rgba(240, 240, 248, 0.9);
+  border-radius: 14px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  border: 1.5px solid transparent;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Активное состояние — голубой бордер */
+.menu-search--focused {
+  border-color: rgba(102, 126, 234, 0.45);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Иконка лупы */
+.menu-search__icon {
+  font-size: 16px;
+  margin-right: 8px;
+  opacity: 0.5;
+}
+
+/* Поле ввода */
+.menu-search__input {
+  flex: 1;
+  font-size: 15px;
+  color: #1a1a2e;
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+/* Кнопка очистки */
+.menu-search__clear {
+  width: 22px;
+  height: 22px;
+  border-radius: 11px;
+  background-color: rgba(0, 0, 0, 0.15);
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-search__clear-icon {
+  font-size: 12px;
+  color: #fff;
+  font-weight: 700;
+}

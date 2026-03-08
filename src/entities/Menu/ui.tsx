@@ -1,6 +1,8 @@
 import React, { useState, useEffect, memo } from 'react';
 import type { IMenuItem } from './model.js';
 import { formatPrice } from '@shared/lib/format.js';
+import { useFavorites } from '@features/Favorites/index.js';
+import { useHaptic } from '@shared/lib/hooks/index.js';
 import './Menu.css';
 
 interface IProps {
@@ -14,11 +16,22 @@ interface IProps {
 
 export const MenuItemCard = memo(({ item, quantity, onAdd, onRemove, onPress }: IProps) => {
   const [isAdded, setIsAdded] = useState(false);
+  const { toggle, isFavorite } = useFavorites();
+  const { trigger } = useHaptic();
 
   const handleAdd = () => {
+    trigger('light');
     onAdd(item);
     setIsAdded(true);
   };
+
+  const handleFavorite = (e: any) => {
+    e?.stopPropagation?.();
+    trigger('selection');
+    toggle(item._id);
+  };
+
+  const activeFavorite = isFavorite(item._id);
 
   useEffect(() => {
     if (isAdded) {
@@ -29,9 +42,17 @@ export const MenuItemCard = memo(({ item, quantity, onAdd, onRemove, onPress }: 
 
   return (
     <view className="menu-card" bindtap={() => onPress?.(item)}>
-      {item.imageUrl && (
-        <image src={item.imageUrl} className="menu-card__image" mode="aspectFill" />
-      )}
+      <view className="menu-card__image-container">
+        {item.imageUrl && (
+          <image src={item.imageUrl} className="menu-card__image" mode="aspectFill" />
+        )}
+        <view 
+          className={`menu-card__favorite ${activeFavorite ? 'menu-card__favorite--active' : ''}`}
+          bindtap={handleFavorite}
+        >
+          <text className="menu-card__favorite-icon">{activeFavorite ? '❤️' : '🤍'}</text>
+        </view>
+      </view>
       <view className="menu-card__info">
         <text className="menu-card__name">{item.name}</text>
         <text className="menu-card__desc">{item.description}</text>

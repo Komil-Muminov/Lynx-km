@@ -1,20 +1,43 @@
 import React, { useEffect } from 'react';
 import type { IToastProps } from './model.js';
+import { TOAST_ICONS } from './model.js';
 import './style.css';
 
-export const Toast = ({ message, visible, type = 'info', onClose }: IToastProps) => {
+/**
+ * Toast 2.0 — всплывашка с иконкой, градиентом и прогресс-баром.
+ * Автоматически закрывается через `duration` мс.
+ */
+export const Toast = ({ message, visible, type = 'info', duration = 3000, onClose }: IToastProps) => {
+  /* Авто-закрытие */
   useEffect(() => {
-    if (visible && onClose) {
-      const timer = setTimeout(() => {
-        onClose();
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [visible, onClose]);
+    if (!visible || !onClose) return;
+    const t = setTimeout(onClose, duration);
+    return () => clearTimeout(t);
+  }, [visible, onClose, duration]);
+
+  const icon = TOAST_ICONS[type];
 
   return (
     <view className={`toast toast--${type} ${visible ? 'toast--visible' : ''}`}>
-      <text className="toast__text">{message}</text>
+      {/* Основная строка: иконка + текст */}
+      <view className="toast__inner">
+        <view className="toast__icon-wrap">
+          <text className="toast__icon">{icon}</text>
+        </view>
+        <view className="toast__body">
+          <text className="toast__message">{message}</text>
+        </view>
+      </view>
+
+      {/* Прогресс-бар — показывает сколько осталось */}
+      {visible && (
+        <view className="toast__progress">
+          <view
+            className="toast__progress-fill"
+            style={{ '--toast-duration': `${duration}ms` } as any}
+          />
+        </view>
+      )}
     </view>
   );
 };

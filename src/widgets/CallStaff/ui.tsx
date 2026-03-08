@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useMutationQuery } from '@shared/api/hooks/index.js';
+import { useHaptic } from '@shared/lib/hooks/index.js';
 import { ECallType } from './model.js';
 import './style.css';
 
@@ -18,6 +19,7 @@ const CALL_ACTIONS = [
 export const CallStaffWidget = ({ restaurantId, tableId }: IProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [sent, setSent] = useState(false);
+  const { trigger } = useHaptic();
 
   const mutation = useMutationQuery();
 
@@ -29,6 +31,7 @@ export const CallStaffWidget = ({ restaurantId, tableId }: IProps) => {
   }, [sent]);
 
   const handleCall = (type: ECallType) => {
+    trigger('heavy'); // сильная вибрация при вызове персонала
     mutation.mutate(
       { url: '/api/calls', method: 'POST', data: { restaurantId, tableId, type } },
       {
@@ -70,7 +73,7 @@ export const CallStaffWidget = ({ restaurantId, tableId }: IProps) => {
       ))}
 
       {/* Главная FAB-кнопка */}
-      <view className={fabClass} bindtap={() => !sent && setIsOpen(!isOpen)}>
+      <view className={fabClass} bindtap={() => { if (!sent) { trigger('light'); setIsOpen(!isOpen); } }}>
         <text className="call-staff__fab-emoji">
           {sent ? '✅' : isOpen ? '✕' : '🔔'}
         </text>
