@@ -98,17 +98,34 @@
   gap: 12px;
 }
 
-/* Бейдж время/статус ресторана */
-.header__badge {
-  background: linear-gradient(135deg, #f8c84b, #ff8c42);
-  padding: 4px 12px;
-  border-radius: 20px;
-  box-shadow: 0 2px 8px rgba(248, 200, 75, 0.4);
+/* Кнопки управления (роль, тема) */
+.header__action-btn {
+  background-color: #2c2c2e;
+  padding: 6px 12px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.header__badge-text {
+.header__action-btn--icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 16px;
+}
+
+.header__action-text {
   font-size: 11px;
   font-weight: 700;
   color: #fff;
   letter-spacing: 0.5px;
+}
+
+.header__action-icon {
+  font-size: 14px;
+}
+
+.app-container--dark .header__action-btn {
+  background-color: rgba(255, 255, 255, 0.1);
 }

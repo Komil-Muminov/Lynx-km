@@ -42,15 +42,21 @@ const DEMO_SESSION: IGuestSession = {
 
 interface IProps {
   children: React.ReactNode;
+  onReady?: (ready: boolean) => void;
 }
 
-export const GuestSessionProvider = ({ children }: IProps) => {
+export const GuestSessionProvider = ({ children, onReady }: IProps) => {
   const restaurantId = getGlobalParam('restaurantId');
   const tableId = getGlobalParam('tableId');
   const hasQrParams = !!(restaurantId && tableId);
 
   // null = экран сканирования, IGuestSession = сессия активна
   const [session, setSession] = useState<IGuestSession | null>(null);
+
+  // Сообщаем App.tsx, готовы мы (сессия есть) или показываем сканер (сессии нет)
+  useEffect(() => {
+    onReady?.(!!session);
+  }, [session, onReady]);
 
   // Если QR уже просканирован нативным клиентом — сразу грузим данные
   const { data, isLoading, isError } = useGetQuery<IGuestSession>(

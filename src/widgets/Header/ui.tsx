@@ -5,7 +5,14 @@ import './style.css';
  * Glassmorphism-шапка приложения.
  * Эффект матового стекла через backdrop-filter + полупрозрачный фон.
  */
-export const Header = () => {
+interface IProps {
+  role?: 'guest' | 'waiter' | 'chef' | 'cashier' | 'admin';
+  isDark?: boolean;
+  onToggleRole?: () => void;
+  onToggleTheme?: () => void;
+}
+
+export const Header = ({ role = 'guest', isDark = false, onToggleRole, onToggleTheme }: IProps) => {
   return (
     <view className="header">
       {/* Фоновый blur-слой вместо ::before (Lynx не поддерживает псевдо-элементы) */}
@@ -16,14 +23,27 @@ export const Header = () => {
           <text className="header__logo-sparkle header__logo-sparkle--small">✦</text>
           <text className="header__logo-sparkle header__logo-sparkle--main">✦</text>
         </view>
-        <text className="header__title">PHENOM</text>
+        <text className="header__title">PHENOMEN</text>
       </view>
 
-      {/* Правый слот — статус-бейдж */}
+      {/* Правый слот — управление (роль, тема) */}
       <view className="header__right">
-        <view className="header__badge">
-          <text className="header__badge-text">OPEN</text>
-        </view>
+        {onToggleRole && (
+          <view className="header__action-btn" bindtap={onToggleRole}>
+            <text className="header__action-text">
+              {role === 'guest' ? '👤 Гость' : 
+               role === 'waiter' ? '🍽 Оф-ант' : 
+               role === 'chef' ? '👨‍🍳 Повар' : 
+               role === 'cashier' ? '💳 Кассир' : '🤵 Рук-ль'}
+            </text>
+          </view>
+        )}
+        
+        {onToggleTheme && (
+          <view className="header__action-btn header__action-btn--icon" bindtap={onToggleTheme}>
+            <text className="header__action-icon">{isDark ? '☀️' : '🌙'}</text>
+          </view>
+        )}
       </view>
     </view>
   );

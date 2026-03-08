@@ -34,27 +34,60 @@ page {
   overflow: hidden;
 }
 
-.debug-bar {
+/* --- Плавающая панель отладки (Роль и Тема) --- */
+/* --- Плавающая панель отладки (Роль и Тема) --- */
+.debug-wrapper {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
-  flex-direction: row;
-  z-index: 1000;
-  gap: 8px; /* Не использую шортхенд, для Lynx может сработать, или заменю на margin через класс */
+  justify-content: center;
+  align-items: flex-end; /* Прижимаем к низу */
+  padding-bottom: 80px; /* Отступ от низа */
+  pointer-events: none; /* Пропускаем клики сквозь пустую область */
+  z-index: 9999;
 }
 
-.debug-toggle, .debug-theme {
-  background-color: #2c2c2e;
-  padding: 6px 12px;
-  border-radius: 8px;
-  margin-left: 8px;
+/* --- Плавающая панель отладки (Роль и Тема) --- */
+.debug-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: rgba(30, 30, 32, 0.95); /* Полупрозрачный красивый темный цвет */
+  padding: 6px;
+  border-radius: 30px; /* Форма «таблетки» */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  pointer-events: auto; /* Разрешаем клики по самой панели */
+}
+
+.debug-toggle {
+  background-color: transparent;
+  padding: 8px 16px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.debug-theme {
+  background-color: rgba(255, 255, 255, 0.1);
+  width: 36px;
+  height: 36px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 4px;
 }
 
 .debug-toggle__text {
-  color: #fff;
-  font-size: 12px;
-  font-weight: bold;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 

@@ -12,6 +12,7 @@ import './App.css';
 export const App = () => {
   const [role, setRole] = useState<'guest' | 'waiter' | 'chef' | 'cashier' | 'admin'>('guest');
   const [isDark, setIsDark] = useState(false);
+  const [isGuestReady, setIsGuestReady] = useState(false);
 
   useEffect(() => {
     if (role !== 'guest') {
@@ -44,23 +45,20 @@ export const App = () => {
       <CartProvider>
         <FavoritesProvider>
           <view className={`app-container ${isDark ? 'app-container--dark' : ''}`}>
-            {/* Панель отладки: роль + тема */}
-            <view className="debug-bar">
-              <view className="debug-toggle" bindtap={toggleRole}>
-                <text className="debug-toggle__text">{roleLabel} (сменить)</text>
-              </view>
-              <view className="debug-theme" bindtap={() => setIsDark(!isDark)}>
-                <text className="debug-toggle__text">{isDark ? '☀️' : '🌙'}</text>
-              </view>
-            </view>
-
             {/* Глобальная шапка приложения */}
-            <Header />
+            {(role !== 'guest' || isGuestReady) && (
+              <Header 
+                role={role} 
+                isDark={isDark} 
+                onToggleRole={toggleRole} 
+                onToggleTheme={() => setIsDark(!isDark)} 
+              />
+            )}
 
             {/* Контентная область — ровно один активный экран всегда */}
             <view className="app-content">
               {role === 'guest' ? (
-                <GuestSessionProvider>
+                <GuestSessionProvider onReady={setIsGuestReady}>
                   <GuestMenu />
                 </GuestSessionProvider>
               ) : role === 'waiter' ? (
@@ -73,6 +71,8 @@ export const App = () => {
                 <ManagerHome />
               )}
             </view>
+
+            {/* Панель отладки удалена, перенесена в шапку */}
           </view>
         </FavoritesProvider>
       </CartProvider>
