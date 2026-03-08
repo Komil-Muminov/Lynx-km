@@ -30,6 +30,7 @@ export interface IRestaurant extends Document {
   address: string;
   ownerId: mongoose.Types.ObjectId;
   createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface IUser extends Document {
@@ -38,6 +39,8 @@ export interface IUser extends Document {
   role: EUserRole;
   restaurantId?: mongoose.Types.ObjectId; // null для SuperAdmin
   passwordHash: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface IMenuItem {
@@ -52,6 +55,8 @@ export interface IMenuItem {
 export interface IMenu extends Document {
   restaurantId: mongoose.Types.ObjectId;
   items: IMenuItem[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface IOrder extends Document {
@@ -68,6 +73,7 @@ export interface IOrder extends Document {
   tips?: number; // Чаевые в абсолютном значении (сомони)
   status: 'pending' | 'cooking' | 'ready' | 'paid' | 'cancelled';
   createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface ICommission extends Document {
@@ -76,6 +82,7 @@ export interface ICommission extends Document {
   amount: number;
   status: 'pending' | 'paid';
   createdAt: Date;
+  updatedAt: Date;
 }
 
 // --- Схемы Mongoose ---
@@ -85,9 +92,8 @@ const RestaurantSchema = new Schema<IRestaurant>({
   type: { type: String, enum: Object.values(ERestaurantType), required: true },
   logoUrl: { type: String, default: '' },
   address: { type: String, required: true },
-  ownerId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  createdAt: { type: Date, default: Date.now }
-});
+  ownerId: { type: Schema.Types.ObjectId, ref: 'User', required: true }
+}, { timestamps: true });
 
 const UserSchema = new Schema<IUser>({
   name: { type: String, required: true },
@@ -95,7 +101,7 @@ const UserSchema = new Schema<IUser>({
   role: { type: String, enum: Object.values(EUserRole), required: true },
   restaurantId: { type: Schema.Types.ObjectId, ref: 'Restaurant' },
   passwordHash: { type: String, required: true }
-});
+}, { timestamps: true });
 
 const MenuSchema = new Schema<IMenu>({
   restaurantId: { type: Schema.Types.ObjectId, ref: 'Restaurant', required: true },
@@ -107,7 +113,7 @@ const MenuSchema = new Schema<IMenu>({
     category: String,
     isAvailable: { type: Boolean, default: true }
   }]
-});
+}, { timestamps: true });
 
 const OrderSchema = new Schema<IOrder>({
   restaurantId: { type: Schema.Types.ObjectId, ref: 'Restaurant', required: true },
@@ -125,17 +131,15 @@ const OrderSchema = new Schema<IOrder>({
     type: String, 
     enum: ['pending', 'cooking', 'ready', 'paid', 'cancelled'], 
     default: 'pending' 
-  },
-  createdAt: { type: Date, default: Date.now }
-});
+  }
+}, { timestamps: true });
 
 const CommissionSchema = new Schema<ICommission>({
   orderId: { type: Schema.Types.ObjectId, ref: 'Order', required: true },
   restaurantId: { type: Schema.Types.ObjectId, ref: 'Restaurant', required: true },
   amount: { type: Number, default: 1 },
-  status: { type: String, enum: ['pending', 'paid'], default: 'pending' },
-  createdAt: { type: Date, default: Date.now }
-});
+  status: { type: String, enum: ['pending', 'paid'], default: 'pending' }
+}, { timestamps: true });
 
 // --- Модели ---
 

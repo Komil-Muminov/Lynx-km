@@ -1,0 +1,72 @@
+.qr-scanner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  margin: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.qr-scanner__title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 8px;
+}
+
+.qr-scanner__subtitle {
+  font-size: 14px;
+  color: #666666;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.qr-scanner__camera-mock {
+  width: 240px;
+  height: 240px;
+  background-color: #f5f5f5;
+  border: 2px dashed #cccccc;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.qr-scanner__scan-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #4CAF50;
+  box-shadow: 0 0 8px #4CAF50;
+  animation: scan-animation 2s infinite linear;
+}
+
+@keyframes scan-animation {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(240px); }
+  100% { transform: translateY(0); }
+}
+
+.qr-scanner__mock-btn {
+  background-color: #E8F5E9;
+  padding: 12px 24px;
+  border-radius: 8px;
+}
+
+.qr-scanner__mock-btn-text {
+  color: #4CAF50;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.qr-scanner__mock-placeholder {
+  color: #aaaaaa;
+  font-size: 14px;
+}
