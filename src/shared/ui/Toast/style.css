@@ -67,8 +67,16 @@
   height: 100%;
   background-color: rgba(255, 255, 255, 0.8);
   border-radius: 3px;
-  animation: toastProgress var(--toast-duration, 3000ms) linear forwards;
+  /* Длительность по умолчанию 3с */
+  animation: toastProgress 3000ms linear forwards;
 }
+
+/* Модификаторы длительности — Lynx не поддерживает CSS-переменные */
+.toast__progress-fill--1500 { animation-duration: 1500ms; }
+.toast__progress-fill--2000 { animation-duration: 2000ms; }
+.toast__progress-fill--3000 { animation-duration: 3000ms; }
+.toast__progress-fill--4000 { animation-duration: 4000ms; }
+.toast__progress-fill--5000 { animation-duration: 5000ms; }
 
 @keyframes toastProgress {
   from { width: 100%; }

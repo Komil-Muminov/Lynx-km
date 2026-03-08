@@ -17,6 +17,11 @@ export const Toast = ({ message, visible, type = 'info', duration = 3000, onClos
 
   const icon = TOAST_ICONS[type];
 
+  /* Класс длительности — раундим до ближайшего шага (1500/2000/3000/4000/5000) */
+  const steps = [1500, 2000, 3000, 4000, 5000];
+  const closest = steps.reduce((prev, cur) => Math.abs(cur - duration) < Math.abs(prev - duration) ? cur : prev);
+  const durationClass = `toast__progress-fill--${closest}`;
+
   return (
     <view className={`toast toast--${type} ${visible ? 'toast--visible' : ''}`}>
       {/* Основная строка: иконка + текст */}
@@ -33,8 +38,7 @@ export const Toast = ({ message, visible, type = 'info', duration = 3000, onClos
       {visible && (
         <view className="toast__progress">
           <view
-            className="toast__progress-fill"
-            style={{ '--toast-duration': `${duration}ms` } as any}
+            className={`toast__progress-fill ${durationClass}`}
           />
         </view>
       )}
