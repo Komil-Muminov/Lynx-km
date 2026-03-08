@@ -91,12 +91,13 @@
   padding: 12px;
   margin-bottom: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  animation: slideIn 0.4s ease-out;
+  animation: slideInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
 }
 
-@keyframes slideIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes slideInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
 .cart-screen__item-info {
@@ -162,6 +163,8 @@
   color: #1a1a1a;
   width: 32px;
   text-align: center;
+  /* Плавный переход для цифры при изменении */
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .cart-screen__footer {

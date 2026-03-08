@@ -2,6 +2,7 @@ import React from 'react';
 import type { IAdminDashboardScreenProps, IAnalyticsData } from './model.js';
 import { useGetQuery } from '@shared/api/hooks/index.js';
 import { formatPrice } from '@shared/lib/format.js';
+import { Skeleton } from '@shared/ui/Skeleton/index.js';
 import './style.css';
 
 export const AdminDashboardScreen = ({ restaurantId, onBack }: IAdminDashboardScreenProps) => {
@@ -20,9 +21,24 @@ export const AdminDashboardScreen = ({ restaurantId, onBack }: IAdminDashboardSc
       </view>
 
       {isLoading && (
-        <view className="dashboard__loading">
-          <text>Загрузка данных...</text>
-        </view>
+        <scroll-view className="dashboard__content" scroll-y>
+          <view className="dashboard__card">
+            <Skeleton width="40%" height="20px" className="dashboard__skeleton-title" />
+            <Skeleton width="60%" height="40px" />
+          </view>
+          <view className="dashboard__card">
+            <Skeleton width="50%" height="20px" className="dashboard__skeleton-title" />
+            <Skeleton width="30%" height="40px" />
+          </view>
+          <view className="dashboard__card">
+            <Skeleton width="45%" height="20px" className="dashboard__skeleton-title" />
+            <Skeleton width="50%" height="40px" />
+          </view>
+          <view className="dashboard__card">
+            <Skeleton width="35%" height="20px" className="dashboard__skeleton-title" />
+            <Skeleton width="40%" height="40px" />
+          </view>
+        </scroll-view>
       )}
 
       {isError && (

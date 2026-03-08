@@ -3,6 +3,7 @@ import { useGetQuery } from '@shared/api/hooks/index.js';
 import { useCart } from '@app/providers/index.js';
 import { Menu } from '@entities/Menu/index.js';
 import type { IMenu, IMenuItem } from '@entities/Menu/index.js';
+import { Skeleton } from '@shared/ui/Skeleton/index.js';
 import './MenuList.css';
 
 interface IProps {
@@ -36,14 +37,23 @@ export const MenuList = ({ restaurantId }: IProps) => {
   if (isLoading) {
     return (
       <view className="menu-list__state">
-        {/* Скелетон-загрузчик */}
+        {/* Горизонтальный скролл со скелетонами категорий */}
+        <scroll-view className="menu-list__tabs" scroll-x>
+          {[1, 2, 3, 4].map(i => (
+            <view key={i} className="menu-list__tab">
+              <Skeleton width="60px" height="20px" borderRadius="10px" />
+            </view>
+          ))}
+        </scroll-view>
+
+        {/* Скелетоны карточек меню */}
         {[1, 2, 3].map(i => (
           <view key={i} className="menu-list__skeleton">
-            <view className="menu-list__skeleton-img" />
+            <Skeleton width="100px" height="100px" borderRadius="12px" className="menu-list__skeleton-img" />
             <view className="menu-list__skeleton-info">
-              <view className="menu-list__skeleton-line menu-list__skeleton-line--title" />
-              <view className="menu-list__skeleton-line" />
-              <view className="menu-list__skeleton-line menu-list__skeleton-line--short" />
+              <Skeleton width="80%" height="20px" className="menu-list__skeleton-line" />
+              <Skeleton width="60%" height="16px" className="menu-list__skeleton-line" />
+              <Skeleton width="40%" height="24px" className="menu-list__skeleton-line" />
             </view>
           </view>
         ))}

@@ -63,6 +63,10 @@
   color: #4CAF50;
 }
 
+.dashboard__skeleton-title {
+  margin-bottom: 8px;
+}
+
 .dashboard__loading {
   flex: 1;
   display: flex;
