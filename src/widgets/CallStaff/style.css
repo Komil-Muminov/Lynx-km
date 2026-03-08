@@ -16,7 +16,6 @@
   right: 0;
   flex-direction: row;
   align-items: center;
-  pointer-events: auto;
   /* Начальное — скрытое состояние */
   opacity: 0;
   transform: scale(0.3);
