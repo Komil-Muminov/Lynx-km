@@ -102,7 +102,7 @@ export const MenuList = ({ restaurantId }: IProps) => {
             <view className="menu-list__skeleton-info">
               <Skeleton width="80%" height="24px" className="menu-list__skeleton-line" />
               <Skeleton width="60%" height="16px" className="menu-list__skeleton-line" />
-              <view style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: '10px' }}>
+              <view className="menu-list__skeleton-row">
                 <Skeleton width="70px" height="24px" borderRadius="12px" />
                 <Skeleton width="90px" height="32px" borderRadius="16px" />
               </view>

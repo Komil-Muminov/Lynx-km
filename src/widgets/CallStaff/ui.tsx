@@ -19,14 +19,28 @@ const CALL_ACTIONS = [
 export const CallStaffWidget = ({ restaurantId, tableId }: IProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [sent, setSent] = useState(false);
+  const [waitTime, setWaitTime] = useState(0);
   const { trigger } = useHaptic();
 
   const mutation = useMutationQuery();
 
-  /* Через 3 сек сбрасываем состояние «Вызов отправлен» */
+  /* Счётчик времени ожидания */
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (sent) {
+      interval = setInterval(() => {
+        setWaitTime(prev => prev + 1);
+      }, 1000);
+    } else {
+      setWaitTime(0);
+    }
+    return () => clearInterval(interval);
+  }, [sent]);
+
+  /* Через 10 сек сбрасываем состояние «Вызов отправлен» (увеличил с 3 до 10 для наглядности таймера) */
   useEffect(() => {
     if (!sent) return;
-    const t = setTimeout(() => setSent(false), 3000);
+    const t = setTimeout(() => setSent(false), 10000);
     return () => clearTimeout(t);
   }, [sent]);
 
@@ -77,7 +91,12 @@ export const CallStaffWidget = ({ restaurantId, tableId }: IProps) => {
         <text className="call-staff__fab-emoji">
           {sent ? '✅' : isOpen ? '✕' : '🔔'}
         </text>
-        {sent && <text className="call-staff__sent-label">Вызов отправлен</text>}
+        {sent && (
+          <view className="call-staff__sent-info">
+            <text className="call-staff__sent-label">Вызов отправлен</text>
+            <text className="call-staff__timer">Ожидание: {waitTime} сек</text>
+          </view>
+        )}
       </view>
     </view>
   );

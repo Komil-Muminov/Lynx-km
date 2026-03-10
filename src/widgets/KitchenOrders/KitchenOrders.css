@@ -1,12 +1,15 @@
 .kitchen-orders {
   display: flex;
   flex-direction: column;
+  background: #141418;
+  min-height: 100%;
+  padding: 16px;
 }
 
 .kitchen-orders__title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
-  color: #1a1a1a;
+  color: #ffffff;
   margin-bottom: 16px;
 }
 
@@ -14,51 +17,78 @@
   flex: 1;
 }
 
+/* Карточка заказа */
 .kitchen-orders__card {
-  background-color: #ffffff;
+  background: #1e1e24;
   border-radius: 16px;
   padding: 16px;
-  margin-bottom: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
 }
 
+/* Цветная полоса слева по статусу */
 .kitchen-orders__card-pending {
-  border-left: 6px solid #ff3b30;
+  border-left: 5px solid var(--status-pending);
 }
 
 .kitchen-orders__card-cooking {
-  border-left: 6px solid #ff9500;
+  border-left: 5px solid var(--status-cooking);
 }
 
+/* Шапка карточки */
 .kitchen-orders__card-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  border-bottom: 1px solid #f0f0f0;
-  padding-bottom: 8px;
+  align-items: center;
+  border-bottom: 1px solid #2e2e38;
+  padding-bottom: 10px;
   margin-bottom: 8px;
 }
 
 .kitchen-orders__table {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: bold;
+  color: #ffffff;
 }
 
+/* Бейдж статуса */
 .kitchen-orders__status-label {
+  font-size: 11px;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.kitchen-orders__status-label-pending {
+  background: var(--status-pending-bg);
+  color: var(--status-pending);
+}
+
+.kitchen-orders__status-label-cooking {
+  background: var(--status-cooking-bg);
+  color: var(--status-cooking);
+}
+
+/* Время заказа */
+.kitchen-orders__time {
   font-size: 12px;
   color: #666;
+  margin-bottom: 12px;
 }
 
+/* Список позиций */
 .kitchen-orders__items {
   margin-bottom: 16px;
 }
 
 .kitchen-orders__item-txt {
   font-size: 15px;
-  color: #333333;
-  margin-bottom: 4px;
+  color: #c8c8d0;
+  margin-bottom: 5px;
 }
 
+/* Кнопки */
 .kitchen-orders__actions {
   display: flex;
   flex-direction: row;
@@ -66,29 +96,32 @@
 
 .kitchen-orders__btn {
   flex: 1;
-  padding: 12px;
-  border-radius: 12px;
+  padding: 16px;
+  border-radius: 14px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .kitchen-orders__btn-start {
-  background-color: #ff9500;
+  background: #ff9500;
 }
 
 .kitchen-orders__btn-ready {
-  background-color: #34c759;
+  background: #30d158;
 }
 
 .kitchen-orders__btn-txt {
   color: #ffffff;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: bold;
 }
 
-.kitchen-orders__loading, .kitchen-orders__empty {
+/* Состояние загрузки и пустого экрана */
+.kitchen-orders__loading,
+.kitchen-orders__empty {
   text-align: center;
-  color: #888;
-  padding: 20px;
+  color: #555;
+  padding: 40px 20px;
+  font-size: 16px;
 }

@@ -149,11 +149,23 @@
   gap: 8px;
 }
 
-/* Метка «Вызов отправлен» */
+.call-staff__sent-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .call-staff__sent-label {
   color: #ffffff;
-  font-size: 14px;
+  font-size: 11px;
   font-weight: 700;
+}
+
+.call-staff__timer {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 2px;
 }
 
 /* Пульсирующее кольцо вокруг FAB в состоянии «отправлено» */

@@ -12,6 +12,17 @@ page {
   flex-direction: column;
   height: 100%;
   width: 100%;
+
+  /* Status Colors */
+  --status-pending: #ff3b30;
+  --status-cooking: #ff9500;
+  --status-ready:   #34c759;
+  --status-delivered: #007aff;
+  
+  /* Status Backgrounds (with opacity for badges) */
+  --status-pending-bg: rgba(255, 59, 48, 0.15);
+  --status-cooking-bg: rgba(255, 149, 0, 0.15);
+  --status-ready-bg: rgba(52, 199, 89, 0.15);
 }
 
 .app-container {
