@@ -1,0 +1,17 @@
+.ui-card {
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 16px;
+  /* Многослойная "премиальная" тень */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02), 
+              0 10px 20px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+}
+
+/* Эффект при нажатии для интерактивных карточек */
+.ui-card:active {
+  transform: scale(0.98);
+  opacity: 0.95;
+  transition: transform 0.1s ease;
+}

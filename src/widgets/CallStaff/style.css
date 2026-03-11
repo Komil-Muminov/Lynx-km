@@ -7,104 +7,96 @@
 }
 
 /* -- Радиальные кнопки -- */
-/* Каждая кнопка позиционируется абсолютно и вылетает из центра FAB */
-
 .call-staff__radial-item {
   position: absolute;
-  /* Стартовая позиция — поверх FAB */
   bottom: 0;
   right: 0;
   flex-direction: row;
   align-items: center;
-  /* Начальное — скрытое состояние */
   opacity: 0;
   transform: scale(0.3);
 }
 
-/* Иконка кнопки */
 .call-staff__radial-icon {
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
+  width: 54px;
+  height: 54px;
+  border-radius: 27px;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
 }
 
 .call-staff__radial-icon--waiter {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .call-staff__radial-icon--hookah {
-  background: linear-gradient(135deg, #11998e, #38ef7d);
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
 }
 
 .call-staff__radial-icon--bill {
-  background: linear-gradient(135deg, #f7971e, #ffd200);
+  background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
 }
 
 .call-staff__radial-emoji {
-  font-size: 22px;
+  font-size: 24px;
 }
 
-/* Подпись рядом с иконкой */
 .call-staff__radial-label {
-  background-color: rgba(20, 20, 30, 0.88);
-  padding: 5px 12px;
+  background-color: rgba(26, 26, 46, 0.9);
+  padding: 6px 14px;
   border-radius: 20px;
-  margin-right: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  margin-right: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .call-staff__radial-text {
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 800;
   color: #ffffff;
-  white-space: nowrap;
+  letter-spacing: 0.5px;
 }
 
-/* -- Анимации вылета (вверх по дуге направо) -- */
-
-/* Кнопка 1 — прямо вверх */
+/* -- Анимации вылета -- */
 .call-staff__radial-item--1 {
-  animation: flyOut1 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation: flyOut1 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-/* Кнопка 2 — по диагонали вверх-влево */
 .call-staff__radial-item--2 {
-  animation: flyOut2 0.44s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation: flyOut2 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-/* Кнопка 3 — горизонтально влево */
 .call-staff__radial-item--3 {
-  animation: flyOut3 0.50s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation: flyOut3 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 @keyframes flyOut1 {
-  from { opacity: 0; transform: scale(0.3) translateY(0px); bottom: 0; right: 0; }
-  to   { opacity: 1; transform: scale(1) translateY(0px); bottom: 80px; right: 0; }
+  from { opacity: 0; transform: scale(0.3); bottom: 0; right: 0; }
+  to   { opacity: 1; transform: scale(1); bottom: 84px; right: 0; }
 }
 
 @keyframes flyOut2 {
   from { opacity: 0; transform: scale(0.3); bottom: 0; right: 0; }
-  to   { opacity: 1; transform: scale(1); bottom: 148px; right: 0; }
+  to   { opacity: 1; transform: scale(1); bottom: 156px; right: 0; }
 }
 
 @keyframes flyOut3 {
   from { opacity: 0; transform: scale(0.3); bottom: 0; right: 0; }
-  to   { opacity: 1; transform: scale(1); bottom: 216px; right: 0; }
+  to   { opacity: 1; transform: scale(1); bottom: 228px; right: 0; }
 }
 
-/* -- Оверлей (затемняет экран при открытом меню) -- */
+/* -- Оверлей -- */
 .call-staff__overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.35);
+  background-color: rgba(15, 15, 26, 0.5);
   z-index: 10;
-  animation: fadeInOverlay 0.25s ease forwards;
+  animation: fadeInOverlay 0.3s ease forwards;
 }
 
 @keyframes fadeInOverlay {
@@ -114,57 +106,62 @@
 
 /* -- Главная FAB-кнопка -- */
 .call-staff__fab {
-  width: 60px;
-  height: 60px;
-  border-radius: 30px;
+  width: 64px;
+  height: 64px;
+  border-radius: 32px;
   align-items: center;
   justify-content: center;
   z-index: 20;
   position: relative;
-  /* Основной градиент кнопки */
-  background: linear-gradient(135deg, #ff9a3c, #ff6b6b);
-  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5);
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff9a3c 100%);
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .call-staff__fab--active {
-  background: linear-gradient(135deg, #2c3e50, #4a5568);
-  box-shadow: 0 6px 20px rgba(44, 62, 80, 0.5);
-  transform: rotate(45deg) scale(1.05);
+  background: linear-gradient(135deg, #1a1a2e 0%, #30336b 100%);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transform: rotate(45deg) scale(1.1);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 .call-staff__fab-emoji {
-  font-size: 26px;
+  font-size: 28px;
   color: #fff;
 }
 
 /* Состояние после успешного вызова */
 .call-staff__fab--sent {
-  background: linear-gradient(135deg, #11998e, #38ef7d);
-  box-shadow: 0 6px 20px rgba(56, 239, 125, 0.5);
+  background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+  box-shadow: 0 8px 25px rgba(0, 184, 148, 0.4);
   transform: none;
   width: auto;
-  padding: 0 20px;
+  min-width: 140px;
+  padding: 0 24px;
   flex-direction: row;
-  gap: 8px;
+  gap: 12px;
+  border-radius: 30px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
 .call-staff__sent-info {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
 }
 
 .call-staff__sent-label {
   color: #ffffff;
-  font-size: 11px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 800;
 }
 
 .call-staff__timer {
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.8);
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
   margin-top: 2px;
 }
 

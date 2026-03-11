@@ -3,8 +3,10 @@ import { useCart } from '@app/providers/index.js';
 import { useMutationQuery } from '@shared/api/hooks/index.js';
 import type { IMenuItem } from '@entities/Menu/model.js';
 import { formatPrice } from '@shared/lib/format.js';
+import { Card } from '@shared/ui/Card/index.js';
+import { EmptyState } from '@shared/ui/EmptyState/index.js';
 import { Toast } from '@shared/ui/Toast/index.js';
-import './CartScreen.css';
+import './style.css';
 
 interface ICartItemProps {
   menuItem: IMenuItem;
@@ -14,7 +16,7 @@ interface ICartItemProps {
 }
 
 const CartItemCard = memo(({ menuItem, quantity, onAdd, onRemove }: ICartItemProps) => (
-  <view className="cart-screen__item">
+  <Card className="cart-screen__item">
     <view className="cart-screen__item-info">
       <image
         src={menuItem.imageUrl || ''}
@@ -35,7 +37,7 @@ const CartItemCard = memo(({ menuItem, quantity, onAdd, onRemove }: ICartItemPro
         <text className="cart-screen__counter-icon">+</text>
       </view>
     </view>
-  </view>
+  </Card>
 ));
 
 CartItemCard.displayName = 'CartItemCard';
@@ -115,11 +117,17 @@ export const CartScreen = ({ restaurantId, tableId, onBack }: IProps) => {
           <text className="cart-screen__title">Ваш заказ</text>
         </view>
         <view className="cart-screen__empty">
-          <text className="cart-screen__empty-icon">🛒</text>
-          <text className="cart-screen__empty-title">Корзина пуста</text>
-          <text className="cart-screen__empty-hint">Добавьте блюда из меню, чтобы сделать заказ</text>
-          <view className="cart-screen__empty-btn press-effect" bindtap={onBack}>
-            <text className="cart-screen__empty-btn-text">← Перейти в меню</text>
+          <EmptyState
+            icon="🛒"
+            title="Корзина пуста"
+            hint="Добавьте блюда из меню, чтобы сделать заказ"
+          />
+          <view 
+            className="cart-screen__order-btn press-effect" 
+            style={{ marginTop: 20, width: '100%' }} 
+            bindtap={onBack}
+          >
+            <text className="cart-screen__order-text">← Перейти в меню</text>
           </view>
         </view>
       </view>
