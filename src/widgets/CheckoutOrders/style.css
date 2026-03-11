@@ -1,40 +1,109 @@
 .checkout-orders {
   flex: 1;
+  background-color: #f8f9fa;
   padding: 16px;
 }
 
-.checkout-orders__stats {
-  flex-direction: row;
-  gap: 12px;
+/* Статистика смены */
+.checkout-stats {
+  background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+  border-radius: 24px;
+  padding: 24px;
   margin-bottom: 20px;
-}
-
-.checkout-orders__stat-box {
-  flex: 1;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 20px;
+  flex-direction: row;
   align-items: center;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05); /* Глубокая мягкая тень */
-  border: 1px solid rgba(0, 0, 0, 0.03);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
 }
 
-.checkout-orders__stat-val {
-  font-size: 32px; /* Увеличил размер для акцента */
+.checkout-stats__item {
+  flex: 1;
+  align-items: center;
+}
+
+.checkout-stats__divider {
+  width: 1px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin: 0 10px;
+}
+
+.checkout-stats__value {
+  font-size: 24px;
   font-weight: 950;
-  color: #1a1a1a;
-  letter-spacing: -1.5px;
+  color: #ffffff;
+  letter-spacing: -1px;
 }
 
-.checkout-orders__stat-label {
-  font-size: 12px;
-  color: #8e8e93;
-  font-weight: 600;
-  text-transform: uppercase; /* Строгий стиль */
+.checkout-stats__label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-top: 4px;
+  font-weight: 600;
 }
 
+/* Поиск и Вкладки */
+.checkout-controls {
+  margin-bottom: 20px;
+  gap: 12px;
+}
+
+.checkout-search {
+  flex-direction: row;
+  align-items: center;
+  background-color: #ffffff;
+  height: 52px;
+  border-radius: 16px;
+  padding: 0 16px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.checkout-search__icon {
+  font-size: 18px;
+  margin-right: 10px;
+  opacity: 0.5;
+}
+
+.checkout-search__input {
+  flex: 1;
+  font-size: 15px;
+  color: #1a1a1a;
+  height: 100%;
+}
+
+.checkout-tabs {
+  flex-direction: row;
+  background-color: rgba(0, 0, 0, 0.03);
+  padding: 4px;
+  border-radius: 14px;
+}
+
+.checkout-tabs__item {
+  flex: 1;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 11px;
+}
+
+.checkout-tabs__item--active {
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.checkout-tabs__text {
+  font-size: 13px;
+  font-weight: 700;
+  color: #8e8e93;
+}
+
+.checkout-tabs__item--active .checkout-tabs__text {
+  color: #007aff;
+}
+
+/* Список */
 .checkout-orders__scroll {
   flex: 1;
 }
@@ -44,15 +113,15 @@
   padding-bottom: 40px;
 }
 
-/* --- ORDER CHECKOUT CARD --- */
+/* Карточка заказа */
 .checkout-card {
   background-color: #ffffff;
   border-radius: 24px;
   padding: 24px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05);
   position: relative;
   overflow: hidden;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   border: 1px solid rgba(0, 0, 0, 0.03);
 }
 
@@ -90,6 +159,7 @@
 
 .checkout-card__status--ready { background-color: #fff3e0; }
 .checkout-card__status--pending { background-color: #fce4ec; }
+.checkout-card__status--paid { background-color: #e8f5e9; }
 
 .checkout-card__status-text {
   font-size: 11px;
@@ -97,8 +167,12 @@
   color: #e65100;
 }
 
-.checkout-card__status-pending .checkout-card__status-text {
+.checkout-card__status--pending .checkout-card__status-text {
   color: #c2185b;
+}
+
+.checkout-card__status--paid .checkout-card__status-text {
+  color: #2e7d32;
 }
 
 .checkout-card__items-summary {
@@ -182,20 +256,20 @@
 }
 
 .checkout-card__total-amount {
-  font-size: 36px; /* Максимальный акцент на сумме */
+  font-size: 32px;
   font-weight: 950;
   color: #007aff;
-  letter-spacing: -2px;
+  letter-spacing: -1.5px;
 }
 
 .checkout-card__pay-btn {
-  height: 68px;
-  background: linear-gradient(135deg, #007aff 0%, #004596 100%); /* Глубокий градиент */
-  border-radius: 22px;
+  height: 64px;
+  background: linear-gradient(135deg, #007aff 0%, #004596 100%);
+  border-radius: 20px;
   justify-content: center;
   align-items: center;
-  margin-top: 18px;
-  box-shadow: 0 15px 30px rgba(0, 122, 255, 0.35); /* Светящаяся кнопка */
+  margin-top: 16px;
+  box-shadow: 0 12px 24px rgba(0, 122, 255, 0.3);
 }
 
 .checkout-card__pay-btn--printing {
@@ -262,20 +336,196 @@
   font-size: 20px;
   font-weight: 700;
   color: #1a1a1a;
+  text-align: center;
 }
 
 .checkout-orders__empty-sub {
   font-size: 14px;
   color: #888;
   margin-top: 4px;
+  text-align: center;
 }
 
-.checkout-orders__loading {
-  padding: 40px;
+/* Модальное окно деталей */
+.order-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Lynx не поддерживает backdrop-filter: blur, поэтому используем полупрозрачность */
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.order-modal {
+  width: 100%;
+  max-width: 400px;
+  background-color: #ffffff;
+  border-radius: 28px;
+  max-height: 80%;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  animation: modalPop 0.3s cubic-bezier(0.17, 0.89, 0.32, 1.28) forwards;
+}
+
+@keyframes modalPop {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.order-modal__header {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.order-modal__title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1a1a1a;
+}
+
+.order-modal__close {
+  width: 32px;
+  height: 32px;
+  background-color: #f5f5f7;
+  border-radius: 16px;
+  justify-content: center;
   align-items: center;
 }
 
-.checkout-orders__loading-text {
-  color: #888;
+.order-modal__close-icon {
   font-size: 14px;
+  color: #8e8e93;
+}
+
+.order-modal__info {
+  padding: 20px 24px;
+  gap: 12px;
+}
+
+.order-modal__info-row {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-modal__info-label {
+  font-size: 14px;
+  color: #8e8e93;
+}
+
+.order-modal__info-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.order-modal__status {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.order-modal__status--ready { background-color: #fff3e0; color: #e65100; }
+.order-modal__status--pending { background-color: #fce4ec; color: #c2185b; }
+.order-modal__status--paid { background-color: #e8f5e9; color: #2e7d32; }
+
+.order-modal__divider {
+  height: 1px;
+  background-color: #f0f0f0;
+}
+
+.order-modal__items {
+  flex: 1;
+  padding: 20px 24px;
+}
+
+.order-modal__items-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #8e8e93;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+}
+
+.order-modal__item {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.order-modal__item-main {
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.order-modal__item-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.order-modal__item-qty {
+  font-size: 13px;
+  color: #8e8e93;
+  background-color: #f5f5f7;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.order-modal__item-price {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.order-modal__footer {
+  padding: 24px;
+  border-top: 1px solid #f0f0f0;
+  gap: 16px;
+}
+
+.order-modal__total-row {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-modal__total-label {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.order-modal__total-val {
+  font-size: 24px;
+  font-weight: 900;
+  color: #007aff;
+}
+
+.order-modal__paid-badge {
+  background-color: #e8f5e9;
+  padding: 12px;
+  border-radius: 12px;
+  align-items: center;
+}
+
+.order-modal__paid-text {
+  color: #2e7d32;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1px;
 }
