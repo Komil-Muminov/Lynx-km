@@ -7,6 +7,7 @@ export interface IGuestSession {
   tableId: string;
   restaurantName: string;
   logoUrl: string;
+  isDemo?: boolean; // Флаг для легкого удаления демо-логики
 }
 
 interface IGuestSessionContext {
@@ -16,6 +17,9 @@ interface IGuestSessionContext {
 }
 
 const GuestSessionContext = createContext<IGuestSessionContext | undefined>(undefined);
+
+// --- КОНФИГУРАЦИЯ ДЕМО-РЕЖИМА (Удалить перед продакшном) ---
+const ENABLE_DEMO_MODE = true; 
 
 export const useGuestSession = () => {
   const ctx = useContext(GuestSessionContext);
@@ -38,6 +42,7 @@ const DEMO_SESSION: IGuestSession = {
   tableId: 'Стол №5',
   restaurantName: 'Демо-ресторан',
   logoUrl: '',
+  isDemo: true,
 };
 
 interface IProps {
@@ -129,9 +134,11 @@ export const GuestSessionProvider = ({ children, onReady }: IProps) => {
           </view>
 
           {/* Кнопка пропустить — только для тестирования */}
-          <view className="qr-scan__skip" bindtap={() => setSession(DEMO_SESSION)}>
-            <text className="qr-scan__skip-text">Пропустить (демо)</text>
-          </view>
+          {ENABLE_DEMO_MODE && (
+            <view className="qr-scan__skip" bindtap={() => setSession(DEMO_SESSION)}>
+              <text className="qr-scan__skip-text">Пропустить (демо)</text>
+            </view>
+          )}
         </view>
       </view>
     );

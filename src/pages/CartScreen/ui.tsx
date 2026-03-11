@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useState } from 'react';
-import { useCart } from '@app/providers/index.js';
+import { useCart, useGuestSession } from '@app/providers/index.js';
 import { useMutationQuery } from '@shared/api/hooks/index.js';
 import type { IMenuItem } from '@entities/Menu/model.js';
 import { formatPrice } from '@shared/lib/format.js';
@@ -50,6 +50,7 @@ interface IProps {
 
 export const CartScreen = ({ restaurantId, tableId, onBack }: IProps) => {
   const { items, addItem, removeItem, totalPrice, totalCount, clearCart } = useCart();
+  const { session } = useGuestSession();
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState<'success' | 'error'>('success');
@@ -87,7 +88,16 @@ export const CartScreen = ({ restaurantId, tableId, onBack }: IProps) => {
           }, 2000);
         },
         onError: () => {
-          showToast('Ошибка при отправке заказа', 'error');
+          // Если мы в ДЕМО-РЕЖИМЕ, имитируем успех, даже если бэкенд не ответил
+          if (session?.isDemo) {
+            showToast('Заказ принят! (Демо)', 'success');
+            clearCart();
+            setTimeout(() => {
+              onBack();
+            }, 2000);
+          } else {
+            showToast('Ошибка при отправке заказа', 'error');
+          }
         }
       }
     );

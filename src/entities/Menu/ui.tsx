@@ -20,7 +20,6 @@ export const MenuItemCard = memo(({ item, quantity, onAdd, onRemove, onPress }: 
   const { trigger } = useHaptic();
 
   const handleAdd = () => {
-    trigger('light');
     onAdd(item);
     setIsAdded(true);
   };

@@ -35,14 +35,11 @@ export const MenuList = ({ restaurantId }: IProps) => {
 
   const handleAddToCart = useCallback((item: IMenuItem) => {
     addItem(item);
-    trigger('light');
-    toast.success(`"${item.name}" добавлено в корзину`);
-  }, [addItem, trigger, toast]);
+  }, [addItem]);
 
   const handleRemoveFromCart = useCallback((itemId: string) => {
     removeItem(itemId);
-    trigger('medium');
-  }, [removeItem, trigger]);
+  }, [removeItem]);
 
 
 
@@ -160,7 +157,19 @@ export const MenuList = ({ restaurantId }: IProps) => {
         className="menu-list__scroll" 
         scroll-y 
         style={{ flex: 1 }}
+        bindscrolltoupper={() => {/* можно триггерить легкий хаптик */}}
       >
+        <refresh-view
+          className="menu-list__refresh"
+          bindrefresh={async () => {
+            trigger('medium');
+            await refetch();
+          }}
+        >
+          <view className="menu-list__refresh-content">
+            <text className="menu-list__refresh-text">Обновляем меню...</text>
+          </view>
+        </refresh-view>
 
         {filtered.length > 0 ? (
           <view className="menu-list__items">
