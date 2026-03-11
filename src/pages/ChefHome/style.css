@@ -1,0 +1,79 @@
+.chef-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  /* Глубокий темный фон для KDS */
+  background-color: #0c0c0e; 
+}
+
+.chef-page__header {
+  padding: 24px 20px 20px;
+  /* Премиальный темный градиент */
+  background: linear-gradient(180deg, #1e1e20 0%, #121214 100%);
+  border-bottom: 3px solid #ff3b30;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  gap: 16px;
+}
+
+.chef-page__title {
+  font-size: 24px;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.chef-page__tabs {
+  display: flex;
+  flex-direction: row;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 5px;
+  margin-top: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.chef-page__tab {
+  flex: 1;
+  padding: 12px 0;
+  align-items: center;
+  border-radius: 12px;
+  transition: background-color 0.2s ease;
+}
+
+.chef-page__tab--active {
+  background-color: #ff3b30;
+  box-shadow: 0 4px 12px rgba(255, 59, 48, 0.3);
+}
+
+.chef-page__tab-txt {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.chef-page__tab-txt--active {
+  color: #ffffff;
+}
+
+.chef-page__content {
+  flex: 1;
+  padding: 20px;
+}
+
+.chef-page__footer {
+  padding: 18px;
+  background-color: #121214;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  align-items: center;
+  justify-content: center;
+}
+
+.chef-page__status {
+  color: #ff9500;
+  font-size: 15px;
+  font-weight: 800;
+  /* Добавим эффект пульсации в UI если нужно, но здесь просто сочный цвет */
+}

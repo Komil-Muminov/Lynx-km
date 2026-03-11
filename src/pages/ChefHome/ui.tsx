@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { KitchenOrders } from '@widgets/KitchenOrders/index.js';
 import { ChefSummary } from '@widgets/ChefSummary/index.js';
-import './ChefHome.css';
+import './style.css';
 
 export const ChefHome = () => {
   const restaurantId = "65b2a1c9e8d4a3b2c1f0e4d5";

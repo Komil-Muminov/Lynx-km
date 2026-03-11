@@ -1,1 +1,1 @@
-export { ChefHome } from './ChefHome.js';
+export { ChefHome } from './ui.js';

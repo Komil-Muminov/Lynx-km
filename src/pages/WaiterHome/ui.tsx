@@ -2,7 +2,7 @@ import React from 'react';
 import { ActiveCalls } from '@widgets/ActiveCalls/index.js';
 import { NewOrders } from '@widgets/NewOrders/index.js';
 import { WaiterTableMap } from '@widgets/WaiterTableMap/index.js';
-import './WaiterHome.css';
+import './style.css';
 
 export const WaiterHome = () => {
   // Хардкод для демонстрации, потом будем брать из AuthContext

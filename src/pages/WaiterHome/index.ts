@@ -1,1 +1,1 @@
-export { WaiterHome } from './WaiterHome.js';
+export { WaiterHome } from './ui.js';

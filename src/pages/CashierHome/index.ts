@@ -1,1 +1,1 @@
-export { CashierHome } from './CashierHome.js';
+export { CashierHome } from './ui.js';

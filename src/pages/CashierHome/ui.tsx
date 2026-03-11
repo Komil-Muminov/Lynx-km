@@ -1,6 +1,6 @@
 import React from 'react';
 import { CheckoutOrders } from '@widgets/CheckoutOrders/index.js';
-import './CashierHome.css';
+import './style.css';
 
 export const CashierHome = () => {
   const restaurantId = "65b2a1c9e8d4a3b2c1f0e4d5";
