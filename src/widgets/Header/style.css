@@ -3,129 +3,147 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
+  padding: 18px 20px;
   /* Полупрозрачный фигурный фон */
-  background-color: rgba(255, 255, 255, 0.72);
+  background-color: rgba(255, 255, 255, 0.75);
   /* Более богатая тень для эффекта «парения» */
-  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.08), 0 1px 0 rgba(255, 255, 255, 0.9) inset;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1), 0 1px 0 rgba(255, 255, 255, 0.9) inset;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
   z-index: 100;
   position: relative;
 }
 
-/* Фоновый blur-слой вместо ::before (в Lynx псевдо-элементы недоступны) */
-/* Первый в DOM — рисуется под остальными, z-index: -1 в Lynx вызывает RuntimeException */
+/* Фоновый blur-слой */
 .header__blur-layer {
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(240,240,255,0.65) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(245, 247, 255, 0.7) 100%);
 }
 
 /* Тёмная тема */
 .app-container--dark .header {
-  background-color: rgba(18, 18, 30, 0.72);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.4), 0 1px 0 rgba(255, 255, 255, 0.05) inset;
+  background-color: rgba(13, 13, 22, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 1px 0 rgba(255, 255, 255, 0.03) inset;
 }
 
 .app-container--dark .header__blur-layer {
-  background: linear-gradient(135deg, rgba(30,30,50,0.85) 0%, rgba(20,20,40,0.65) 100%);
+  background: linear-gradient(135deg, rgba(20, 20, 35, 0.9) 0%, rgba(10, 10, 25, 0.7) 100%);
 }
 
 /* Логотип */
 .header__logo-container {
   flex-direction: row;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 /* Иконка-обёртка с анимированным градиентным бордером */
 .header__logo-icon-wrapper {
   position: relative;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #f8c84b 0%, #e05fe0 50%, #3b7ef8 100%);
-  animation: logoPulse 3s ease-in-out infinite;
+  border-radius: 12px;
+  /* Премиальный золотисто-фиолетовый градиент */
+  background: linear-gradient(135deg, #FFD700 0%, #FF8C00 30%, #9400D3 70%, #4B0082 100%);
+  animation: logoPulse 4s ease-in-out infinite;
 }
 
 @keyframes logoPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(248, 200, 75, 0.4); }
-  50% { box-shadow: 0 0 0 6px rgba(248, 200, 75, 0); }
+  0%, 100% { 
+    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4);
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 0 15px 5px rgba(255, 215, 0, 0.2);
+    transform: scale(1.05);
+  }
 }
 
 /* Искорки поверх иконки */
 .header__logo-sparkle {
   position: absolute;
   color: #fff;
+  text-shadow: 0 0 4px rgba(255,255,255,0.8);
 }
 
 .header__logo-sparkle--main {
-  font-size: 18px;
-  top: 2px;
-  left: 6px;
+  font-size: 20px;
+  top: 4px;
+  left: 8px;
 }
 
 .header__logo-sparkle--small {
-  font-size: 10px;
-  top: 2px;
-  right: 2px;
-  opacity: 0.8;
+  font-size: 12px;
+  top: 4px;
+  right: 4px;
+  opacity: 0.9;
 }
 
-/* Название */
+/* Название с Shimmer эффектом */
 .header__title {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 900;
-  letter-spacing: 3px;
-  /* Градиентный текст через SVG-трюк — fallback просто тёмный */
-  color: #1a1a2e;
+  letter-spacing: 4px;
+  background: linear-gradient(90deg, #1a1a2e 0%, #667eea 50%, #1a1a2e 100%);
+  background-size: 200% auto;
+  color: #1a1a2e; /* Fallback */
+  animation: titleShimmer 3s linear infinite;
+}
+
+@keyframes titleShimmer {
+  to { background-position: 200% center; }
 }
 
 .app-container--dark .header__title {
+  background: linear-gradient(90deg, #f0f0ff 0%, #a2b2ff 50%, #f0f0ff 100%);
+  background-size: 200% auto;
   color: #f0f0ff;
 }
 
-/* Правый блок (слот для бейджей, уведомлений) */
+/* Правый блок */
 .header__right {
   flex-direction: row;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
-/* Кнопки управления (роль, тема) */
+/* Кнопки управления */
 .header__action-btn {
-  background-color: #2c2c2e;
-  padding: 6px 12px;
-  border-radius: 16px;
+  background: linear-gradient(135deg, #3a3a3c 0%, #2c2c2e 100%);
+  padding: 8px 14px;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .header__action-btn--icon {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   padding: 0;
-  border-radius: 16px;
+  border-radius: 18px;
 }
 
 .header__action-text {
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 800;
   color: #fff;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
 }
 
 .header__action-icon {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .app-container--dark .header__action-btn {
-  background-color: rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }

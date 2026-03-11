@@ -3,7 +3,7 @@ import type { IMenuItem } from './model.js';
 import { formatPrice } from '@shared/lib/format.js';
 import { useFavorites } from '@features/Favorites/index.js';
 import { useHaptic } from '@shared/lib/hooks/index.js';
-import './Menu.css';
+import './style.css';
 
 interface IProps {
   item: IMenuItem;

@@ -10,7 +10,7 @@ import { MenuSearch } from '@features/MenuSearch/index.js';
 import { useFavorites } from '@features/Favorites/index.js';
 import { useHaptic, useToast } from '@shared/lib/hooks/index.js';
 import { renderDishSheet } from './lib.js';
-import './MenuList.css';
+import './style.css';
 
 interface IProps {
   restaurantId: string;
