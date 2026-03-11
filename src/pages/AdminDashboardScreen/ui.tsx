@@ -3,6 +3,7 @@ import type { IAdminDashboardScreenProps, IAnalyticsData } from './model.js';
 import { useGetQuery } from '@shared/api/hooks/index.js';
 import { formatPrice } from '@shared/lib/format.js';
 import { Skeleton } from '@shared/ui/Skeleton/index.js';
+import { Card } from '@shared/ui/Card/index.js';
 import './style.css';
 
 export const AdminDashboardScreen = ({ restaurantId, onBack }: IAdminDashboardScreenProps) => {
@@ -45,26 +46,26 @@ export const AdminDashboardScreen = ({ restaurantId, onBack }: IAdminDashboardSc
         </view>
       ) : data ? (
         <scroll-view className="dashboard__content" scroll-y>
-          <view className="dashboard__card">
+          <Card className="dashboard__item">
             <text className="dashboard__card-title">Общая выручка</text>
             <text className="dashboard__card-value dashboard__card-value--green">
               {formatPrice(data.revenue)}
             </text>
-          </view>
-          <view className="dashboard__card">
+          </Card>
+          <Card className="dashboard__item">
             <text className="dashboard__card-title">Количество заказов</text>
             <text className="dashboard__card-value">{data.totalOrders}</text>
-          </view>
-          <view className="dashboard__card">
+          </Card>
+          <Card className="dashboard__item">
             <text className="dashboard__card-title">Сумма комиссии системы</text>
             <text className="dashboard__card-value dashboard__card-value--green">
               {formatPrice(data.commission)}
             </text>
-          </view>
-          <view className="dashboard__card">
+          </Card>
+          <Card className="dashboard__item">
             <text className="dashboard__card-title">Сумма чаевых</text>
             <text className="dashboard__card-value">{formatPrice(data.tips)}</text>
-          </view>
+          </Card>
         </scroll-view>
       ) : null}
     </view>
