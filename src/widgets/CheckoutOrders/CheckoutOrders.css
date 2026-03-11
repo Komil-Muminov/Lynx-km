@@ -62,7 +62,6 @@
   font-weight: 800;
   padding: 6px 12px;
   border-radius: 8px;
-  text-transform: uppercase;
 }
 
 .checkout-orders__status-label--ready {
@@ -186,7 +185,6 @@
   color: #ffffff;
   font-weight: 900;
   font-size: 18px;
-  text-transform: uppercase;
   letter-spacing: 1px;
 }
 

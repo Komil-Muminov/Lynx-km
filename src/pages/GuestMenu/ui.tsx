@@ -4,7 +4,7 @@ import { CartButton } from '@widgets/CartButton/index.js';
 import { CallStaff } from '@widgets/CallStaff/index.js';
 import { CartScreen } from '@pages/CartScreen/index.js';
 import { useGuestSession } from '@app/providers/index.js';
-import './GuestMenu.css';
+import './style.css';
 
 export const GuestMenu = () => {
   // Берём данные стола из сессии (параметры QR или демо-режим)
