@@ -8,7 +8,7 @@ import { EmptyState } from '@shared/ui/EmptyState/index.js';
 import { BottomSheet } from '@shared/ui/BottomSheet/index.js';
 import { MenuSearch } from '@features/MenuSearch/index.js';
 import { useFavorites } from '@features/Favorites/index.js';
-import { useHaptic } from '@shared/lib/hooks/index.js';
+import { useHaptic, useToast } from '@shared/lib/hooks/index.js';
 import { renderDishSheet } from './lib.js';
 import './MenuList.css';
 
@@ -20,6 +20,7 @@ export const MenuList = ({ restaurantId }: IProps) => {
   const { items: cartItems, addItem, removeItem } = useCart();
   const { isFavorite } = useFavorites();
   const { trigger } = useHaptic();
+  const toast = useToast();
   
   const [selectedCategory, setSelectedCategory] = useState('Все');
   const [searchQuery, setSearchQuery] = useState('');
@@ -34,11 +35,14 @@ export const MenuList = ({ restaurantId }: IProps) => {
 
   const handleAddToCart = useCallback((item: IMenuItem) => {
     addItem(item);
-  }, [addItem]);
+    trigger('light');
+    toast.success(`"${item.name}" добавлено в корзину`);
+  }, [addItem, trigger, toast]);
 
   const handleRemoveFromCart = useCallback((itemId: string) => {
     removeItem(itemId);
-  }, [removeItem]);
+    trigger('medium');
+  }, [removeItem, trigger]);
 
 
 

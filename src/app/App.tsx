@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { QueryProvider, CartProvider, GuestSessionProvider } from './providers/index.js';
+import { QueryProvider, CartProvider, GuestSessionProvider, ToastProvider } from './providers/index.js';
 import { FavoritesProvider } from '@features/Favorites/index.js';
 import { GuestMenu } from '@pages/GuestMenu/index.js';
 import { WaiterHome } from '@pages/WaiterHome/index.js';
@@ -43,8 +43,9 @@ export const App = () => {
   return (
     <QueryProvider>
       <CartProvider>
-        <FavoritesProvider>
-          <view className={`app-container ${isDark ? 'app-container--dark' : ''}`}>
+        <ToastProvider>
+          <FavoritesProvider>
+            <view className={`app-container ${isDark ? 'app-container--dark' : ''}`}>
             {/* Глобальная шапка приложения */}
             {(role !== 'guest' || isGuestReady) && (
               <Header 
@@ -75,7 +76,8 @@ export const App = () => {
             {/* Панель отладки удалена, перенесена в шапку */}
           </view>
         </FavoritesProvider>
-      </CartProvider>
-    </QueryProvider>
+      </ToastProvider>
+    </CartProvider>
+  </QueryProvider>
   );
 };

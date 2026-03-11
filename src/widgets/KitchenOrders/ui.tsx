@@ -3,6 +3,9 @@ import { useGetQuery, useMutationQuery } from '@shared/api/hooks/index.js';
 import { useQueryClient } from '@tanstack/react-query';
 import { getEnvVar } from '@shared/config/index.js';
 import dayjs from 'dayjs';
+import { useHaptic } from '@shared/lib/hooks/index.js';
+import { EmptyState } from '@shared/ui/EmptyState/index.js';
+import { KitchenOrdersSkeleton } from './ui/index.js';
 import type { IOrder } from '@entities/Order/index.js';
 import './KitchenOrders.css';
 
@@ -23,6 +26,7 @@ const API_URL = getEnvVar('API_URL');
 
 export const KitchenOrders = ({ restaurantId }: IProps) => {
   const queryClient = useQueryClient();
+  const { trigger } = useHaptic();
 
   const { data: orders, isLoading } = useGetQuery<IOrder[]>(
     ['kitchen-orders', restaurantId],
@@ -32,6 +36,7 @@ export const KitchenOrders = ({ restaurantId }: IProps) => {
   const statusMutation = useMutationQuery();
 
   const handleUpdateStatus = (orderId: string, newStatus: string) => {
+    trigger('medium');
     statusMutation.mutate(
       {
         url: `${API_URL}/api/orders/${orderId}/status`,
@@ -46,7 +51,7 @@ export const KitchenOrders = ({ restaurantId }: IProps) => {
     );
   };
 
-  if (isLoading) return <text className="kitchen-orders__loading">Загрузка кухни...</text>;
+  if (isLoading) return <KitchenOrdersSkeleton />;
 
   // Фильтруем только активные заказы (pending / cooking)
   const activeOrders = orders?.filter(o => ACTIVE_STATUSES.includes(o.status as typeof ACTIVE_STATUSES[number])) ?? [];
@@ -100,9 +105,14 @@ export const KitchenOrders = ({ restaurantId }: IProps) => {
 
         {/* Empty state — проверяем уже отфильтрованный массив */}
         {activeOrders.length === 0 && (
-          <text className="kitchen-orders__empty">На кухне пока тихо...</text>
+          <EmptyState
+            icon="🍳"
+            title="На кухне пока тихо..."
+            hint="Новые заказы появятся здесь автоматически"
+          />
         )}
       </scroll-view>
     </view>
   );
 };
+
