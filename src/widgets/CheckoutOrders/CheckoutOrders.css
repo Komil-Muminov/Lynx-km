@@ -1,71 +1,97 @@
-.checkout {
+.checkout-orders {
   display: flex;
   flex-direction: column;
+  min-height: 100%;
 }
 
-.checkout__title {
-  font-size: 18px;
-  font-weight: bold;
-  color: #1a1a1a;
-  margin-bottom: 16px;
+.checkout-orders__title {
+  font-size: 22px;
+  font-weight: 900;
+  color: #1a1a2e;
+  margin-bottom: 20px;
+  letter-spacing: -0.5px;
 }
 
-.checkout__card {
+.checkout-orders__scroll {
+  flex: 1;
+}
+
+/* Карточка-Чек */
+.checkout-orders__card {
   background-color: #ffffff;
-  border-radius: 16px;
-  padding: 16px;
-  margin-bottom: 12px;
+  border-radius: 12px 12px 0 0;
+  padding: 24px;
+  margin-bottom: 24px;
+  position: relative;
+  /* Эффект бумажного чека */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #00b894;
+}
+
+/* Зубчатый край чека (имитация через бордер) */
+.checkout-orders__card::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background-image: radial-gradient(circle at 6px 0, transparent 0, transparent 6px, #ffffff 6px);
+  background-size: 12px 6px;
+  background-repeat: repeat-x;
+}
+
+.checkout-orders__card-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-bottom: 2px dashed #eeeeee;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
 }
 
-.checkout__info {
-  display: flex;
-  flex-direction: column;
+.checkout-orders__table {
+  font-size: 20px;
+  font-weight: 900;
+  color: #1a1a2e;
 }
 
-.checkout__table {
-  font-size: 16px;
-  font-weight: bold;
-  color: #333;
+.checkout-orders__status-label {
+  font-size: 12px;
+  font-weight: 800;
+  padding: 6px 12px;
+  border-radius: 8px;
+  text-transform: uppercase;
 }
 
-.checkout__amount {
+.checkout-orders__status-label--ready {
+  background-color: rgba(52, 199, 89, 0.15);
+  color: #2e7d32;
+}
+
+.checkout-orders__status-label--cooking {
+  background-color: rgba(255, 149, 0, 0.15);
+  color: #d84315;
+}
+
+.checkout-orders__amount {
   font-size: 18px;
   font-weight: bold;
-  color: #34c759;
-  margin-top: 4px;
+  color: #666666;
+  text-align: right;
+  margin-bottom: 16px;
 }
 
-.checkout__btn {
-  background-color: #007aff;
-  padding: 10px 20px;
-  border-radius: 12px;
-}
-
-.checkout__btn-txt {
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.checkout-orders__btn-txt {
-  color: #1a1a1a;
-  font-weight: bold;
-  font-size: 16px;
-}
-
-/* Модификаторы цены */
+/* Блок модификаторов (скидки/чаевые) */
 .checkout-orders__modifiers {
   flex-direction: column;
-  gap: 12px;
-  margin: 16px 0;
-  padding: 12px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding: 16px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  border: 1px solid #eeeeee;
 }
 
 .checkout-orders__mod-group {
@@ -75,117 +101,157 @@
 }
 
 .checkout-orders__mod-label {
-  font-size: 14px;
-  color: #616161;
+  font-size: 15px;
+  font-weight: 600;
+  color: #555555;
 }
 
 .checkout-orders__mod-controls {
   flex-direction: row;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   background-color: #ffffff;
-  border-radius: 8px;
-  padding: 4px;
+  border-radius: 12px;
+  padding: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .checkout-orders__mod-btn {
-  width: 28px;
-  height: 28px;
-  background-color: #e0e0e0;
-  border-radius: 4px;
+  width: 36px;
+  height: 36px;
+  background-color: #f0f2f5;
+  border-radius: 8px;
   align-items: center;
   justify-content: center;
 }
 
 .checkout-orders__mod-btn-txt {
-  font-size: 18px;
-  font-weight: bold;
-  color: #424242;
+  font-size: 20px;
+  font-weight: 900;
+  color: #333333;
 }
 
 .checkout-orders__mod-val {
-  width: 40px;
+  width: 48px;
   text-align: center;
-  font-size: 16px;
-  font-weight: 500;
-  color: #1a1a1a;
+  font-size: 18px;
+  font-weight: 800;
+  color: #1a1a2e;
 }
 
-/* Итого */
+/* Итоговый блок с огромной суммой */
 .checkout-orders__total-bar {
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-  padding-top: 16px;
-  border-top: 1px dashed #e0e0e0;
+  align-items: flex-end;
+  margin-bottom: 24px;
+  padding-top: 20px;
+  border-top: 2px solid #dddddd;
 }
 
 .checkout-orders__total-label {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
-  color: #333;
+  color: #888888;
+  margin-bottom: 6px;
 }
 
 .checkout-orders__total-val {
-  font-size: 24px;
-  font-weight: bold;
-  color: #4caf50;
+  font-size: 38px; /* ОГРОМНАЯ СУММА */
+  font-weight: 900;
+  color: #00b894;
+  letter-spacing: -1px;
+}
+
+/* Кнопка Оплаты Premium Glass */
+.checkout-orders__actions {
+  display: flex;
+}
+
+.checkout-orders__btn {
+  padding: 20px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.checkout-orders__btn--paid {
+  background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
+  box-shadow: 0 8px 20px rgba(0, 184, 148, 0.3);
+}
+
+.checkout-orders__btn-txt {
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 /* Анимация чека */
 .checkout-orders__card--printing {
   overflow: hidden;
-  border-color: #ff9800;
+  border-color: #0984e3;
 }
 
 .checkout-orders__btn--printing {
-  background-color: #ffb74d;
-  opacity: 0.7;
+  background: #dfe6e9;
+  box-shadow: none;
+}
+
+.checkout-orders__btn--printing .checkout-orders__btn-txt {
+  color: #636e72;
 }
 
 .checkout-orders__receipt-anim {
-  /* В Lynx keyframes реализуются по-особенному, здесь делаем базовую имитацию выезжающего блока */
   position: absolute;
   top: 0;
-  left: 10%;
-  right: 10%;
-  height: 0;
-  background-color: #fff9c4;
-  border: 1px dashed #fbc02d;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.95);
   z-index: 10;
-  /* Анимация выезжающего листа */
-  animation: printReceipt 1.5s ease-out forwards;
+  align-items: center;
+  justify-content: center;
+  animation: slideUpFade 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes printReceipt {
-  0% { height: 0; opacity: 1; }
-  50% { height: 60%; opacity: 1; }
-  100% { height: 60%; opacity: 0; transform: translateY(-20px); }
+.checkout-orders__receipt-paper {
+  width: 80%;
+  height: 80%;
+  background-color: #fff;
+  border: 2px dashed #0984e3;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-.checkout__empty, .checkout__loading {
-  text-align: center;
-  color: #888;
-  padding: 24px;
+@keyframes slideUpFade {
+  0% { transform: translateY(100%); opacity: 0; }
+  20% { transform: translateY(0); opacity: 1; }
+  80% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-20px); opacity: 0; }
 }
 
 .checkout-orders__empty, .checkout-orders__loading {
   text-align: center;
-  color: #888;
-  padding: 24px;
+  color: #a4b0be;
+  padding: 40px;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .checkout__summary {
   margin-top: 20px;
-  padding: 16px;
-  background-color: #e8f5e9;
-  border-radius: 12px;
+  padding: 20px;
+  background: linear-gradient(135deg, #f1f2f6 0%, #dfe4ea 100%);
+  border-radius: 16px;
 }
 
 .checkout__summary-txt {
-  font-size: 14px;
-  color: #2e7d32;
-  font-weight: 500;
+  font-size: 16px;
+  color: #2f3542;
+  font-weight: 800;
   text-align: center;
 }

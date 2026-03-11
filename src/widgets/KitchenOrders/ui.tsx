@@ -61,54 +61,60 @@ export const KitchenOrders = ({ restaurantId }: IProps) => {
       <text className="kitchen-orders__title">Заказы на кухне</text>
 
       <scroll-view className="kitchen-orders__scroll" scroll-y>
-        {activeOrders.map((order) => (
-          <view key={order._id} className={`kitchen-orders__card kitchen-orders__card-${order.status}`}>
-            <view className="kitchen-orders__card-header">
-              <text className="kitchen-orders__table">Стол: {order.tableId}</text>
-              <text className={`kitchen-orders__status-label kitchen-orders__status-label-${order.status}`}>
-                {STATUS_LABELS[order.status]?.toUpperCase() ?? order.status}
-              </text>
-            </view>
-
-            {/* Время поступления заказа */}
-            <text className="kitchen-orders__time">
-              ⏱ {dayjs(order.createdAt).format('HH:mm')}
-            </text>
-
-            <view className="kitchen-orders__items">
-              {order.items.map((item, idx) => (
-                <text key={idx} className="kitchen-orders__item-txt">
-                  • {item.name} x {item.quantity}
-                </text>
-              ))}
-            </view>
-
-            <view className="kitchen-orders__actions">
-              {order.status === 'pending' ? (
-                <view
-                  className="kitchen-orders__btn kitchen-orders__btn-start"
-                  bindtap={() => handleUpdateStatus(order._id, 'cooking')}
-                >
-                  <text className="kitchen-orders__btn-txt">Начать готовить</text>
+        <view className="kitchen-orders__grid">
+          {activeOrders.map((order) => (
+            <view key={order._id} className={`kitchen-orders__card kitchen-orders__card-${order.status}`}>
+              <view className="kitchen-orders__card-header">
+                <view className="kitchen-orders__table-badge">
+                  <text className="kitchen-orders__table">Стол {order.tableId}</text>
                 </view>
-              ) : (
-                <view
-                  className="kitchen-orders__btn kitchen-orders__btn-ready"
-                  bindtap={() => handleUpdateStatus(order._id, 'ready')}
-                >
-                  <text className="kitchen-orders__btn-txt">Готово!</text>
+                
+                <view className="kitchen-orders__header-right">
+                  <text className={`kitchen-orders__status-label kitchen-orders__status-label-${order.status}`}>
+                    {STATUS_LABELS[order.status]?.toUpperCase() ?? order.status}
+                  </text>
+                  <text className="kitchen-orders__time">
+                    ⏱ {dayjs(order.createdAt).format('HH:mm')}
+                  </text>
                 </view>
-              )}
+              </view>
+
+              <view className="kitchen-orders__items">
+                {order.items.map((item, idx) => (
+                  <view key={idx} className="kitchen-orders__item-row">
+                    <text className="kitchen-orders__item-txt">{item.name}</text>
+                    <text className="kitchen-orders__item-qty">x{item.quantity}</text>
+                  </view>
+                ))}
+              </view>
+
+              <view className="kitchen-orders__actions">
+                {order.status === 'pending' ? (
+                  <view
+                    className="kitchen-orders__btn kitchen-orders__btn-start press-effect"
+                    bindtap={() => handleUpdateStatus(order._id, 'cooking')}
+                  >
+                    <text className="kitchen-orders__btn-txt">Начать готовить</text>
+                  </view>
+                ) : (
+                  <view
+                    className="kitchen-orders__btn kitchen-orders__btn-ready press-effect"
+                    bindtap={() => handleUpdateStatus(order._id, 'ready')}
+                  >
+                    <text className="kitchen-orders__btn-txt">Выдано!</text>
+                  </view>
+                )}
+              </view>
             </view>
-          </view>
-        ))}
+          ))}
+        </view>
 
         {/* Empty state — проверяем уже отфильтрованный массив */}
         {activeOrders.length === 0 && (
           <EmptyState
-            icon="🍳"
-            title="На кухне пока тихо..."
-            hint="Новые заказы появятся здесь автоматически"
+            icon="🔪"
+            title="Кухня отдыхает"
+            hint="Все заказы выданы, ждем новые чеки"
           />
         )}
       </scroll-view>

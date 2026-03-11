@@ -3,6 +3,7 @@ import { useGetQuery, useMutationQuery } from '@shared/api/hooks/index.js';
 import dayjs from 'dayjs';
 import type { IOrder } from '@entities/Order/index.js';
 import { useQueryClient } from '@tanstack/react-query';
+import { getEnvVar } from '@shared/config/index.js';
 import './CheckoutOrders.css';
 
 interface IProps {
@@ -42,7 +43,6 @@ export const CheckoutOrders = ({ restaurantId }: IProps) => {
       
       <scroll-view className="checkout-orders__scroll" scroll-y>
         {orders?.filter(o => o.status !== 'paid').map((order) => {
-          // Локальные стейты для каждого заказа (в идеале вынести в отдельный компонент Card, но для тестового задания оставим)
           const [discountVal, setDiscountVal] = useState<number>(0);
           const [tipsVal, setTipsVal] = useState<number>(0);
           const [isPrinting, setIsPrinting] = useState(false);
@@ -50,24 +50,24 @@ export const CheckoutOrders = ({ restaurantId }: IProps) => {
           const finalPrice = Math.max(0, order.totalPrice - (order.totalPrice * (discountVal / 100))) + tipsVal;
 
           const handlePay = () => {
-            setIsPrinting(true);
-            
-            // Имитация печати чека
-            setTimeout(() => {
-               statusMutation.mutate(
-                {
-                  url: `http://localhost:5000/api/orders/${order._id}/status`,
-                  method: 'PUT',
-                  data: { status: 'paid', discount: discountVal, tips: tipsVal }
-                },
-                {
-                  onSuccess: () => {
-                    setIsPrinting(false);
+             // Имитируем API вызов сразу, а анимацию крутим дольше для эффекта
+             statusMutation.mutate(
+              {
+                url: `${getEnvVar('API_URL')}/api/orders/${order._id}/status`,
+                method: 'PUT',
+                data: { status: 'paid', discount: discountVal, tips: tipsVal }
+              },
+              {
+                onSuccess: () => {
+                  setIsPrinting(true); // Запускаем анимацию только после успеха
+                  // Даем анимации проиграться перед тем как чек скроется
+                  setTimeout(() => {
                     queryClient.invalidateQueries({ queryKey: ['checkout-orders', restaurantId] });
-                  }
+                    setIsPrinting(false);
+                  }, 1500);
                 }
-              );
-            }, 1500); // 1.5 секунды "печатает"
+              }
+            );
           };
 
           return (
@@ -75,7 +75,7 @@ export const CheckoutOrders = ({ restaurantId }: IProps) => {
               <view className="checkout-orders__card-header">
                 <text className="checkout-orders__table">Стол: {order.tableId}</text>
                 <text className={`checkout-orders__status-label checkout-orders__status-label--${order.status}`}>
-                  {order.status === 'ready' ? 'Готов к выдаче' : 'В процессе'}
+                  {order.status === 'ready' ? 'Ждет расчёта' : 'Ещё готовится'}
                 </text>
               </view>
               
@@ -85,11 +85,11 @@ export const CheckoutOrders = ({ restaurantId }: IProps) => {
                  <view className="checkout-orders__mod-group">
                    <text className="checkout-orders__mod-label">Скидка (%)</text>
                    <view className="checkout-orders__mod-controls">
-                     <view className="checkout-orders__mod-btn" bindtap={() => setDiscountVal(prev => Math.max(0, prev - 5))}>
-                       <text className="checkout-orders__mod-btn-txt">-</text>
+                     <view className="checkout-orders__mod-btn press-effect" bindtap={() => setDiscountVal(prev => Math.max(0, prev - 5))}>
+                       <text className="checkout-orders__mod-btn-txt">−</text>
                      </view>
                      <text className="checkout-orders__mod-val">{discountVal}%</text>
-                     <view className="checkout-orders__mod-btn" bindtap={() => setDiscountVal(prev => Math.min(100, prev + 5))}>
+                     <view className="checkout-orders__mod-btn press-effect" bindtap={() => setDiscountVal(prev => Math.min(100, prev + 5))}>
                        <text className="checkout-orders__mod-btn-txt">+</text>
                      </view>
                    </view>
@@ -98,11 +98,11 @@ export const CheckoutOrders = ({ restaurantId }: IProps) => {
                  <view className="checkout-orders__mod-group">
                    <text className="checkout-orders__mod-label">Чаевые (д.)</text>
                    <view className="checkout-orders__mod-controls">
-                     <view className="checkout-orders__mod-btn" bindtap={() => setTipsVal(prev => Math.max(0, prev - 10))}>
-                       <text className="checkout-orders__mod-btn-txt">-</text>
+                     <view className="checkout-orders__mod-btn press-effect" bindtap={() => setTipsVal(prev => Math.max(0, prev - 10))}>
+                       <text className="checkout-orders__mod-btn-txt">−</text>
                      </view>
                      <text className="checkout-orders__mod-val">{tipsVal}</text>
-                     <view className="checkout-orders__mod-btn" bindtap={() => setTipsVal(prev => prev + 10)}>
+                     <view className="checkout-orders__mod-btn press-effect" bindtap={() => setTipsVal(prev => prev + 10)}>
                        <text className="checkout-orders__mod-btn-txt">+</text>
                      </view>
                    </view>
@@ -116,29 +116,35 @@ export const CheckoutOrders = ({ restaurantId }: IProps) => {
               
               <view className="checkout-orders__actions">
                 <view 
-                  className={`checkout-orders__btn checkout-orders__btn--paid ${isPrinting ? 'checkout-orders__btn--printing' : ''}`} 
+                  className={`checkout-orders__btn checkout-orders__btn--paid ${isPrinting ? 'checkout-orders__btn--printing' : 'press-effect'}`} 
                   bindtap={isPrinting ? undefined : handlePay}
                 >
                   <text className="checkout-orders__btn-txt">
-                    {isPrinting ? '🖨 Печать чека...' : 'Оплатить'}
+                    {isPrinting ? 'Печать чека...' : 'Оплатить счет'}
                   </text>
                 </view>
               </view>
 
-              {/* Псевдо-чек для анимации */}
+              {/* Улучшенная анимация псевдо-чека */}
               {isPrinting && (
                 <view className="checkout-orders__receipt-anim">
-                  <view className="checkout-orders__receipt-paper" />
+                  <view className="checkout-orders__receipt-paper">
+                    {/* Здесь в теории мини-лого ресторана и штрих-код */}
+                  </view>
                 </view>
               )}
             </view>
           );
         })}
-        {orders?.length === 0 && <text className="checkout-orders__empty">Все заказы оплачены!</text>}
+        
+        {orders?.filter(o => o.status !== 'paid').length === 0 && (
+          <text className="checkout-orders__empty">Все заказы успешно оплачены! Расслабьтесь ☕</text>
+        )}
       </scroll-view>
+      
       <view className="checkout__summary">
         <text className="checkout__summary-txt">
-          Всего оплачено сегодня: {orders?.filter(o => o.status === 'paid').length || 0}
+          Успешных оплат за сегодня: {orders?.filter(o => o.status === 'paid').length || 0}
         </text>
       </view>
     </view>

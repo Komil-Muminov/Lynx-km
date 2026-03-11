@@ -1,38 +1,47 @@
 .kitchen-orders {
   display: flex;
   flex-direction: column;
-  background: #141418;
+  background-color: transparent;
   min-height: 100%;
-  padding: 16px;
 }
 
 .kitchen-orders__title {
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 22px;
+  font-weight: 900;
   color: #ffffff;
   margin-bottom: 16px;
+  letter-spacing: -0.5px;
 }
 
 .kitchen-orders__scroll {
   flex: 1;
 }
 
-/* Карточка заказа */
-.kitchen-orders__card {
-  background: #1e1e24;
-  border-radius: 16px;
-  padding: 16px;
-  margin-bottom: 14px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+/* Kanban-style Container */
+.kitchen-orders__grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-/* Цветная полоса слева по статусу */
+/* Карточка заказа */
+.kitchen-orders__card {
+  background: #1c1c1e;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Цветная полоса слева по статусу - делаем более акцентной */
 .kitchen-orders__card-pending {
-  border-left: 5px solid var(--status-pending);
+  border-left: 6px solid #4facfe;
 }
 
 .kitchen-orders__card-cooking {
-  border-left: 5px solid var(--status-cooking);
+  border-left: 6px solid #ff9500;
 }
 
 /* Шапка карточки */
@@ -41,87 +50,129 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #2e2e38;
-  padding-bottom: 10px;
-  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+}
+
+.kitchen-orders__table-badge {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 6px 12px;
+  border-radius: 8px;
 }
 
 .kitchen-orders__table {
-  font-size: 17px;
-  font-weight: bold;
+  font-size: 18px;
+  font-weight: 900;
   color: #ffffff;
+}
+
+/* Время заказа выводим в шапку для скорости */
+.kitchen-orders__time {
+  font-size: 14px;
+  font-weight: bold;
+  color: #ff3b30; /* Красный таймер инстинктивно подгоняет */
+  margin-left: 8px;
+}
+
+.kitchen-orders__header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 /* Бейдж статуса */
 .kitchen-orders__status-label {
-  font-size: 11px;
-  font-weight: bold;
-  padding: 4px 10px;
-  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 6px 12px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
 }
 
 .kitchen-orders__status-label-pending {
-  background: var(--status-pending-bg);
-  color: var(--status-pending);
+  background: rgba(79, 172, 254, 0.2);
+  color: #4facfe;
+  border: 1px solid rgba(79, 172, 254, 0.3);
 }
 
 .kitchen-orders__status-label-cooking {
-  background: var(--status-cooking-bg);
-  color: var(--status-cooking);
-}
-
-/* Время заказа */
-.kitchen-orders__time {
-  font-size: 12px;
-  color: #666;
-  margin-bottom: 12px;
+  background: rgba(255, 149, 0, 0.2);
+  color: #ff9500;
+  border: 1px solid rgba(255, 149, 0, 0.3);
 }
 
 /* Список позиций */
 .kitchen-orders__items {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.kitchen-orders__item-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
 }
 
 .kitchen-orders__item-txt {
-  font-size: 15px;
-  color: #c8c8d0;
-  margin-bottom: 5px;
+  font-size: 18px; /* Крупный шрифт для читаемости с расстояния */
+  font-weight: 600;
+  color: #ffffff;
+  flex: 1;
 }
 
-/* Кнопки */
+.kitchen-orders__item-qty {
+  font-size: 18px;
+  font-weight: 900;
+  color: #34c759;
+  margin-left: 12px;
+}
+
+/* Кнопки - огромные хитбоксы */
 .kitchen-orders__actions {
   display: flex;
   flex-direction: row;
+  margin-top: auto;
 }
 
 .kitchen-orders__btn {
   flex: 1;
-  padding: 16px;
-  border-radius: 14px;
+  padding: 20px;
+  border-radius: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .kitchen-orders__btn-start {
-  background: #ff9500;
+  background: linear-gradient(135deg, #ff9500 0%, #ff5e3a 100%);
 }
 
 .kitchen-orders__btn-ready {
-  background: #30d158;
+  background: linear-gradient(135deg, #34c759 0%, #00b894 100%);
 }
 
 .kitchen-orders__btn-txt {
   color: #ffffff;
-  font-size: 15px;
-  font-weight: bold;
+  font-size: 18px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 /* Состояние загрузки и пустого экрана */
 .kitchen-orders__loading,
 .kitchen-orders__empty {
   text-align: center;
-  color: #555;
+  color: #888;
   padding: 40px 20px;
   font-size: 16px;
 }
