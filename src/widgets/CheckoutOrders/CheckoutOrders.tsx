@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import type { IOrder } from '@entities/Order/index.js';
 import { useQueryClient } from '@tanstack/react-query';
 import { getEnvVar } from '@shared/config/index.js';
+import { useHaptic } from '@shared/lib/hooks/index.js';
 import './style.css';
 
 interface IProps {
@@ -12,6 +13,7 @@ interface IProps {
 
 export const CheckoutOrders = ({ restaurantId }: IProps) => {
   const queryClient = useQueryClient();
+  const { trigger } = useHaptic();
   
   const { data: orders, isLoading } = useGetQuery<IOrder[]>(
     ['checkout-orders', restaurantId],
@@ -62,6 +64,7 @@ export const CheckoutOrders = ({ restaurantId }: IProps) => {
                   setIsPrinting(true); // Запускаем анимацию только после успеха
                   // Даем анимации проиграться перед тем как чек скроется
                   setTimeout(() => {
+                    trigger('success');
                     queryClient.invalidateQueries({ queryKey: ['checkout-orders', restaurantId] });
                     setIsPrinting(false);
                   }, 1500);

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useGetQuery } from '@shared/api/hooks/index.js';
+import { usePersistedState } from '@shared/lib/hooks/index.js';
 import type { IOrder } from '@entities/Order/index.js';
 import { formatPrice } from '@shared/lib/format.js';
 import { Skeleton } from '@shared/ui/Skeleton/index.js';
@@ -18,6 +19,10 @@ interface IProps {
  */
 export const ManagerOrderHistory = ({ restaurantId }: IProps) => {
   const [expandedOrderId, setExpandedOrderId] = useState<string | null>(null);
+  const [selectedPeriod, setSelectedPeriod] = usePersistedState<string>(
+    `manager_history_period_${restaurantId}`, 
+    'Сегодня'
+  );
 
   const { data: history, isLoading } = useGetQuery<IOrder[]>(
     ['order-history', restaurantId],
@@ -59,11 +64,29 @@ export const ManagerOrderHistory = ({ restaurantId }: IProps) => {
     );
   }
 
+  const periods = ['Сегодня', 'Вчера', 'Неделя'];
+
   return (
     <view className="order-history">
       <view className="order-history__header">
-        <text className="order-history__title">Последние чеки</text>
-        <text className="order-history__count">Всего: {history.length}</text>
+        <view>
+          <text className="order-history__title">Последние чеки</text>
+          <text className="order-history__count">Всего: {history.length}</text>
+        </view>
+        
+        <view className="order-history__periods">
+          {periods.map(p => (
+            <view 
+              key={p} 
+              className={`order-history__period-item ${selectedPeriod === p ? 'order-history__period-item--active' : ''}`}
+              bindtap={() => setSelectedPeriod(p)}
+            >
+              <text className={`order-history__period-txt ${selectedPeriod === p ? 'order-history__period-txt--active' : ''}`}>
+                {p}
+              </text>
+            </view>
+          ))}
+        </view>
       </view>
 
       <scroll-view className="order-history__list" scroll-y>

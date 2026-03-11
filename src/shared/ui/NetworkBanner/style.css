@@ -1,0 +1,24 @@
+.network-banner {
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: absolute; /* Поверх всего */
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+.network-banner--offline {
+  background-color: #ff3b30;
+}
+
+.network-banner--online {
+  background-color: #34c759;
+}
+
+.network-banner__text {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: bold;
+}

@@ -8,6 +8,7 @@ import { CashierHome } from '@pages/CashierHome/index.js';
 import { ManagerHome } from '@pages/ManagerHome/index.js';
 import { Header } from '@widgets/Header/index.js';
 import { _axios } from '@shared/api/_axios.js';
+import { NetworkBanner } from '@shared/ui/NetworkBanner/index.js';
 import './App.css';
 export const App = () => {
   const [role, setRole] = useState<'guest' | 'waiter' | 'chef' | 'cashier' | 'admin'>('guest');
@@ -46,6 +47,7 @@ export const App = () => {
         <ToastProvider>
           <FavoritesProvider>
             <view className={`app-container ${isDark ? 'app-container--dark' : ''}`}>
+            <NetworkBanner />
             {/* Глобальная шапка приложения */}
             {(role !== 'guest' || isGuestReady) && (
               <Header 

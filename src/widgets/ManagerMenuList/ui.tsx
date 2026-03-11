@@ -1,5 +1,6 @@
 import React, { memo, useCallback } from 'react';
 import { useGetQuery, useMutationQuery } from '@shared/api/hooks/index.js';
+import { usePersistedState } from '@shared/lib/hooks/index.js';
 import type { IMenu, IMenuItem } from '@entities/Menu/model.js';
 import { Skeleton } from '@shared/ui/Skeleton/index.js';
 import './style.css';
@@ -39,6 +40,11 @@ const ManagerMenuItem = ({ item, onToggle }: { item: IMenuItem; onToggle: (item:
 };
 
 export const ManagerMenuList = ({ restaurantId }: IManagerMenuListProps) => {
+  const [selectedCategory, setSelectedCategory] = usePersistedState<string>(
+    `manager_menu_filter_${restaurantId}`, 
+    'Все'
+  );
+
   const { data: menu, isLoading, refetch } = useGetQuery<IMenu>(
     ['menu', restaurantId],
     `/api/menu/${restaurantId}`,
@@ -78,11 +84,32 @@ export const ManagerMenuList = ({ restaurantId }: IManagerMenuListProps) => {
     );
   }
 
+  const categories = ['Все', ...new Set(menu?.items.map(i => i.category) || [])];
+  const filteredItems = selectedCategory === 'Все' 
+    ? menu?.items 
+    : menu?.items.filter(i => i.category === selectedCategory);
+
   return (
     <view className="manager-menu">
-      <text className="manager-menu__title">Управление наличием</text>
+      <view className="manager-menu__header">
+        <text className="manager-menu__title">Управление наличием</text>
+        <scroll-view className="manager-menu__filters" scroll-x>
+          {categories.map(cat => (
+            <view 
+              key={cat} 
+              className={`manager-menu__filter-item ${selectedCategory === cat ? 'manager-menu__filter-item--active' : ''}`}
+              bindtap={() => setSelectedCategory(cat)}
+            >
+              <text className={`manager-menu__filter-txt ${selectedCategory === cat ? 'manager-menu__filter-txt--active' : ''}`}>
+                {cat}
+              </text>
+            </view>
+          ))}
+        </scroll-view>
+      </view>
+
       <scroll-view className="manager-menu__list" scroll-y>
-        {menu?.items.map((item) => (
+        {filteredItems?.map((item) => (
           <ManagerMenuItem key={item._id} item={item} onToggle={handleToggle} />
         ))}
       </scroll-view>
