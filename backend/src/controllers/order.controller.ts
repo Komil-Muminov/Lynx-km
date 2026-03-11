@@ -9,20 +9,70 @@ export const createOrder = async (req: Request, res: Response) => {
   try {
     const { restaurantId, tableId, items, totalAmount } = req.body;
 
-    const newOrder = new Order({
-      restaurantId,
-      tableId,
-      items,
-      totalAmount,
-      commissionAmount: 1, // Твой 1 сомони
-      status: 'pending'
+    // Ищем черновик, чтобы превратить его в реальный заказ
+    let order = await Order.findOne({ 
+      restaurantId, 
+      tableId, 
+      status: 'draft' 
     });
 
-    await newOrder.save();
-    res.status(201).json(newOrder);
+    if (order) {
+      order.items = items;
+      order.totalAmount = totalAmount;
+      order.status = 'pending';
+      await order.save();
+    } else {
+      order = new Order({
+        restaurantId,
+        tableId,
+        items,
+        totalAmount,
+        commissionAmount: 1,
+        status: 'pending'
+      });
+      await order.save();
+    }
+
+    res.status(201).json(order);
   } catch (error) {
     console.error('Create order error:', error);
     res.status(500).json({ message: 'Ошибка при создании заказа' });
+  }
+};
+
+/**
+ * Синхронизация корзины (Гость выбирает блюда)
+ */
+export const syncCart = async (req: Request, res: Response) => {
+  try {
+    const { restaurantId, tableId, items, totalAmount } = req.body;
+
+    // Ищем существующий черновик для этого стола
+    let order = await Order.findOne({ 
+      restaurantId, 
+      tableId, 
+      status: 'draft' 
+    });
+
+    if (order) {
+      order.items = items;
+      order.totalAmount = totalAmount;
+      await order.save();
+    } else {
+      order = new Order({
+        restaurantId,
+        tableId,
+        items,
+        totalAmount,
+        status: 'draft'
+      });
+      await order.save();
+    }
+
+    res.json(order);
+  } catch (error) {
+    console.error('Sync cart error:', error);
+    res.status(500).json({ message: 'Ошибка при синхронизации корзины' });
   }
 };
 
@@ -79,7 +129,7 @@ export const getActiveOrders = async (req: Request, res: Response) => {
     const { restaurantId } = req.params;
     const orders = await Order.find({ 
       restaurantId, 
-      status: { $ne: 'paid' } 
+      status: { $in: ['draft', 'pending', 'cooking', 'ready'] } 
     }).sort({ createdAt: -1 });
     
     res.json(orders);

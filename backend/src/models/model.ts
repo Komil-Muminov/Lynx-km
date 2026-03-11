@@ -71,7 +71,7 @@ export interface IOrder extends Document {
   commissionAmount: number; // Всегда 1 сомони
   discount?: number; // Скидка в процентах (0-100)
   tips?: number; // Чаевые в абсолютном значении (сомони)
-  status: 'pending' | 'cooking' | 'ready' | 'paid' | 'cancelled';
+  status: 'draft' | 'pending' | 'cooking' | 'ready' | 'paid' | 'cancelled';
   createdAt: Date;
   updatedAt: Date;
 }
@@ -129,7 +129,7 @@ const OrderSchema = new Schema<IOrder>({
   tips: { type: Number, default: 0 },
   status: { 
     type: String, 
-    enum: ['pending', 'cooking', 'ready', 'paid', 'cancelled'], 
+    enum: ['draft', 'pending', 'cooking', 'ready', 'paid', 'cancelled'], 
     default: 'pending' 
   }
 }, { timestamps: true });

@@ -49,7 +49,7 @@ interface IProps {
 }
 
 export const CartScreen = ({ restaurantId, tableId, onBack }: IProps) => {
-  const { items, addItem, removeItem, totalPrice, totalCount } = useCart();
+  const { items, addItem, removeItem, totalPrice, totalCount, clearCart } = useCart();
   const [toastVisible, setToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState<'success' | 'error'>('success');
@@ -70,11 +70,10 @@ export const CartScreen = ({ restaurantId, tableId, onBack }: IProps) => {
       tableId,
       items: items.map(i => ({
         itemId: i.menuItem._id,
-        name: i.menuItem.name,
         quantity: i.quantity,
-        price: i.menuItem.price,
+        priceAtOrder: i.menuItem.price,
       })),
-      totalPrice,
+      totalAmount: totalPrice,
     };
 
     orderMutation.mutate(
@@ -82,21 +81,17 @@ export const CartScreen = ({ restaurantId, tableId, onBack }: IProps) => {
       {
         onSuccess: () => {
           showToast('Заказ принят! Ожидайте.', 'success');
+          clearCart(); // Очищаем локальную корзину после успеха
           setTimeout(() => {
             onBack();
           }, 2000);
         },
         onError: () => {
-          // В демо-режиме — имитируем успех
-          console.log('Демо-заказ:', orderData);
-          showToast('Заказ принят! (Демо)', 'success');
-          setTimeout(() => {
-            onBack();
-          }, 2000);
+          showToast('Ошибка при отправке заказа', 'error');
         }
       }
     );
-  }, [items, restaurantId, tableId, totalPrice, orderMutation, onBack, showToast]);
+  }, [items, restaurantId, tableId, totalPrice, orderMutation, onBack, showToast, clearCart]);
 
   const handleAdd = useCallback((item: IMenuItem) => {
     addItem(item);
