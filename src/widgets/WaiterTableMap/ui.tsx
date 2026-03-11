@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { useGetQuery } from '@shared/api/hooks/index.js';
 import type { IOrder } from '@entities/Order/model.js';
 import type { ICallMsg } from '@entities/CallStaff/model.js';
-import './WaiterTableMap.css';
+import './style.css';
 
 interface IProps {
   restaurantId: string;

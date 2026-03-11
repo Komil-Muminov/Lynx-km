@@ -2,7 +2,7 @@ import React, { memo, useCallback } from 'react';
 import { useGetQuery, useMutationQuery } from '@shared/api/hooks/index.js';
 import type { IMenu, IMenuItem } from '@entities/Menu/model.js';
 import { Skeleton } from '@shared/ui/Skeleton/index.js';
-import './ManagerMenuList.css';
+import './style.css';
 
 interface IManagerMenuListProps {
   restaurantId: string;

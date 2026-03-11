@@ -1,11 +1,10 @@
 .active-calls {
   display: flex;
   flex-direction: column;
-  background-color: #ffffff;
-  border-radius: 16px;
-  padding: 16px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  background-color: transparent; /* Делаем плавающим над картой */
+  padding: 0 16px 16px 16px;
+  margin-bottom: 8px;
+  z-index: 10;
 }
 
 .active-calls--loading {
@@ -24,66 +23,70 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
 .active-calls__title {
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 22px;
+  font-weight: 900;
   color: #1a1a1a;
   flex: 1;
 }
 
 .active-calls__badge {
-  background-color: #ff3b30;
-  border-radius: 12px;
-  padding: 2px 8px;
-  min-width: 22px;
+  background: linear-gradient(135deg, #ff3b30 0%, #ff2d55 100%);
+  border-radius: 14px;
+  padding: 4px 10px;
+  min-width: 24px;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 4px 8px rgba(255, 59, 48, 0.3);
 }
 
 .active-calls__badge-txt {
   color: #fff;
-  font-size: 12px;
-  font-weight: bold;
+  font-size: 14px;
+  font-weight: 900;
 }
 
 .active-calls__scroll {
   display: flex;
   flex-direction: row;
+  padding-bottom: 8px;
 }
 
-/* Карточка вызова */
+/* Карточка вызова - Glassmorphism & Soft UI */
 .call-card {
   display: flex;
   flex-direction: column;
-  padding: 12px;
-  border-radius: 14px;
-  margin-right: 12px;
-  min-width: 160px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  animation: slideInRight 0.4s ease-out;
+  padding: 16px;
+  border-radius: 20px;
+  margin-right: 16px;
+  min-width: 180px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), inset 0 2px 4px rgba(255, 255, 255, 0.5);
+  animation: slideInRight 0.5s ease-out;
 }
 
 .call-card--waiter {
-  background-color: #f0f7ff;
-  border-left: 4px solid #007aff;
+  background: linear-gradient(145deg, #ffffff 0%, #f0f7ff 100%);
+  border-left: 5px solid #007aff;
 }
 
 .call-card--bill {
-  background-color: #fff9f0;
-  border-left: 4px solid #ff9500;
+  background: linear-gradient(145deg, #ffffff 0%, #fff9f0 100%);
+  border-left: 5px solid #ff9500;
 }
 
 @keyframes slideInRight {
   from {
     opacity: 0;
-    transform: translateX(30px);
+    transform: translateX(40px) scale(0.95);
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateX(0) scale(1);
   }
 }
 
@@ -92,40 +95,74 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 }
 
 .call-card__table {
-  font-size: 16px;
-  font-weight: bold;
-  color: #333333;
+  font-size: 18px;
+  font-weight: 900;
+  color: #1a1a1a;
 }
 
 .call-card__time {
-  font-size: 12px;
+  font-size: 13px;
   color: #8e8e93;
+  font-weight: 600;
 }
 
 .call-card__reason {
-  font-size: 14px;
-  color: #1c1c1e;
-  margin-bottom: 10px;
-  font-weight: 500;
+  font-size: 15px;
+  color: #333333;
+  margin-bottom: 16px;
+  font-weight: 700;
 }
 
+/* Premium Button (Large Hitbox, Glow) */
 .call-card__btn {
-  background-color: #34c759;
-  padding: 6px 12px;
-  border-radius: 10px;
-  align-self: flex-start;
+  background: linear-gradient(135deg, #34c759 0%, #30b151 100%);
+  padding: 12px 16px;
+  border-radius: 14px;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3);
 }
 
 .call-card__btn-txt {
   color: #ffffff;
-  font-size: 12px;
-  font-weight: bold;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
 }
 
 .active-calls__list {
   max-height: 250px;
+}
+
+/* Тёмная тема */
+.app-container--dark .active-calls__title {
+  color: #ffffff;
+}
+
+.app-container--dark .call-card {
+  background-color: rgba(40, 40, 40, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.05);
+}
+
+.app-container--dark .call-card--waiter {
+  background: linear-gradient(145deg, #2a2a2a 0%, #1a2530 100%);
+  border-left: 5px solid #0a84ff;
+}
+
+.app-container--dark .call-card--bill {
+  background: linear-gradient(145deg, #2a2a2a 0%, #30261a 100%);
+  border-left: 5px solid #ff9f0a;
+}
+
+.app-container--dark .call-card__table {
+  color: #ffffff;
+}
+
+.app-container--dark .call-card__reason {
+  color: #dddddd;
 }

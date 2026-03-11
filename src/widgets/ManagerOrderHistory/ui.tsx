@@ -5,7 +5,7 @@ import { formatPrice } from '@shared/lib/format.js';
 import { Skeleton } from '@shared/ui/Skeleton/index.js';
 import { SwipeableItem } from '@shared/ui/SwipeableItem/index.js';
 import dayjs from 'dayjs';
-import './ManagerOrderHistory.css';
+import './style.css';
 
 interface IProps {
   restaurantId: string;

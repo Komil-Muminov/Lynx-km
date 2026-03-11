@@ -2,7 +2,7 @@ import React from 'react';
 import { useGetQuery } from '@shared/api/hooks/index.js';
 import { formatPrice } from '@shared/lib/format.js';
 import { Skeleton } from '@shared/ui/Skeleton/index.js';
-import './ManagerStats.css';
+import './style.css';
 
 interface IStats {
   todayRevenue: number;
@@ -37,8 +37,8 @@ export const ManagerStats = ({ restaurantId }: IManagerStatsProps) => {
         <view className="manager-stats__grid">
           {[1, 2, 3, 4].map((i) => (
             <view key={i} className="manager-stats__card">
-              <Skeleton width="60%" height="24px" className="manager-stats__label-skeleton" />
-              <Skeleton width="80%" height="48px" className="manager-stats__value-skeleton" />
+              <Skeleton width="60%" height="16px" className="manager-stats__label-skeleton" />
+              <Skeleton width="80%" height="32px" className="manager-stats__value-skeleton" />
             </view>
           ))}
         </view>

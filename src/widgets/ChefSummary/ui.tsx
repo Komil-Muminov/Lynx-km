@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useGetQuery } from '@shared/api/hooks/index.js';
 import type { IOrder, IOrderItem } from '@entities/Order/index.js';
-import './ChefSummary.css';
+import './style.css';
 
 interface IProps {
   restaurantId: string;

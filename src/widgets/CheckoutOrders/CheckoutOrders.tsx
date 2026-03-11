@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import type { IOrder } from '@entities/Order/index.js';
 import { useQueryClient } from '@tanstack/react-query';
 import { getEnvVar } from '@shared/config/index.js';
-import './CheckoutOrders.css';
+import './style.css';
 
 interface IProps {
   restaurantId: string;

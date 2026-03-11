@@ -7,7 +7,7 @@ import { useHaptic } from '@shared/lib/hooks/index.js';
 import { EmptyState } from '@shared/ui/EmptyState/index.js';
 import { KitchenOrdersSkeleton } from './ui/index.js';
 import type { IOrder } from '@entities/Order/index.js';
-import './KitchenOrders.css';
+import './style.css';
 
 interface IProps {
   restaurantId: string;

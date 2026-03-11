@@ -3,7 +3,7 @@ import { useGetQuery, useMutationQuery } from '@shared/api/hooks/index.js';
 import { useQueryClient } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 import type { IOrder } from '@entities/Order/index.js';
-import './NewOrders.css';
+import './style.css';
 
 interface IProps {
   restaurantId: string;
