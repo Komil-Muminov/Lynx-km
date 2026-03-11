@@ -55,21 +55,29 @@ export const OrderCheckoutCard = ({ order, restaurantId }: IOrderCheckoutCardPro
         bindtap={() => setShowDetails(true)}
       >
         <view className="checkout-card__header">
-          <view className="checkout-card__table-wrap">
-            <text className="checkout-card__table-icon">🪑</text>
-            <text className="checkout-card__table-text">Стол: {order.tableId}</text>
+          <view className="checkout-card__table-group">
+            <view className="checkout-card__table-circle">
+              <text className="checkout-card__table-id">{order.tableId}</text>
+            </view>
+            <view className="checkout-card__meta">
+              <text className="checkout-card__time">{dayjs(order.createdAt).format('HH:mm')}</text>
+              <text className="checkout-card__id">#{order._id.slice(-4)}</text>
+            </view>
           </view>
-          <view className={`checkout-card__status checkout-card__status--${order.status}`}>
-            <text className="checkout-card__status-text">
-              {order.status === 'ready' ? 'Ждет оплаты' : 
-               order.status === 'paid' ? 'Оплачено' : 'В работе'}
+          
+          <view className={`checkout-card__status-glow checkout-card__status-glow--${order.status}`}>
+            <text className="checkout-card__status-text-v3">
+              {order.status === 'ready' ? 'ГОТОВ К ОПЛАТЕ' : 
+               order.status === 'paid' ? 'ОПЛАЧЕНО' : 'ГОТОВИТСЯ'}
             </text>
           </view>
         </view>
 
-        <view className="checkout-card__items-summary">
-          <text className="checkout-card__items-label">Сумма заказа:</text>
-          <text className="checkout-card__items-price">{order.totalPrice} д.</text>
+        <view className="checkout-card__content">
+          <view className="checkout-card__row">
+            <text className="checkout-card__label">Заказ:</text>
+            <text className="checkout-card__value">{order.totalPrice} д.</text>
+          </view>
         </view>
 
         {order.status !== 'paid' && (
