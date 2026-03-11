@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { KitchenOrders } from '@widgets/KitchenOrders/index.js';
 import { ChefSummary } from '@widgets/ChefSummary/index.js';
+import { ErrorBoundary } from '@shared/ui/ErrorBoundary/index.js';
 import './style.css';
 
 export const ChefHome = () => {
@@ -29,10 +30,12 @@ export const ChefHome = () => {
       </view>
       
       <view className="chef-page__content">
-        {activeTab === 'orders' 
-          ? <KitchenOrders restaurantId={restaurantId} />
-          : <ChefSummary restaurantId={restaurantId} />
-        }
+        <ErrorBoundary title="Ошибка загрузки заказов кухни">
+          {activeTab === 'orders' 
+            ? <KitchenOrders restaurantId={restaurantId} />
+            : <ChefSummary restaurantId={restaurantId} />
+          }
+        </ErrorBoundary>
       </view>
       
       <view className="chef-page__footer">

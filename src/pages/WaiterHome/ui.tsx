@@ -2,6 +2,7 @@ import React from 'react';
 import { ActiveCalls } from '@widgets/ActiveCalls/index.js';
 import { NewOrders } from '@widgets/NewOrders/index.js';
 import { WaiterTableMap } from '@widgets/WaiterTableMap/index.js';
+import { ErrorBoundary } from '@shared/ui/ErrorBoundary/index.js';
 import './style.css';
 
 export const WaiterHome = () => {
@@ -16,9 +17,15 @@ export const WaiterHome = () => {
       </view>
       
       <scroll-view className="waiter-page__content" scroll-y>
-        <WaiterTableMap restaurantId={restaurantId} />
-        <ActiveCalls restaurantId={restaurantId} />
-        <NewOrders restaurantId={restaurantId} />
+        <ErrorBoundary title="Ошибка карты столов">
+          <WaiterTableMap restaurantId={restaurantId} />
+        </ErrorBoundary>
+        <ErrorBoundary title="Ошибка вызовов">
+          <ActiveCalls restaurantId={restaurantId} />
+        </ErrorBoundary>
+        <ErrorBoundary title="Ошибка новых заказов">
+          <NewOrders restaurantId={restaurantId} />
+        </ErrorBoundary>
       </scroll-view>
       
       <view className="waiter-page__footer">

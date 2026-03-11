@@ -1,5 +1,6 @@
 import React from 'react';
 import { CheckoutOrders } from '@widgets/CheckoutOrders/index.js';
+import { ErrorBoundary } from '@shared/ui/ErrorBoundary/index.js';
 import './style.css';
 
 export const CashierHome = () => {
@@ -13,7 +14,9 @@ export const CashierHome = () => {
       </view>
       
       <view className="cashier-page__content">
-        <CheckoutOrders restaurantId={restaurantId} />
+        <ErrorBoundary title="Ошибка загрузки терминала кассира">
+          <CheckoutOrders restaurantId={restaurantId} />
+        </ErrorBoundary>
       </view>
       
       <view className="cashier-page__footer">

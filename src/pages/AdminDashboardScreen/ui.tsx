@@ -4,6 +4,7 @@ import { useGetQuery } from '@shared/api/hooks/index.js';
 import { formatPrice } from '@shared/lib/format.js';
 import { Skeleton } from '@shared/ui/Skeleton/index.js';
 import { Card } from '@shared/ui/Card/index.js';
+import { ErrorBoundary } from '@shared/ui/ErrorBoundary/index.js';
 import './style.css';
 
 export const AdminDashboardScreen = ({ restaurantId, onBack }: IAdminDashboardScreenProps) => {
@@ -45,28 +46,30 @@ export const AdminDashboardScreen = ({ restaurantId, onBack }: IAdminDashboardSc
           <text className="dashboard__error-text">Не удалось загрузить аналитику. Попробуйте позже.</text>
         </view>
       ) : data ? (
-        <scroll-view className="dashboard__content" scroll-y>
-          <Card className="dashboard__item">
-            <text className="dashboard__card-title">Общая выручка</text>
-            <text className="dashboard__card-value dashboard__card-value--green">
-              {formatPrice(data.revenue)}
-            </text>
-          </Card>
-          <Card className="dashboard__item">
-            <text className="dashboard__card-title">Количество заказов</text>
-            <text className="dashboard__card-value">{data.totalOrders}</text>
-          </Card>
-          <Card className="dashboard__item">
-            <text className="dashboard__card-title">Сумма комиссии системы</text>
-            <text className="dashboard__card-value dashboard__card-value--green">
-              {formatPrice(data.commission)}
-            </text>
-          </Card>
-          <Card className="dashboard__item">
-            <text className="dashboard__card-title">Сумма чаевых</text>
-            <text className="dashboard__card-value">{formatPrice(data.tips)}</text>
-          </Card>
-        </scroll-view>
+        <ErrorBoundary title="Ошибка загрузки аналитики">
+          <scroll-view className="dashboard__content" scroll-y>
+            <Card className="dashboard__item">
+              <text className="dashboard__card-title">Общая выручка</text>
+              <text className="dashboard__card-value dashboard__card-value--green">
+                {formatPrice(data.revenue)}
+              </text>
+            </Card>
+            <Card className="dashboard__item">
+              <text className="dashboard__card-title">Количество заказов</text>
+              <text className="dashboard__card-value">{data.totalOrders}</text>
+            </Card>
+            <Card className="dashboard__item">
+              <text className="dashboard__card-title">Сумма комиссии системы</text>
+              <text className="dashboard__card-value dashboard__card-value--green">
+                {formatPrice(data.commission)}
+              </text>
+            </Card>
+            <Card className="dashboard__item">
+              <text className="dashboard__card-title">Сумма чаевых</text>
+              <text className="dashboard__card-value">{formatPrice(data.tips)}</text>
+            </Card>
+          </scroll-view>
+        </ErrorBoundary>
       ) : null}
     </view>
   );
