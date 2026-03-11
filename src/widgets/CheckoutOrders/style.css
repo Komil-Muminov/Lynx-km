@@ -1,255 +1,274 @@
 .checkout-orders {
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
+  flex: 1;
+  padding: 16px;
 }
 
-.checkout-orders__title {
-  font-size: 22px;
-  font-weight: 900;
-  color: #1a1a2e;
+.checkout-orders__stats {
+  flex-direction: row;
+  gap: 12px;
   margin-bottom: 20px;
-  letter-spacing: -0.5px;
+}
+
+.checkout-orders__stat-box {
+  flex: 1;
+  padding: 16px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.checkout-orders__stat-val {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1a1a1a;
+}
+
+.checkout-orders__stat-label {
+  font-size: 11px;
+  color: #888;
+  font-weight: 500;
+  margin-top: 2px;
 }
 
 .checkout-orders__scroll {
   flex: 1;
 }
 
-/* Карточка-Чек */
-.checkout-orders__card {
+.checkout-orders__list {
+  gap: 16px;
+  padding-bottom: 40px;
+}
+
+/* --- ORDER CHECKOUT CARD --- */
+.checkout-card {
   background-color: #ffffff;
-  border-radius: 12px 12px 0 0;
-  padding: 24px;
-  margin-bottom: 24px;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
   position: relative;
-  /* Эффект бумажного чека */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  border-left: 4px solid #00b894;
+  overflow: hidden;
+  margin-bottom: 16px;
 }
 
-/* Зубчатый край чека (имитация через бордер) */
-.checkout-orders__card::after {
-  content: "";
-  position: absolute;
-  bottom: -6px;
-  left: 0;
-  width: 100%;
-  height: 6px;
-  background-image: radial-gradient(circle at 6px 0, transparent 0, transparent 6px, #ffffff 6px);
-  background-size: 12px 6px;
-  background-repeat: repeat-x;
+.checkout-card--printing {
+  opacity: 0.8;
 }
 
-.checkout-orders__card-header {
-  display: flex;
+.checkout-card__header {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px dashed #eeeeee;
-  padding-bottom: 16px;
   margin-bottom: 16px;
 }
 
-.checkout-orders__table {
-  font-size: 20px;
-  font-weight: 900;
-  color: #1a1a2e;
+.checkout-card__table-wrap {
+  flex-direction: row;
+  align-items: center;
 }
 
-.checkout-orders__status-label {
-  font-size: 12px;
-  font-weight: 800;
-  padding: 6px 12px;
+.checkout-card__table-icon {
+  font-size: 16px;
+  margin-right: 6px;
+}
+
+.checkout-card__table-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.checkout-card__status {
+  padding: 4px 10px;
   border-radius: 8px;
 }
 
-.checkout-orders__status-label--ready {
-  background-color: rgba(52, 199, 89, 0.15);
-  color: #2e7d32;
+.checkout-card__status--ready { background-color: #fff3e0; }
+.checkout-card__status--pending { background-color: #fce4ec; }
+
+.checkout-card__status-text {
+  font-size: 11px;
+  font-weight: 700;
+  color: #e65100;
 }
 
-.checkout-orders__status-label--cooking {
-  background-color: rgba(255, 149, 0, 0.15);
-  color: #d84315;
+.checkout-card__status-pending .checkout-card__status-text {
+  color: #c2185b;
 }
 
-.checkout-orders__amount {
-  font-size: 18px;
-  font-weight: bold;
-  color: #666666;
-  text-align: right;
-  margin-bottom: 16px;
+.checkout-card__items-summary {
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px dashed #f0f0f0;
 }
 
-/* Блок модификаторов (скидки/чаевые) */
-.checkout-orders__modifiers {
-  flex-direction: column;
-  gap: 16px;
-  margin-bottom: 20px;
-  padding: 16px;
+.checkout-card__items-label {
+  font-size: 14px;
+  color: #888;
+}
+
+.checkout-card__items-price {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.checkout-card__modifiers {
+  margin: 16px 0;
+  gap: 12px;
+}
+
+.checkout-card__mod-item {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.checkout-card__mod-title {
+  font-size: 13px;
+  color: #666;
+}
+
+.checkout-card__mod-selector {
+  flex-direction: row;
+  align-items: center;
   background-color: #f8f9fa;
   border-radius: 12px;
-  border: 1px solid #eeeeee;
+  padding: 4px;
 }
 
-.checkout-orders__mod-group {
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.checkout-orders__mod-label {
-  font-size: 15px;
-  font-weight: 600;
-  color: #555555;
-}
-
-.checkout-orders__mod-controls {
-  flex-direction: row;
-  align-items: center;
-  gap: 16px;
+.checkout-card__mod-btn {
+  width: 28px;
+  height: 28px;
   background-color: #ffffff;
-  border-radius: 12px;
-  padding: 6px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-.checkout-orders__mod-btn {
-  width: 36px;
-  height: 36px;
-  background-color: #f0f2f5;
   border-radius: 8px;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.checkout-orders__mod-btn-txt {
-  font-size: 20px;
-  font-weight: 900;
-  color: #333333;
+.checkout-card__mod-btn-icon {
+  font-size: 16px;
+  color: #1a1a1a;
+  font-weight: 700;
 }
 
-.checkout-orders__mod-val {
-  width: 48px;
-  text-align: center;
-  font-size: 18px;
-  font-weight: 800;
-  color: #1a1a2e;
+.checkout-card__mod-value {
+  padding: 0 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
 }
 
-/* Итоговый блок с огромной суммой */
-.checkout-orders__total-bar {
+.checkout-card__total {
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 24px;
-  padding-top: 20px;
-  border-top: 2px solid #dddddd;
+  align-items: center;
+  margin-top: 8px;
+  padding: 16px 0;
+  border-top: 2px solid #f8f9fa;
 }
 
-.checkout-orders__total-label {
-  font-size: 18px;
-  font-weight: 600;
-  color: #888888;
-  margin-bottom: 6px;
+.checkout-card__total-label {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a1a;
 }
 
-.checkout-orders__total-val {
-  font-size: 38px; /* ОГРОМНАЯ СУММА */
+.checkout-card__total-amount {
+  font-size: 24px;
   font-weight: 900;
-  color: #00b894;
-  letter-spacing: -1px;
+  color: #007aff;
 }
 
-/* Кнопка Оплаты Premium Glass */
-.checkout-orders__actions {
-  display: flex;
-}
-
-.checkout-orders__btn {
-  padding: 20px;
-  border-radius: 16px;
-  display: flex;
+.checkout-card__pay-btn {
+  height: 52px;
+  background-color: #007aff;
+  border-radius: 14px;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  margin-top: 12px;
 }
 
-.checkout-orders__btn--paid {
-  background: linear-gradient(135deg, #00b894 0%, #00cec9 100%);
-  box-shadow: 0 8px 20px rgba(0, 184, 148, 0.3);
+.checkout-card__pay-btn--printing {
+  background-color: #e0e0e0;
 }
 
-.checkout-orders__btn-txt {
+.checkout-card__pay-text {
   color: #ffffff;
-  font-weight: 900;
-  font-size: 18px;
-  letter-spacing: 1px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.checkout-card__pay-btn--printing .checkout-card__pay-text {
+  color: #888;
 }
 
 /* Анимация чека */
-.checkout-orders__card--printing {
-  overflow: hidden;
-  border-color: #0984e3;
-}
-
-.checkout-orders__btn--printing {
-  background: #dfe6e9;
-  box-shadow: none;
-}
-
-.checkout-orders__btn--printing .checkout-orders__btn-txt {
-  color: #636e72;
-}
-
-.checkout-orders__receipt-anim {
+.checkout-card__receipt-paper {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.95);
-  z-index: 10;
+  top: -60px;
+  left: 20px;
+  right: 20px;
+  height: 80px;
+  background-color: #fdfdfd;
+  border: 1px solid #eee;
+  border-bottom: 2px dashed #ddd;
+  padding: 12px;
+  animation: receiptSlide 2s ease-in-out;
+  z-index: 20;
+}
+
+.checkout-card__receipt-line {
+  height: 4px;
+  background-color: #eee;
+  margin-bottom: 6px;
+  border-radius: 2px;
+}
+
+.checkout-card__receipt-line--short {
+  width: 60%;
+}
+
+@keyframes receiptSlide {
+  0% { transform: translateY(0); opacity: 0; }
+  20% { opacity: 1; }
+  50% { transform: translateY(100px); }
+  80% { opacity: 1; }
+  100% { transform: translateY(120px); opacity: 0; }
+}
+
+.checkout-orders__empty {
+  flex: 1;
+  padding: 60px 40px;
   align-items: center;
   justify-content: center;
-  animation: slideUpFade 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.checkout-orders__receipt-paper {
-  width: 80%;
-  height: 80%;
-  background-color: #fff;
-  border: 2px dashed #0984e3;
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+.checkout-orders__empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
 }
 
-@keyframes slideUpFade {
-  0% { transform: translateY(100%); opacity: 0; }
-  20% { transform: translateY(0); opacity: 1; }
-  80% { transform: translateY(0); opacity: 1; }
-  100% { transform: translateY(-20px); opacity: 0; }
+.checkout-orders__empty-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
 }
 
-.checkout-orders__empty, .checkout-orders__loading {
-  text-align: center;
-  color: #a4b0be;
+.checkout-orders__empty-sub {
+  font-size: 14px;
+  color: #888;
+  margin-top: 4px;
+}
+
+.checkout-orders__loading {
   padding: 40px;
-  font-size: 18px;
-  font-weight: 600;
+  align-items: center;
 }
 
-.checkout__summary {
-  margin-top: 20px;
-  padding: 20px;
-  background: linear-gradient(135deg, #f1f2f6 0%, #dfe4ea 100%);
-  border-radius: 16px;
-}
-
-.checkout__summary-txt {
-  font-size: 16px;
-  color: #2f3542;
-  font-weight: 800;
-  text-align: center;
+.checkout-orders__loading-text {
+  color: #888;
+  font-size: 14px;
 }

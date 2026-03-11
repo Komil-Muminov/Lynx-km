@@ -8,41 +8,75 @@
 
 .cashier-page__header {
   padding: 24px 20px 20px;
-  /* Премиальный изумрудный градиент для денежных операций */
-  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-  border-radius: 0 0 32px 32px;
-  box-shadow: 0 10px 25px rgba(17, 153, 142, 0.25);
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 20px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.cashier-page__header-left {
+  flex-direction: column;
 }
 
 .cashier-page__title {
-  font-size: 24px;
-  font-weight: 900;
-  color: #ffffff;
-  letter-spacing: -0.5px;
+  font-size: 22px;
+  font-weight: 800;
+  color: #1a1a1a;
 }
 
 .cashier-page__subtitle {
-  font-size: 14px;
+  font-size: 13px;
+  color: #888;
+  margin-top: 2px;
+}
+
+.cashier-page__header-right {
+  align-items: flex-end;
+}
+
+.cashier-page__shift-badge {
+  padding: 4px 10px;
+  background-color: #e6f7ed;
+  border-radius: 8px;
+  margin-bottom: 4px;
+}
+
+.cashier-page__shift-text {
+  font-size: 11px;
+  color: #2ea44f;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
-  margin-top: 4px;
+}
+
+.cashier-page__time {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
 }
 
 .cashier-page__content {
   flex: 1;
-  padding: 20px;
+  background-color: #f8f9fa;
 }
 
 .cashier-page__footer {
-  padding: 16px 20px 30px;
-  background-color: rgba(255, 255, 255, 0.95);
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  padding: 12px 20px;
+  background-color: #ffffff;
+  border-top: 1px solid #f0f0f0;
+}
+
+.cashier-page__status-indicator {
+  width: 8px;
+  height: 8px;
+  background-color: #2ea44f;
+  border-radius: 4px;
+  margin-right: 8px;
 }
 
 .cashier-page__power {
-  color: #00b894;
   font-size: 13px;
   font-weight: 800;
   letter-spacing: 1.5px;

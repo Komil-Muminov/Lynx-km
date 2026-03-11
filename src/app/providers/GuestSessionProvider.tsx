@@ -119,26 +119,48 @@ export const GuestSessionProvider = ({ children, onReady }: IProps) => {
   if (!session) {
     return (
       <view className="qr-scan">
-        <view className="qr-scan__content">
-          <text className="qr-scan__title">Добро пожаловать! 👋</text>
-          <text className="qr-scan__sub">Отсканируйте QR-код на столике</text>
+        <view className="qr-scan__bg">
+          <view className="qr-scan__circle qr-scan__circle--1" />
+          <view className="qr-scan__circle qr-scan__circle--2" />
+        </view>
 
-          {/* Иллюстрация сканера */}
-          <view className="qr-scan__frame">
-            <view className="qr-scan__corner qr-scan__corner--tl" />
-            <view className="qr-scan__corner qr-scan__corner--tr" />
-            <view className="qr-scan__corner qr-scan__corner--bl" />
-            <view className="qr-scan__corner qr-scan__corner--br" />
-            <text className="qr-scan__icon">📷</text>
-            <text className="qr-scan__hint">Наведите камеру на QR</text>
+        <view className="qr-scan__content">
+          <view className="qr-scan__header">
+            <text className="qr-scan__title">Добро пожаловать</text>
+            <text className="qr-scan__sub">Пожалуйста, отсканируйте QR на столике</text>
           </view>
 
-          {/* Кнопка пропустить — только для тестирования */}
-          {ENABLE_DEMO_MODE && (
-            <view className="qr-scan__skip" bindtap={() => setSession(DEMO_SESSION)}>
-              <text className="qr-scan__skip-text">Пропустить (демо)</text>
+          {/* Иллюстрация сканера */}
+          <view className="qr-scan__frame-container">
+            <view className="qr-scan__frame">
+              <view className="qr-scan__corner qr-scan__corner--tl" />
+              <view className="qr-scan__corner qr-scan__corner--tr" />
+              <view className="qr-scan__corner qr-scan__corner--bl" />
+              <view className="qr-scan__corner qr-scan__corner--br" />
+              
+              {/* Анимированный луч */}
+              <view className="qr-scan__beam" />
+              
+              <image 
+                src="https://img.icons8.com/ios/452/qr-code.png" 
+                className="qr-scan__icon-img"
+              />
             </view>
-          )}
+            <text className="qr-scan__hint">Наведите камеру на код</text>
+          </view>
+
+          <view className="qr-scan__footer">
+            {/* Кнопка пропустить — только для тестирования */}
+            {ENABLE_DEMO_MODE && (
+              <view className="qr-scan__skip press-effect" bindtap={() => setSession(DEMO_SESSION)}>
+                <text className="qr-scan__skip-text">Войти в демо-режим</text>
+              </view>
+            )}
+            
+            <view className="qr-scan__info">
+              <text className="qr-scan__info-text">После сканирования вы сможете сделать заказ и вызвать официанта</text>
+            </view>
+          </view>
         </view>
       </view>
     );

@@ -70,83 +70,162 @@
   50% { opacity: 1; transform: scale(1.2); }
 }
 
-/* Экран сканирования QR */
+/* --- QR SCAN SCREEN --- */
 .qr-scan {
-  display: flex;
   flex: 1;
-  height: 100vh;
-  background-color: #1a1a1a;
-  align-items: center;
-  justify-content: center;
+  background-color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.qr-scan__bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.qr-scan__circle {
+  position: absolute;
+  border-radius: 500px;
+  background-color: #f0f7ff;
+}
+
+.qr-scan__circle--1 {
+  width: 400px;
+  height: 400px;
+  top: -100px;
+  right: -100px;
+}
+
+.qr-scan__circle--2 {
+  width: 300px;
+  height: 300px;
+  bottom: -50px;
+  left: -50px;
+  background-color: #fff8f0;
 }
 
 .qr-scan__content {
-  display: flex;
-  flex-direction: column;
+  flex: 1;
+  padding: 40px 24px;
+  justify-content: space-between;
   align-items: center;
-  width: 100%;
+  z-index: 10;
+}
+
+.qr-scan__header {
+  align-items: center;
+  margin-top: 20px;
 }
 
 .qr-scan__title {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 800;
-  color: #fff;
+  color: #1a1a1a;
   margin-bottom: 8px;
 }
 
 .qr-scan__sub {
   font-size: 16px;
-  color: #888;
-  margin-bottom: 40px;
+  color: #666;
+  text-align: center;
+  line-height: 22px;
+}
+
+.qr-scan__frame-container {
+  align-items: center;
+  margin: 40px 0;
 }
 
 .qr-scan__frame {
   width: 260px;
   height: 260px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 24px;
   position: relative;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  background-color: rgba(255, 255, 255, 0.03);
-  margin-bottom: 60px;
+  align-items: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
 }
 
 .qr-scan__corner {
   position: absolute;
   width: 30px;
   height: 30px;
-  border-style: solid;
-  border-color: #ff5722;
+  border-color: #007aff;
+  border-width: 4px;
 }
 
-.qr-scan__corner--tl { top: 0; left: 0; border-width: 4px 0 0 4px; }
-.qr-scan__corner--tr { top: 0; right: 0; border-width: 4px 4px 0 0; }
-.qr-scan__corner--bl { bottom: 0; left: 0; border-width: 0 0 4px 4px; }
-.qr-scan__corner--br { bottom: 0; right: 0; border-width: 0 4px 4px 0; }
+.qr-scan__corner--tl { top: 0; left: 0; border-right-width: 0; border-bottom-width: 0; border-top-left-radius: 24px; }
+.qr-scan__corner--tr { top: 0; right: 0; border-left-width: 0; border-bottom-width: 0; border-top-right-radius: 24px; }
+.qr-scan__corner--bl { bottom: 0; left: 0; border-right-width: 0; border-top-width: 0; border-bottom-left-radius: 24px; }
+.qr-scan__corner--br { bottom: 0; right: 0; border-left-width: 0; border-top-width: 0; border-bottom-right-radius: 24px; }
 
-.qr-scan__icon {
-  font-size: 80px;
-  opacity: 0.2;
+.qr-scan__icon-img {
+  width: 120px;
+  height: 120px;
+  opacity: 0.1;
+}
+
+.qr-scan__beam {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  height: 4px;
+  background-image: linear-gradient(to right, transparent, #007aff, transparent);
+  box-shadow: 0 0 15px #007aff;
+  animation: scanMove 3s infinite ease-in-out;
+  border-radius: 2px;
+}
+
+@keyframes scanMove {
+  0% { top: 20px; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 236px; opacity: 0; }
 }
 
 .qr-scan__hint {
-  position: absolute;
-  bottom: -40px;
+  margin-top: 20px;
   font-size: 14px;
-  color: #ff5722;
-  font-weight: 600;
+  color: #888;
+  font-weight: 500;
+}
+
+.qr-scan__footer {
+  width: 100%;
+  align-items: center;
 }
 
 .qr-scan__skip {
-  padding: 12px 24px;
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
+  width: 100%;
+  height: 56px;
+  background-color: #1a1a1a;
+  border-radius: 16px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 24px;
 }
 
 .qr-scan__skip-text {
-  color: #888;
-  font-size: 14px;
-  font-weight: 500;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.qr-scan__info {
+  padding: 0 20px;
+}
+
+.qr-scan__info-text {
+  font-size: 12px;
+  color: #999;
+  text-align: center;
+  line-height: 16px;
 }
 
 .session-container {
