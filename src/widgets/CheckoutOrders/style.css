@@ -11,24 +11,28 @@
 
 .checkout-orders__stat-box {
   flex: 1;
-  padding: 16px;
+  padding: 20px;
   background-color: #ffffff;
-  border-radius: 16px;
+  border-radius: 20px;
   align-items: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05); /* Глубокая мягкая тень */
+  border: 1px solid rgba(0, 0, 0, 0.03);
 }
 
 .checkout-orders__stat-val {
-  font-size: 20px;
-  font-weight: 800;
+  font-size: 32px; /* Увеличил размер для акцента */
+  font-weight: 950;
   color: #1a1a1a;
+  letter-spacing: -1.5px;
 }
 
 .checkout-orders__stat-label {
-  font-size: 11px;
-  color: #888;
-  font-weight: 500;
-  margin-top: 2px;
+  font-size: 12px;
+  color: #8e8e93;
+  font-weight: 600;
+  text-transform: uppercase; /* Строгий стиль */
+  letter-spacing: 0.5px;
+  margin-top: 4px;
 }
 
 .checkout-orders__scroll {
@@ -43,12 +47,13 @@
 /* --- ORDER CHECKOUT CARD --- */
 .checkout-card {
   background-color: #ffffff;
-  border-radius: 20px;
-  padding: 20px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
   position: relative;
   overflow: hidden;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.03);
 }
 
 .checkout-card--printing {
@@ -177,18 +182,20 @@
 }
 
 .checkout-card__total-amount {
-  font-size: 24px;
-  font-weight: 900;
+  font-size: 36px; /* Максимальный акцент на сумме */
+  font-weight: 950;
   color: #007aff;
+  letter-spacing: -2px;
 }
 
 .checkout-card__pay-btn {
-  height: 52px;
-  background-color: #007aff;
-  border-radius: 14px;
+  height: 68px;
+  background: linear-gradient(135deg, #007aff 0%, #004596 100%); /* Глубокий градиент */
+  border-radius: 22px;
   justify-content: center;
   align-items: center;
-  margin-top: 12px;
+  margin-top: 18px;
+  box-shadow: 0 15px 30px rgba(0, 122, 255, 0.35); /* Светящаяся кнопка */
 }
 
 .checkout-card__pay-btn--printing {
