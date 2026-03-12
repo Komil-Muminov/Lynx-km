@@ -41,7 +41,46 @@
 }
 
 .kitchen-orders__card-cooking {
-  border-left: 6px solid #ff9500;
+  border-left: 6px solid #6c5ce7;
+}
+
+/* Состояния срочности */
+.kitchen-orders__card--warning {
+  border-right: 4px solid #fdcb6e;
+  background-color: rgba(253, 203, 110, 0.05);
+}
+
+.kitchen-orders__card--critical {
+  border-right: 4px solid #ff7675;
+  background-color: rgba(255, 118, 117, 0.1);
+  animation: pulseCritical 2s infinite;
+}
+
+@keyframes pulseCritical {
+  0% { box-shadow: 0 4px 15px rgba(255, 118, 117, 0.2); }
+  50% { box-shadow: 0 4px 25px rgba(255, 118, 117, 0.4); }
+  100% { box-shadow: 0 4px 15px rgba(255, 118, 117, 0.2); }
+}
+
+.kitchen-orders__timer-badge {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 4px 8px;
+  border-radius: 8px;
+  margin-right: 8px;
+}
+
+.kitchen-orders__elapsed {
+  font-size: 13px;
+  font-weight: 800;
+  color: #2d3436;
+}
+
+.kitchen-orders__card--critical .kitchen-orders__elapsed {
+  color: #ff7675;
+}
+
+.kitchen-orders__card--warning .kitchen-orders__elapsed {
+  color: #e17055;
 }
 
 /* Шапка карточки */

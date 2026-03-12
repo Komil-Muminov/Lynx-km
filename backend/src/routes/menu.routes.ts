@@ -25,7 +25,7 @@ router.post(
 router.patch(
   '/:restaurantId/items/:itemId/availability',
   protect,
-  authorize(EUserRole.SUPER_ADMIN, EUserRole.ADMIN),
+  authorize(EUserRole.SUPER_ADMIN, EUserRole.ADMIN, EUserRole.CHEF),
   menuController.toggleItemAvailability
 );
 

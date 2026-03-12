@@ -24,6 +24,12 @@ const STATUS_LABELS: Record<string, string> = {
 
 const API_URL = getEnvVar('API_URL');
 
+// Пороговые значения времени (в минутах)
+const TIME_THRESHOLDS = {
+  WARNING: 10,
+  CRITICAL: 20
+};
+
 export const KitchenOrders = ({ restaurantId }: IProps) => {
   const queryClient = useQueryClient();
   const { trigger } = useHaptic();
@@ -34,6 +40,13 @@ export const KitchenOrders = ({ restaurantId }: IProps) => {
   );
 
   const statusMutation = useMutationQuery();
+
+  const [now, setNow] = React.useState(dayjs());
+
+  React.useEffect(() => {
+    const timer = setInterval(() => setNow(dayjs()), 60000); // Обновляем каждую минуту
+    return () => clearInterval(timer);
+  }, []);
 
   const handleUpdateStatus = (orderId: string, newStatus: string) => {
     trigger('medium');
@@ -51,6 +64,19 @@ export const KitchenOrders = ({ restaurantId }: IProps) => {
     );
   };
 
+  const getUrgencyClass = (createdAt: any) => {
+    const minutes = now.diff(dayjs(createdAt), 'minute');
+    if (minutes >= TIME_THRESHOLDS.CRITICAL) return 'kitchen-orders__card--critical';
+    if (minutes >= TIME_THRESHOLDS.WARNING) return 'kitchen-orders__card--warning';
+    return 'kitchen-orders__card--normal';
+  };
+
+  const getElapsedTime = (createdAt: any) => {
+    const minutes = now.diff(dayjs(createdAt), 'minute');
+    if (minutes < 1) return 'Только что';
+    return `${minutes} мин`;
+  };
+
   if (isLoading) return <KitchenOrdersSkeleton />;
 
   // Фильтруем только активные заказы (pending / cooking)
@@ -63,18 +89,18 @@ export const KitchenOrders = ({ restaurantId }: IProps) => {
       <scroll-view className="kitchen-orders__scroll" scroll-y>
         <view className="kitchen-orders__grid">
           {activeOrders.map((order) => (
-            <view key={order._id} className={`kitchen-orders__card kitchen-orders__card-${order.status}`}>
+            <view key={order._id} className={`kitchen-orders__card kitchen-orders__card-${order.status} ${getUrgencyClass(order.createdAt)}`}>
               <view className="kitchen-orders__card-header">
                 <view className="kitchen-orders__table-badge">
                   <text className="kitchen-orders__table">Стол {order.tableId}</text>
                 </view>
                 
                 <view className="kitchen-orders__header-right">
+                  <view className="kitchen-orders__timer-badge">
+                    <text className="kitchen-orders__elapsed">{getElapsedTime(order.createdAt)}</text>
+                  </view>
                   <text className={`kitchen-orders__status-label kitchen-orders__status-label-${order.status}`}>
                     {STATUS_LABELS[order.status]?.toUpperCase() ?? order.status}
-                  </text>
-                  <text className="kitchen-orders__time">
-                    ⏱ {dayjs(order.createdAt).format('HH:mm')}
                   </text>
                 </view>
               </view>

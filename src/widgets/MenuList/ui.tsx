@@ -16,6 +16,27 @@ interface IProps {
   restaurantId: string;
 }
 
+const CATEGORY_MAP: Record<string, string> = {
+  'Завтраки': '🍳',
+  'Обеды': '🍱',
+  'Ужины': '🍝',
+  'Перекус': '🥪',
+  'Сладкое': '🍰',
+  'Традиционное': '🥘',
+  'Все': '🍽',
+  '❤️ Любимое': '❤️'
+};
+
+const DEFAULT_CATEGORIES = ['Все', 'Завтраки', 'Обеды', 'Ужины', 'Перекус', 'Сладкое', 'Традиционное'];
+
+const MATCH_MAP: Record<string, string> = {
+  'Завтраки': 'Сладкое',
+  'Обеды': 'Перекус',
+  'Ужины': 'Традиционное',
+  'Перекус': 'Сладкое',
+  'Традиционное': 'Сладкое',
+};
+
 export const MenuList = ({ restaurantId }: IProps) => {
   const { items: cartItems, addItem, removeItem } = useCart();
   const { isFavorite } = useFavorites();
@@ -25,6 +46,7 @@ export const MenuList = ({ restaurantId }: IProps) => {
   const [selectedCategory, setSelectedCategory] = useState('Все');
   const [searchQuery, setSearchQuery] = useState('');
   const [activeDish, setActiveDish] = useState<IMenuItem | null>(null);
+  const [matchSuggestion, setMatchSuggestion] = useState<IMenuItem | null>(null);
 
   const { data: menu, isLoading, isError, refetch } = useGetQuery<IMenu>(
     ['menu', restaurantId],
@@ -35,7 +57,24 @@ export const MenuList = ({ restaurantId }: IProps) => {
 
   const handleAddToCart = useCallback((item: IMenuItem) => {
     addItem(item);
-  }, [addItem]);
+    
+    // Алгоритм "Perfect Match"
+    const targetCategory = MATCH_MAP[item.category] || (item.name.toLowerCase().includes('чай') ? 'Сладкое' : null);
+    
+    if (targetCategory && menu) {
+      const suggestion = menu.items.find(i => 
+        i.category === targetCategory && 
+        i.isAvailable && 
+        !cartItems.find(ci => ci.menuItem._id === i._id)
+      );
+      
+      if (suggestion) {
+        setMatchSuggestion(suggestion);
+        // Скрываем через 5 секунд
+        setTimeout(() => setMatchSuggestion(null), 6000);
+      }
+    }
+  }, [addItem, menu, cartItems]);
 
   const handleRemoveFromCart = useCallback((itemId: string) => {
     removeItem(itemId);
@@ -46,7 +85,13 @@ export const MenuList = ({ restaurantId }: IProps) => {
   /** Категории + "Избранное" если есть */
   const categories = useMemo(() => {
     if (!menu) return ['Все'];
-    const base = ['Все', ...Array.from(new Set(menu.items.map(i => i.category)))];
+    const existingCategories = Array.from(new Set(menu.items.map(i => i.category)));
+    
+    // Используем только те дефолтные категории, в которых есть блюда
+    const base = DEFAULT_CATEGORIES.filter(cat => 
+      cat === 'Все' || existingCategories.includes(cat) || existingCategories.includes(cat.toLowerCase())
+    );
+    
     // Добавляем категорию "Любимое" если есть хоть одно избранное
     const hasFavorites = menu.items.some(i => isFavorite(i._id));
     return hasFavorites ? [...base, '❤️ Любимое'] : base;
@@ -144,7 +189,9 @@ export const MenuList = ({ restaurantId }: IProps) => {
             className={`menu-list__tab ${selectedCategory === cat ? 'menu-list__tab--active' : ''}`}
             bindtap={() => { trigger('selection'); setSelectedCategory(cat); }}
           >
-            <text className="menu-list__tab-text">{cat}</text>
+            <text className="menu-list__tab-text">
+              {CATEGORY_MAP[cat] || '🍽'} {cat}
+            </text>
             <view className="menu-list__tab-badge">
               <text className="menu-list__tab-badge-text">{categoryCounts[cat] || 0}</text>
             </view>
@@ -196,6 +243,26 @@ export const MenuList = ({ restaurantId }: IProps) => {
           />
         )}
       </scroll-view>
+
+
+      {/* Умная рекомендация "Perfect Match" */}
+      {matchSuggestion && (
+        <view className="perfect-match" bindtap={() => { handleAddToCart(matchSuggestion); setMatchSuggestion(null); }}>
+          <view className="perfect-match__content">
+            <image src={matchSuggestion.imageUrl} className="perfect-match__img" mode="aspectFill" />
+            <view className="perfect-match__info">
+              <text className="perfect-match__label">ИДЕАЛЬНАЯ ПАРА ✨</text>
+              <text className="perfect-match__name">Попробуйте с {matchSuggestion.name}</text>
+            </view>
+            <view className="perfect-match__add">
+               <text className="perfect-match__add-icon">+</text>
+            </view>
+          </view>
+          <view className="perfect-match__close" bindtap={(e: any) => { e.stopPropagation(); setMatchSuggestion(null); }}>
+            <text className="perfect-match__close-icon">✕</text>
+          </view>
+        </view>
+      )}
 
       {/* Bottom Sheet детали */}
       <BottomSheet

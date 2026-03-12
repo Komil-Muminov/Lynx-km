@@ -55,8 +55,9 @@
 .menu-list__tab-text {
   font-size: 14px;
   font-weight: 700;
-  color: #7c7c7c;
-  letter-spacing: 0.3px;
+  color: #8e8e93;
+  margin-right: 6px;
+  white-space: nowrap;
 }
 
 .menu-list__tab--active .menu-list__tab-text {
