@@ -9,7 +9,8 @@ export enum EUserRole {
   WAITER = 'waiter',           // Официант
   CHEF = 'chef',               // Повар
   CASHIER = 'cashier',         // Кассир
-  SECURITY = 'security'        // Охрана
+  SECURITY = 'security',       // Охрана
+  MANAGER = 'manager'          // Менеджер (помощник админа)
 }
 
 /**

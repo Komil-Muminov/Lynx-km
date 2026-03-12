@@ -17,6 +17,7 @@ app.use(express.json());
 // Роуты
 import authRoutes from './routes/auth.routes';
 import restaurantRoutes from './routes/restaurant.routes';
+import userRoutes from './routes/user.routes';
 import menuRoutes from './routes/menu.routes';
 import orderRoutes from './routes/order.routes';
 import callRoutes from './routes/call.routes';
@@ -25,6 +26,7 @@ import analyticsRoutes from './routes/analyticsRoutes';
 
 app.use('/api/auth', authRoutes);
 app.use('/api/restaurants', restaurantRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/menu', menuRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/calls', callRoutes);

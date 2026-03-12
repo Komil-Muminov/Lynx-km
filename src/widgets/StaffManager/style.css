@@ -1,0 +1,154 @@
+.staff-manager {
+  padding: 16px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  margin: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.staff-manager__header {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.staff-manager__title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.staff-manager__add-btn {
+  width: 36px;
+  height: 36px;
+  background-color: #007aff;
+  border-radius: 18px;
+  justify-content: center;
+  align-items: center;
+}
+
+.staff-manager__add-icon {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.staff-card {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: #f8f9fb;
+  border-radius: 14px;
+  margin-bottom: 10px;
+}
+
+.staff-card__name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.staff-card__role {
+  font-size: 13px;
+  color: #8e8e93;
+  margin-top: 4px;
+}
+
+.staff-card__actions {
+  flex-direction: row;
+  gap: 12px;
+}
+
+.staff-card__btn {
+  width: 32px;
+  height: 32px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.staff-card__btn--edit {
+  border: 1px solid #e5e5ea;
+}
+
+.staff-card__btn--delete {
+  border: 1px solid rgba(255, 59, 48, 0.1);
+}
+
+.staff-card__btn-icon {
+  font-size: 14px;
+}
+
+/* Форма добавления */
+.add-staff {
+  padding: 20px;
+}
+
+.add-staff__label {
+  font-size: 14px;
+  color: #8e8e93;
+  margin-bottom: 8px;
+  margin-top: 16px;
+}
+
+.add-staff__input {
+  background-color: #f2f2f7;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 16px;
+}
+
+.add-staff__roles {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.role-chip {
+  padding: 8px 16px;
+  background-color: #f2f2f7;
+  border-radius: 20px;
+  border: 1px solid transparent;
+}
+
+.role-chip--active {
+  background-color: #007aff;
+  border-color: #007aff;
+}
+
+.role-chip--active .role-chip__text {
+  color: #fff;
+}
+
+.role-chip--disabled {
+  opacity: 0.4;
+  background-color: #e5e5ea;
+}
+
+.role-chip__text {
+  font-size: 14px;
+  color: #1a1a1a;
+}
+
+.add-staff__hint {
+  font-size: 12px;
+  color: #ff3b30;
+  margin-top: 8px;
+}
+
+.add-staff__submit {
+  background-color: #007aff;
+  padding: 16px;
+  border-radius: 16px;
+  margin-top: 30px;
+  align-items: center;
+}
+
+.add-staff__submit-text {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+}
