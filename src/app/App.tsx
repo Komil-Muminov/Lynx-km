@@ -6,7 +6,7 @@ import { WaiterHome } from '@pages/WaiterHome/index.js';
 import { ChefHome } from '@pages/ChefHome/index.js';
 import { CashierHome } from '@pages/CashierHome/index.js';
 import { ManagerHome } from '@pages/ManagerHome/index.js';
-import { Header } from '@widgets/Header/index.js';
+import { DebugToolbar } from '@widgets/DebugToolbar/index.js';
 import { _axios } from '@shared/api/_axios.js';
 import { NetworkBanner } from '@shared/ui/NetworkBanner/index.js';
 import { PinLogin } from '@pages/PinLogin/index.js';
@@ -64,13 +64,11 @@ export const App = () => {
       
       <view className="app-main">
         {(role !== 'guest' || !!session) && (
-          <Header 
+          <DebugToolbar 
             role={role} 
             isDark={isDark} 
-            isOnShift={isOnShift}
             onToggleRole={toggleRole} 
             onToggleTheme={() => setIsDark(!isDark)} 
-            onToggleShift={handleToggleShift}
           />
         )}
         <view className="app-content">

@@ -17,11 +17,13 @@ export const useGetQuery = <TData = any>(
     queryFn: async () => {
       // Режим моков (для демо без бэка)
       if (options?.useMock) {
+        await new Promise(resolve => setTimeout(resolve, 500));
         if (url.includes('/api/scan')) return Mocks.MOCK_SCAN_RESULT as TData;
         if (url.includes('/stats/restaurant')) return Mocks.MOCK_MANAGER_STATS as TData;
         if (url.includes('/api/menu')) return Mocks.MOCK_MENU as TData;
         if (url.includes('/api/calls')) return Mocks.MOCK_CALLS as TData;
-        if (url.includes('/api/orders')) return Mocks.MOCK_ORDERS as TData;
+        if (url.includes('/api/orders/status/')) return Mocks.MOCK_ORDERS[0] as TData; // Один заказ
+        if (url.includes('/api/orders')) return Mocks.MOCK_ORDERS as TData; // Массив
       }
 
       try {
@@ -29,10 +31,12 @@ export const useGetQuery = <TData = any>(
         return response.data;
       } catch (error) {
         console.warn(`API Error for ${url}, switching to mock data.`);
+        await new Promise(resolve => setTimeout(resolve, 300));
         if (url.includes('/api/scan')) return Mocks.MOCK_SCAN_RESULT as TData;
         if (url.includes('/stats/restaurant')) return Mocks.MOCK_MANAGER_STATS as TData;
         if (url.includes('/api/menu')) return Mocks.MOCK_MENU as TData;
         if (url.includes('/api/calls')) return Mocks.MOCK_CALLS as TData;
+        if (url.includes('/api/orders/status/')) return Mocks.MOCK_ORDERS[0] as TData;
         if (url.includes('/api/orders')) return Mocks.MOCK_ORDERS as TData;
         throw error;
       }

@@ -1,12 +1,11 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { useGetQuery } from '@shared/api/hooks/index.js';
-import { useCart } from '@app/providers/index.js';
+import { useCart, useGuestSession } from '@app/providers/index.js';
 import { Menu } from '@entities/Menu/index.js';
 import type { IMenu, IMenuItem } from '@entities/Menu/index.js';
 import { Skeleton } from '@shared/ui/Skeleton/index.js';
 import { EmptyState } from '@shared/ui/EmptyState/index.js';
 import { BottomSheet } from '@shared/ui/BottomSheet/index.js';
-import { MenuSearch } from '@features/MenuSearch/index.js';
 import { useFavorites } from '@features/Favorites/index.js';
 import { useHaptic, useToast } from '@shared/lib/hooks/index.js';
 import { renderDishSheet } from './lib.js';
@@ -39,11 +38,11 @@ const MATCH_MAP: Record<string, string> = {
 export const MenuList = ({ restaurantId }: IProps) => {
   const { items: cartItems, addItem, removeItem } = useCart();
   const { isFavorite } = useFavorites();
+  const { session } = useGuestSession();
   const { trigger } = useHaptic();
   const toast = useToast();
   
   const [selectedCategory, setSelectedCategory] = useState('Все');
-  const [searchQuery, setSearchQuery] = useState('');
   const [activeDish, setActiveDish] = useState<IMenuItem | null>(null);
   const [matchSuggestion, setMatchSuggestion] = useState<IMenuItem | null>(null);
   const [particles, setParticles] = useState<Array<{ id: number; x: number; y: number }>>([]);
@@ -114,18 +113,12 @@ export const MenuList = ({ restaurantId }: IProps) => {
     if (!menu) return [];
     
     return menu.items.filter(item => {
-      // 1. Фильтр поиска
-      const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                           item.description.toLowerCase().includes(searchQuery.toLowerCase());
-      
-      if (!matchesSearch) return false;
-
-      // 2. Фильтр категории
+      // 1. Фильтр категории
       if (selectedCategory === 'Все') return true;
       if (selectedCategory === '❤️ Любимое') return isFavorite(item._id);
       return item.category === selectedCategory;
     });
-  }, [menu, searchQuery, selectedCategory, isFavorite]);
+  }, [menu, selectedCategory, isFavorite]);
 
   /* -- Состояния загрузки и ошибок -- */
 
@@ -176,12 +169,7 @@ export const MenuList = ({ restaurantId }: IProps) => {
 
   return (
     <view className="menu-list">
-      {/* Поиск */}
-      <view className="menu-list__search-wrap">
-        <MenuSearch value={searchQuery} onChange={setSearchQuery} />
-      </view>
-
-      {/* Категории с бейджами */}
+      {/* Список блюд */}
       <scroll-view className="menu-list__tabs" scroll-x>
         {categories.map(cat => (
           <view
@@ -207,7 +195,7 @@ export const MenuList = ({ restaurantId }: IProps) => {
       >
         <view className="menu-list__items-container">
           <text style={{ fontSize: '10px', color: '#ccc' }}>
-            DEBUG: {filtered.length} items | L: {String(isLoading)} | E: {String(isError)} | M: {menu ? 'OK' : 'NULL'}
+            DEBUG: F:{filtered.length}/M:{menu?.items?.length} | L: {String(isLoading)} | S: {session ? 'OK' : 'NULL'}
           </text>
           {filtered.length > 0 ? (
             <view className="menu-list__items">
@@ -228,9 +216,9 @@ export const MenuList = ({ restaurantId }: IProps) => {
             </view>
           ) : (
             <EmptyState
-              icon={searchQuery ? '🔍' : '🍽'}
-              title={searchQuery ? 'Ничего не найдено' : 'В этой категории пусто'}
-              hint={searchQuery ? 'Попробуйте изменить запрос' : 'Выберите другую категорию'}
+              icon="🍽"
+              title="В этой категории пусто"
+              hint="Выберите другую категорию"
             />
           )}
         </view>

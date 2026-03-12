@@ -8,6 +8,8 @@ interface IGuestOrderStatusProps {
 }
 
 export const GuestOrderStatus = ({ status, totalAmount }: IGuestOrderStatusProps) => {
+  if (!status) return null;
+
   const STATUS_CONFIG = {
     pending: {
       icon: '📝',
