@@ -13,6 +13,24 @@ export enum EUserRole {
   MANAGER = 'manager'          // Менеджер (помощник админа)
 }
 
+export interface IDailyReport extends Document {
+  restaurantId: mongoose.Types.ObjectId;
+  date: Date;
+  expectedAmount: number;
+  actualAmount: number;
+  difference: number;
+  cashierId: mongoose.Types.ObjectId;
+  status: 'closed';
+}
+
+export interface INotification extends Document {
+  userId: mongoose.Types.ObjectId;
+  message: string;
+  type: 'order_ready' | 'call_waiter' | 'system';
+  isRead: boolean;
+  createdAt: Date;
+}
+
 /**
  * Типы заведений
  */
@@ -77,6 +95,8 @@ export interface IOrder extends Document {
   status: 'draft' | 'pending' | 'cooking' | 'ready' | 'paid' | 'cancelled';
   cookingAt?: Date; // Когда повар начал готовить
   readyAt?: Date;   // Когда заказ стал готов к выдаче
+  waiterId?: mongoose.Types.ObjectId; // Официант, открывший заказ
+  chefId?: mongoose.Types.ObjectId;   // Повар, приготовивший заказ
   createdAt: Date;
   updatedAt: Date;
 }
@@ -150,7 +170,9 @@ const OrderSchema = new Schema<IOrder>({
     default: 'pending' 
   },
   cookingAt: { type: Date },
-  readyAt: { type: Date }
+  readyAt: { type: Date },
+  waiterId: { type: Schema.Types.ObjectId, ref: 'User' },
+  chefId: { type: Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true });
 
 const CommissionSchema = new Schema<ICommission>({
@@ -168,6 +190,23 @@ const ShiftSchema = new Schema<IShift>({
   status: { type: String, enum: ['active', 'completed'], default: 'active' }
 }, { timestamps: true });
 
+const DailyReportSchema = new Schema<IDailyReport>({
+  restaurantId: { type: Schema.Types.ObjectId, ref: 'Restaurant', required: true },
+  date: { type: Date, default: Date.now },
+  expectedAmount: { type: Number, required: true },
+  actualAmount: { type: Number, required: true },
+  difference: { type: Number, required: true },
+  cashierId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  status: { type: String, default: 'closed' }
+}, { timestamps: true });
+
+const NotificationSchema = new Schema<INotification>({
+  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  message: { type: String, required: true },
+  type: { type: String, enum: ['order_ready', 'call_waiter', 'system'], required: true },
+  isRead: { type: Boolean, default: false }
+}, { timestamps: true });
+
 // --- Модели ---
 
 export const Restaurant = mongoose.model<IRestaurant>('Restaurant', RestaurantSchema);
@@ -176,3 +215,5 @@ export const Menu = mongoose.model<IMenu>('Menu', MenuSchema);
 export const Order = mongoose.model<IOrder>('Order', OrderSchema);
 export const Commission = mongoose.model<ICommission>('Commission', CommissionSchema);
 export const Shift = mongoose.model<IShift>('Shift', ShiftSchema);
+export const DailyReport = mongoose.model<IDailyReport>('DailyReport', DailyReportSchema);
+export const Notification = mongoose.model<INotification>('Notification', NotificationSchema);

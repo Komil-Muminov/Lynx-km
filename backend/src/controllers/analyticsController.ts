@@ -38,3 +38,96 @@ export const getDashboardAnalytics = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Server error fetching analytics' });
   }
 };
+
+/**
+ * Получение KPI сотрудников (Официанты и Повара)
+ */
+export const getStaffKPI = async (req: Request, res: Response) => {
+  try {
+    const { restaurantId } = req.query;
+    if (!restaurantId || typeof restaurantId !== 'string') {
+      return res.status(400).json({ message: 'restaurantId is required' });
+    }
+
+    const objectId = new mongoose.Types.ObjectId(restaurantId);
+
+    // 1. KPI Официантов (Выручка, средний чек, количество заказов)
+    const waiterKPI = await Order.aggregate([
+      { 
+        $match: { 
+          restaurantId: objectId, 
+          status: 'paid',
+          waiterId: { $exists: true }
+        } 
+      },
+      {
+        $group: {
+          _id: '$waiterId',
+          totalSales: { $sum: '$totalAmount' },
+          ordersCount: { $sum: 1 },
+          avgCheck: { $avg: '$totalAmount' }
+        }
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: '_id',
+          foreignField: '_id',
+          as: 'waiterInfo'
+        }
+      },
+      { $unwind: '$waiterInfo' },
+      {
+        $project: {
+          name: '$waiterInfo.name',
+          totalSales: 1,
+          ordersCount: 1,
+          avgCheck: { $round: ['$avgCheck', 0] }
+        }
+      },
+      { $sort: { totalSales: -1 } }
+    ]);
+
+    // 2. KPI Поваров (Скорость приготовления, количество заказов)
+    const chefKPI = await Order.aggregate([
+      { 
+        $match: { 
+          restaurantId: objectId, 
+          status: { $in: ['ready', 'paid'] },
+          chefId: { $exists: true },
+          cookingAt: { $exists: true },
+          readyAt: { $exists: true }
+        } 
+      },
+      {
+        $group: {
+          _id: '$chefId',
+          ordersCount: { $sum: 1 },
+          avgPrepTimeMs: { $avg: { $subtract: ['$readyAt', '$cookingAt'] } }
+        }
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: '_id',
+          foreignField: '_id',
+          as: 'chefInfo'
+        }
+      },
+      { $unwind: '$chefInfo' },
+      {
+        $project: {
+          name: '$chefInfo.name',
+          ordersCount: 1,
+          avgPrepTimeMinutes: { $round: [{ $divide: ['$avgPrepTimeMs', 60000] }, 1] }
+        }
+      },
+      { $sort: { avgPrepTimeMinutes: 1 } }
+    ]);
+
+    res.json({ waiters: waiterKPI, chefs: chefKPI });
+  } catch (error) {
+    console.error('Error fetching Staff KPI:', error);
+    res.status(500).json({ message: 'Server error fetching Staff KPI' });
+  }
+};

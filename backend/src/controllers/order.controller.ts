@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
-import { Order, Commission, EUserRole } from '../models/model';
+import { Order, Commission, EUserRole, User } from '../models/model';
+import { createNotification } from './notification.controller';
 
 /**
  * Создание нового заказа (Гость)
@@ -100,9 +101,34 @@ export const updateOrderStatus = async (req: Request, res: Response) => {
     // Новая логика v7.0: Фиксируем время для аналитики
     if (status === 'cooking' && oldStatus !== 'cooking') {
       order.cookingAt = new Date();
+      // Привязываем повара
+      if (req.user?.role === EUserRole.CHEF) {
+        order.chefId = new mongoose.Types.ObjectId(req.user.userId);
+      }
     }
     if (status === 'ready' && oldStatus !== 'ready') {
       order.readyAt = new Date();
+      
+      // Находим официанта (автора заказа или любого свободного)
+      // В текущей системе автор заказа не фиксируется явно в IOrder, 
+      // но мы можем отправить всем официантам ресторана или менеджеру.
+      const waiters = await User.find({ 
+        restaurantId: order.restaurantId, 
+        role: EUserRole.WAITER 
+      });
+      
+      for (const waiter of waiters) {
+        await createNotification(
+          waiter._id.toString(), 
+          `Заказ для стола №${order.tableId} готов!`, 
+          'order_ready'
+        );
+      }
+    }
+
+    // Привязываем официанта, если он управляет заказом и он еще не привязан
+    if (req.user?.role === EUserRole.WAITER && !order.waiterId) {
+      order.waiterId = new mongoose.Types.ObjectId(req.user.userId);
     }
 
     // Если передана скидка или чаевые, сохраняем (обычно при status='paid')

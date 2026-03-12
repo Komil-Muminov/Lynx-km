@@ -1,1 +1,1 @@
-export { CheckoutOrders } from './CheckoutOrders.js';
+export { CheckoutOrders } from './ui.js';

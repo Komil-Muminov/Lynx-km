@@ -4,7 +4,7 @@ import { ManagerMenuList } from '@widgets/ManagerMenuList/index.js';
 import { ManagerOrderHistory } from '@widgets/ManagerOrderHistory/index.js';
 import { StaffManager } from '@widgets/StaffManager/index.js';
 import { QRGenerator } from '@widgets/QRGenerator/index.js';
-import { KitchenEfficiency } from '@widgets/KitchenEfficiency/index.js';
+import { StaffEfficiency } from '@widgets/StaffEfficiency/index.js';
 import { WorkJournal } from '@widgets/WorkJournal/index.js';
 import './style.css';
 
@@ -27,7 +27,7 @@ export const ManagerHome = () => {
       
       <scroll-view className="manager-home__content" scroll-y>
         <ManagerStats restaurantId={restaurantId} />
-        <KitchenEfficiency restaurantId={restaurantId} />
+        <StaffEfficiency restaurantId={restaurantId} />
         <WorkJournal restaurantId={restaurantId} />
         <StaffManager restaurantId={restaurantId} />
         <QRGenerator restaurantId={restaurantId} />

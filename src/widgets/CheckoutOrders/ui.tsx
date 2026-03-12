@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useGetQuery } from '@shared/api/hooks/index.js';
+import { useGetQuery, useMutationQuery } from '@shared/api/hooks/index.js';
 import type { IOrder } from '@entities/Order/index.js';
 import { OrderCheckoutCard } from './ui/OrderCheckoutCard.js';
 import './style.css';
@@ -15,9 +15,15 @@ interface IManagerStats {
   averageBill: number;
 }
 
+/**
+ * Виджет: Кассовый терминал (Чекаут)
+ * Отвечает за оплату заказов и закрытие смены.
+ */
 export const CheckoutOrders = ({ restaurantId }: IProps) => {
   const [activeTab, setActiveTab] = useState<'active' | 'history'>('active');
   const [searchQuery, setSearchQuery] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [actualAmount, setActualAmount] = useState('');
 
   // Активные заказы
   const { data: activeOrdersData, isLoading: isActiveLoading } = useGetQuery<IOrder[]>(
@@ -43,10 +49,27 @@ export const CheckoutOrders = ({ restaurantId }: IProps) => {
     { enabled: !!restaurantId }
   );
 
+  // Мутация закрытия дня
+  const closeDayMutation = useMutationQuery({
+    onSuccess: () => {
+      setIsModalOpen(false);
+      setActualAmount('');
+      // Можно добавить нативный алерт Lynx если есть, или просто рефетч
+    }
+  });
+
+  const handleCloseDay = () => {
+    if (!actualAmount) return;
+    closeDayMutation.mutate({
+      url: '/api/finance/close',
+      method: 'POST',
+      data: { actualAmount: Number(actualAmount) }
+    });
+  };
+
   const isLoading = activeTab === 'active' ? isActiveLoading : isHistoryLoading;
   const rawOrders = activeTab === 'active' ? activeOrdersData : historyOrdersData;
   
-  // Фильтрация по поиску
   const orders = rawOrders?.filter(o => 
     o.tableId.toLowerCase().includes(searchQuery.toLowerCase())
   ) || [];
@@ -54,15 +77,21 @@ export const CheckoutOrders = ({ restaurantId }: IProps) => {
   return (
     <view className="checkout-orders">
       {/* Виджет статистики */}
-      <view className="checkout-stats">
-        <view className="checkout-stats__item">
-          <text className="checkout-stats__value">{stats?.todayRevenue || 0} д.</text>
-          <text className="checkout-stats__label">Выручка сегодня</text>
+      <view className="checkout-header-row">
+        <view className="checkout-stats">
+          <view className="checkout-stats__item">
+            <text className="checkout-stats__value">{stats?.todayRevenue || 0} д.</text>
+            <text className="checkout-stats__label">Выручка сегодня</text>
+          </view>
+          <view className="checkout-stats__divider" />
+          <view className="checkout-stats__item">
+            <text className="checkout-stats__value">{stats?.averageBill || 0} д.</text>
+            <text className="checkout-stats__label">Средний чек</text>
+          </view>
         </view>
-        <view className="checkout-stats__divider" />
-        <view className="checkout-stats__item">
-          <text className="checkout-stats__value">{stats?.averageBill || 0} д.</text>
-          <text className="checkout-stats__label">Средний чек</text>
+        
+        <view className="checkout-close-btn" bindtap={() => setIsModalOpen(true)}>
+          <text className="checkout-close-btn__text">Закрыть день</text>
         </view>
       </view>
 
@@ -124,6 +153,41 @@ export const CheckoutOrders = ({ restaurantId }: IProps) => {
           </view>
         )}
       </scroll-view>
+
+      {/* Модалка закрытия дня */}
+      {isModalOpen && (
+        <view className="checkout-modal-overlay">
+          <view className="checkout-modal">
+            <text className="checkout-modal__title">Закрытие смены</text>
+            <text className="checkout-modal__desc">Сверьте фактическую сумму в кассе с данными системы.</text>
+            
+            <view className="checkout-modal__row">
+              <text className="checkout-modal__label">Ожидаемо (система):</text>
+              <text className="checkout-modal__value">{stats?.todayRevenue || 0} д.</text>
+            </view>
+
+            <view className="checkout-modal__input-wrap">
+              <text className="checkout-modal__label">Фактически в кассе:</text>
+              <input 
+                className="checkout-modal__input"
+                type="number"
+                value={actualAmount}
+                onInput={(e: any) => setActualAmount(e.detail.value)}
+                placeholder="0.00"
+              />
+            </view>
+
+            <view className="checkout-modal__actions">
+              <view className="checkout-modal__btn checkout-modal__btn--cancel" bindtap={() => setIsModalOpen(false)}>
+                <text className="checkout-modal__btn-text">Отмена</text>
+              </view>
+              <view className="checkout-modal__btn checkout-modal__btn--submit" bindtap={handleCloseDay}>
+                <text className="checkout-modal__btn-text">Подтвердить</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      )}
     </view>
   );
 };

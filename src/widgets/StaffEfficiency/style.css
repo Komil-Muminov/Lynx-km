@@ -1,0 +1,93 @@
+.staff-efficiency {
+  gap: 24px;
+  margin: 16px;
+}
+
+.staff-efficiency__section {
+  background-color: white;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.staff-efficiency__title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin-bottom: 16px;
+}
+
+.staff-efficiency__list {
+  gap: 12px;
+}
+
+.staff-efficiency__item {
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.staff-efficiency__rank {
+  width: 28px;
+  height: 28px;
+  background-color: #f0f7ff;
+  border-radius: 14px;
+  justify-content: center;
+  align-items: center;
+  margin-right: 12px;
+}
+
+.staff-efficiency__rank--chef {
+  background-color: #fff8f0;
+}
+
+.staff-efficiency__rank-text {
+  font-size: 12px;
+  font-weight: 800;
+  color: #007aff;
+}
+
+.staff-efficiency__rank--chef .staff-efficiency__rank-text {
+  color: #ff9500;
+}
+
+.staff-efficiency__info {
+  flex: 1;
+}
+
+.staff-efficiency__name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.staff-efficiency__sub {
+  font-size: 12px;
+  color: #888;
+  margin-top: 2px;
+}
+
+.staff-efficiency__value {
+  font-size: 15px;
+  font-weight: 700;
+  color: #007aff;
+}
+
+.staff-efficiency__time-tag {
+  background-color: #fff8f0;
+  padding: 4px 10px;
+  border-radius: 10px;
+}
+
+.staff-efficiency__time-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ff9500;
+}
+
+.staff-efficiency__empty {
+  font-size: 13px;
+  color: #bbb;
+  text-align: center;
+  padding: 10px 0;
+}

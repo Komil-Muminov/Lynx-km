@@ -1,0 +1,67 @@
+.staff-notifications {
+  position: fixed;
+  top: 80px;
+  left: 16px;
+  right: 16px;
+  z-index: 9999;
+  gap: 10px;
+}
+
+.staff-notification {
+  flex-direction: row;
+  background-color: white;
+  padding: 12px 16px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  align-items: center;
+  border-left-width: 4px;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.staff-notification--order_ready {
+  border-left-color: #4caf50;
+}
+
+.staff-notification--call_waiter {
+  border-left-color: #ff9800;
+}
+
+.staff-notification--system {
+  border-left-color: #2196f3;
+}
+
+.staff-notification__icon {
+  font-size: 20px;
+  margin-right: 12px;
+}
+
+.staff-notification__content {
+  flex: 1;
+}
+
+.staff-notification__msg {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.staff-notification__time {
+  font-size: 11px;
+  color: #999;
+  margin-top: 2px;
+}
+
+.staff-notification__close {
+  padding: 4px;
+  margin-left: 8px;
+}
+
+.staff-notification__close-icon {
+  font-size: 12px;
+  color: #ccc;
+}

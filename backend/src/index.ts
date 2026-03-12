@@ -24,6 +24,8 @@ import orderRoutes from './routes/order.routes';
 import callRoutes from './routes/call.routes';
 import scanRoutes from './routes/scan.routes';
 import analyticsRoutes from './routes/analyticsRoutes';
+import financeRoutes from './routes/finance.routes';
+import notificationRoutes from './routes/notification.routes';
 
 app.use('/api/auth', authRoutes);
 app.use('/api/restaurants', restaurantRoutes);
@@ -34,6 +36,8 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/calls', callRoutes);
 app.use('/api/scan', scanRoutes); // Публичный роут для QR-сканирования
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/finance', financeRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 // Базовый роут для проверки
 app.get('/', (req, res) => {

@@ -12,6 +12,7 @@ import { _axios } from '@shared/api/_axios.js';
 import { NetworkBanner } from '@shared/ui/NetworkBanner/index.js';
 import './App.css';
 import { PinLogin } from '@pages/PinLogin/index.js';
+import { StaffNotifications } from '@widgets/StaffNotifications/index.js';
 
 export const App = () => {
   const [role, setRole] = useState<'guest' | 'waiter' | 'chef' | 'cashier' | 'admin'>('guest');
@@ -75,6 +76,7 @@ export const App = () => {
           <FavoritesProvider>
             <view className={`app-container ${isDark ? 'app-container--dark' : ''}`}>
             <NetworkBanner />
+            {role !== 'guest' && <StaffNotifications />}
             
             {isLoggingIn ? (
               <PinLogin 
