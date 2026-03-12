@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useGetQuery } from '@shared/api/hooks/index.js';
+import { getEnvVar } from '@shared/config/index.js';
 import { usePersistedState } from '@shared/lib/hooks/index.js';
 import type { IOrder } from '@entities/Order/index.js';
 import { formatPrice } from '@shared/lib/format.js';
@@ -25,8 +26,8 @@ export const ManagerOrderHistory = ({ restaurantId }: IProps) => {
   );
 
   const { data: history, isLoading } = useGetQuery<IOrder[]>(
-    ['order-history', restaurantId],
-    `http://localhost:5000/api/orders/history/${restaurantId}`,
+    [`order-history`, restaurantId],
+    `${getEnvVar('API_URL')}/api/orders/restaurant/${restaurantId}/history`,
     {},
     { useMock: true } // Пока бэк может не работать, оставляем мок-режим активным
   );

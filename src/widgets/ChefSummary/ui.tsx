@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { useGetQuery } from '@shared/api/hooks/index.js';
+import { getEnvVar } from '@shared/config/index.js';
 import type { IOrder, IOrderItem } from '@entities/Order/index.js';
 import './style.css';
 
@@ -23,7 +24,7 @@ export const ChefSummary = ({ restaurantId }: IProps) => {
   // Получаем активные заказы
   const { data: orders, isLoading } = useGetQuery<IOrder[]>(
     ['kitchen-summary', restaurantId],
-    `http://localhost:5000/api/orders/restaurant/${restaurantId}`,
+    `${getEnvVar('API_URL')}/api/orders/restaurant/${restaurantId}`,
     {},
     { refetchInterval: 15000 }
   );
