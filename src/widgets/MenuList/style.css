@@ -127,7 +127,6 @@
 /* Magic Cart Animation v7.0 */
 .cart-particle {
   position: absolute;
-  pointer-events: none;
   z-index: 9999;
 }
 

@@ -58,7 +58,6 @@ page {
   justify-content: center;
   align-items: flex-end; /* Прижимаем к низу */
   padding-bottom: 80px; /* Отступ от низа */
-  pointer-events: none; /* Пропускаем клики сквозь пустую область */
   z-index: 9999;
 }
 
@@ -72,7 +71,7 @@ page {
   border-radius: 30px; /* Форма «таблетки» */
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  pointer-events: auto; /* Разрешаем клики по самой панели */
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .debug-toggle {
