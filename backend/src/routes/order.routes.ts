@@ -8,6 +8,7 @@ const router = Router();
 // /api/orders
 router.post('/', orderController.createOrder); // Гость отправляет готовый заказ
 router.post('/sync-cart', orderController.syncCart); // Гость синхронизирует корзину (черновик)
+router.get('/status/:restaurantId/:tableId', orderController.getGuestOrderStatus); // Статус для гостя
 
 router.get(
   '/restaurant/:restaurantId', 

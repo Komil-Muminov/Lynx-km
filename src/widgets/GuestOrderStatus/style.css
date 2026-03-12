@@ -1,0 +1,60 @@
+.guest-status {
+  background-color: #ffffff;
+  margin: 16px;
+  padding: 16px;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0f0f0;
+}
+
+.guest-status__header {
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 12px;
+}
+
+.guest-status__icon {
+  font-size: 28px;
+}
+
+.guest-status__text {
+  flex: 1;
+}
+
+.guest-status__label {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin-bottom: 2px;
+}
+
+.guest-status__sub {
+  font-size: 12px;
+  color: #888;
+}
+
+.guest-status__amount-badge {
+  background-color: #f5f5f5;
+  padding: 6px 12px;
+  border-radius: 12px;
+}
+
+.guest-status__amount-val {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.guest-status__progress-bg {
+  height: 6px;
+  background-color: #f0f0f0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.guest-status__progress-bar {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}

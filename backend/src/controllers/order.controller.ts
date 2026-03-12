@@ -42,6 +42,31 @@ export const createOrder = async (req: Request, res: Response) => {
 };
 
 /**
+ * Получение статуса заказа для гостя (без авторизации)
+ */
+export const getGuestOrderStatus = async (req: Request, res: Response) => {
+  try {
+    const { restaurantId, tableId } = req.params;
+
+    if (!restaurantId || !tableId) {
+      return res.status(400).json({ message: 'restaurantId and tableId are required' });
+    }
+
+    // Ищем последний активный заказ для этого столика (не архивный)
+    const order = await Order.findOne({ 
+      restaurantId, 
+      tableId,
+      status: { $in: ['pending', 'cooking', 'ready', 'paid'] }
+    }).sort({ createdAt: -1 });
+
+    res.json(order || null);
+  } catch (error) {
+    console.error('Get guest order status error:', error);
+    res.status(500).json({ message: 'Ошибка при получении статуса заказа' });
+  }
+};
+
+/**
  * Синхронизация корзины (Гость выбирает блюда)
  */
 export const syncCart = async (req: Request, res: Response) => {

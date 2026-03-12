@@ -14,6 +14,7 @@ interface IGuestSessionContext {
   session: IGuestSession | null;
   setSession: (s: IGuestSession) => void;
   isLoading: boolean;
+  latestOrder: any | null;
 }
 
 const GuestSessionContext = createContext<IGuestSessionContext | undefined>(undefined);
@@ -75,18 +76,18 @@ export const GuestSessionProvider = ({ children, onReady }: IProps) => {
     if (data) setSession(data);
   }, [data]);
 
-  // Полинг статуса заказа для гостя
-  const { data: latestOrder } = useGetQuery<any[]>(
+  // Полинг статуса заказа для гостя (используем новый публичный эндпоинт)
+  const { data: latestOrder } = useGetQuery<any>(
     ['guest-order-status', session?.restaurantId, session?.tableId],
-    `/api/orders/restaurant/${session?.restaurantId}`,
+    `/api/orders/status/${session?.restaurantId}/${session?.tableId}`,
     {},
     { 
       enabled: !!session, 
-      refetchInterval: 5000 
+      refetchInterval: 3000 // Опрашиваем чуть чаще для отзывчивости
     }
   );
 
-  const isPaid = latestOrder?.find(o => o.tableId === session?.tableId)?.status === 'paid';
+  const isPaid = latestOrder?.status === 'paid';
 
   // QR получен через нативный клиент
   if (hasQrParams) {
@@ -120,7 +121,7 @@ export const GuestSessionProvider = ({ children, onReady }: IProps) => {
     }
 
     return (
-      <GuestSessionContext.Provider value={{ session, setSession, isLoading }}>
+      <GuestSessionContext.Provider value={{ session, setSession, isLoading, latestOrder }}>
         <view className="session-container">
           {children}
         </view>
@@ -180,7 +181,7 @@ export const GuestSessionProvider = ({ children, onReady }: IProps) => {
   }
 
   return (
-    <GuestSessionContext.Provider value={{ session, setSession, isLoading: false }}>
+    <GuestSessionContext.Provider value={{ session, setSession, isLoading: false, latestOrder }}>
       <view className="session-container">
         {children}
         

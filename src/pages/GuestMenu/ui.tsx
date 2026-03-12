@@ -4,11 +4,12 @@ import { CartButton } from '@widgets/CartButton/index.js';
 import { CallStaff } from '@widgets/CallStaff/index.js';
 import { CartScreen } from '@pages/CartScreen/index.js';
 import { useGuestSession } from '@app/providers/index.js';
+import { GuestOrderStatus } from '@widgets/GuestOrderStatus/index.js';
 import './style.css';
 
 export const GuestMenu = () => {
   // Берём данные стола из сессии (параметры QR или демо-режим)
-  const { session } = useGuestSession();
+  const { session, latestOrder } = useGuestSession();
   const [showCart, setShowCart] = useState(false);
 
   if (!session) return null;
@@ -60,6 +61,12 @@ export const GuestMenu = () => {
         </text>
       </view>
       <view className="guest-menu__content">
+        {latestOrder && latestOrder.status !== 'paid' && (
+          <GuestOrderStatus 
+            status={latestOrder.status} 
+            totalAmount={latestOrder.totalAmount} 
+          />
+        )}
         <MenuList restaurantId={restaurantId} />
       </view>
       <CallStaff restaurantId={restaurantId} tableId={tableId} />
