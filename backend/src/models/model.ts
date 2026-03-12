@@ -42,7 +42,6 @@ export interface IUser extends Document {
   restaurantId?: mongoose.Types.ObjectId; // null для SuperAdmin
   passwordHash: string;
   pinHash?: string; // Экранированный ПИН-код (4 цифры)
-  isOnShift: boolean; // Статус смены
   createdAt: Date;
   updatedAt: Date;
 }
@@ -91,6 +90,16 @@ export interface ICommission extends Document {
   updatedAt: Date;
 }
 
+export interface IShift extends Document {
+  userId: mongoose.Types.ObjectId;
+  restaurantId: mongoose.Types.ObjectId;
+  startTime: Date;
+  endTime?: Date;
+  status: 'active' | 'completed';
+}
+
+// ... (existing schemas)
+
 // --- Схемы Mongoose ---
 
 const RestaurantSchema = new Schema<IRestaurant>({
@@ -108,8 +117,7 @@ const UserSchema = new Schema<IUser>({
   role: { type: String, enum: Object.values(EUserRole), required: true },
   restaurantId: { type: Schema.Types.ObjectId, ref: 'Restaurant' },
   passwordHash: { type: String, required: true },
-  pinHash: { type: String },
-  isOnShift: { type: Boolean, default: false }
+  pinHash: { type: String }
 }, { timestamps: true });
 
 const MenuSchema = new Schema<IMenu>({
@@ -152,6 +160,14 @@ const CommissionSchema = new Schema<ICommission>({
   status: { type: String, enum: ['pending', 'paid'], default: 'pending' }
 }, { timestamps: true });
 
+const ShiftSchema = new Schema<IShift>({
+  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  restaurantId: { type: Schema.Types.ObjectId, ref: 'Restaurant', required: true },
+  startTime: { type: Date, default: Date.now },
+  endTime: { type: Date },
+  status: { type: String, enum: ['active', 'completed'], default: 'active' }
+}, { timestamps: true });
+
 // --- Модели ---
 
 export const Restaurant = mongoose.model<IRestaurant>('Restaurant', RestaurantSchema);
@@ -159,3 +175,4 @@ export const User = mongoose.model<IUser>('User', UserSchema);
 export const Menu = mongoose.model<IMenu>('Menu', MenuSchema);
 export const Order = mongoose.model<IOrder>('Order', OrderSchema);
 export const Commission = mongoose.model<ICommission>('Commission', CommissionSchema);
+export const Shift = mongoose.model<IShift>('Shift', ShiftSchema);

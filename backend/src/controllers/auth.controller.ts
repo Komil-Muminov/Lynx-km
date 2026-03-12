@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { z } from 'zod';
-import { User, EUserRole, Restaurant } from '../models/model';
+import { User, EUserRole, Restaurant, Shift } from '../models/model';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_super_secret_key_change_me';
 
@@ -80,9 +80,14 @@ export const loginPin = async (req: Request, res: Response) => {
       return res.status(401).json({ message: 'Неверный номер телефона или ПИН-код' });
     }
 
-    // Автоматически ставим "На смене" при входе по ПИН
-    user.isOnShift = true;
-    await user.save();
+    // Автоматически открываем смену при входе по ПИН
+    const newShift = new Shift({
+      userId: user._id,
+      restaurantId: user.restaurantId,
+      startTime: new Date(),
+      status: 'active'
+    });
+    await newShift.save();
 
     // Создание токена
     const token = jwt.sign(
@@ -120,13 +125,13 @@ export const logout = async (req: Request, res: Response) => {
       return res.status(401).json({ message: 'Не авторизован' });
     }
 
-    const user = await User.findById(userId);
-    if (user) {
-      user.isOnShift = false;
-      await user.save();
-    }
+    // Закрываем активную смену
+    await Shift.updateMany(
+      { userId, status: 'active' },
+      { endTime: new Date(), status: 'completed' }
+    );
 
-    res.json({ message: 'Выход выполнен успешно' });
+    res.json({ message: 'Выход выполнен успешно (смена закрыта)' });
   } catch (error) {
     console.error('Logout error:', error);
     res.status(500).json({ message: 'Ошибка сервера при выходе' });
@@ -150,9 +155,13 @@ export const login = async (req: Request, res: Response) => {
       return res.status(401).json({ message: 'Неверный номер телефона или пароль' });
     }
 
+    // Проверяем, есть ли активная смена
+    const activeShift = await Shift.findOne({ userId: user._id, status: 'active' });
+    const isOnShift = !!activeShift;
+
     // Создание токена
     const token = jwt.sign(
-      { userId: user._id, role: user.role, restaurantId: user.restaurantId, isOnShift: user.isOnShift },
+      { userId: user._id, role: user.role, restaurantId: user.restaurantId, isOnShift },
       JWT_SECRET,
       { expiresIn: '24h' }
     );
@@ -165,7 +174,7 @@ export const login = async (req: Request, res: Response) => {
         phone: user.phone,
         role: user.role,
         restaurantId: user.restaurantId,
-        isOnShift: user.isOnShift
+        isOnShift
       },
     });
   } catch (error) {

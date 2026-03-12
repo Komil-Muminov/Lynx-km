@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
-import { User, EUserRole, Order } from '../models/model';
+import { User, EUserRole, Order, Shift } from '../models/model';
 
 /**
  * Получение списка персонала ресторана
@@ -17,9 +17,19 @@ export const getStaff = async (req: Request, res: Response) => {
     const staff = await User.find({ 
       restaurantId, 
       role: { $in: [EUserRole.WAITER, EUserRole.CHEF, EUserRole.CASHIER, EUserRole.MANAGER, EUserRole.ADMIN] } 
-    }).select('-passwordHash');
+    }).select('-passwordHash').lean();
 
-    res.json(staff);
+    // Добавляем статус "На смене" для каждого сотрудника
+    const staffWithStatus = await Promise.all(staff.map(async (member) => {
+      const activeShift = await Shift.findOne({ userId: member._id, status: 'active' });
+      return {
+        ...member,
+        id: member._id,
+        isOnShift: !!activeShift
+      };
+    }));
+
+    res.json(staffWithStatus);
   } catch (error) {
     res.status(500).json({ message: 'Ошибка при получении списка персонала' });
   }
@@ -171,15 +181,31 @@ export const setPin = async (req: Request, res: Response) => {
  */
 export const toggleShift = async (req: Request, res: Response) => {
   try {
-    const user = await User.findById(req.user?.userId);
+    const userId = req.user?.userId;
+    const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: 'Пользователь не найден' });
     }
 
-    user.isOnShift = !user.isOnShift;
-    await user.save();
+    const activeShift = await Shift.findOne({ userId, status: 'active' });
 
-    res.json({ isOnShift: user.isOnShift, message: user.isOnShift ? 'Вы вышли на смену' : 'Смена завершена' });
+    if (activeShift) {
+      // Закрываем смену
+      activeShift.endTime = new Date();
+      activeShift.status = 'completed';
+      await activeShift.save();
+      return res.json({ isOnShift: false, message: 'Смена завершена' });
+    } else {
+      // Открываем новую смену
+      const newShift = new Shift({
+        userId,
+        restaurantId: user.restaurantId,
+        startTime: new Date(),
+        status: 'active'
+      });
+      await newShift.save();
+      return res.json({ isOnShift: true, message: 'Вы вышли на смену' });
+    }
   } catch (error) {
     res.status(500).json({ message: 'Ошибка при переключении смены' });
   }
