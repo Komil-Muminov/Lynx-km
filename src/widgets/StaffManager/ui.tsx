@@ -16,12 +16,20 @@ interface IStaffManagerProps {
   restaurantId: string;
 }
 
+interface IStaffForm {
+  name: string;
+  phone: string;
+  password?: string;
+  role: string;
+  pin?: string;
+}
+
 export const StaffManager = ({ restaurantId }: IStaffManagerProps) => {
   const { trigger } = useHaptic();
   const toast = useToast();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingMember, setEditingMember] = useState<IStaffMember | null>(null);
-  const [formData, setFormData] = useState({ name: '', phone: '', password: '', role: 'waiter' });
+  const [formData, setFormData] = useState<IStaffForm>({ name: '', phone: '', password: '', role: 'waiter', pin: '' });
 
   const { data: staff, isLoading, refetch } = useGetQuery<IStaffMember[]>(
     ['staff', restaurantId],
@@ -35,7 +43,7 @@ export const StaffManager = ({ restaurantId }: IStaffManagerProps) => {
       toast.success(editingMember ? 'Данные обновлены! ✨' : 'Сотрудник добавлен! 🎉');
       setIsModalOpen(false);
       setEditingMember(null);
-      setFormData({ name: '', phone: '', password: '', role: 'waiter' });
+      setFormData({ name: '', phone: '', password: '', role: 'waiter', pin: '' });
       refetch();
     },
     onError: (err: any) => {
@@ -49,14 +57,15 @@ export const StaffManager = ({ restaurantId }: IStaffManagerProps) => {
       name: member.name, 
       phone: member.phone, 
       password: '', // Пароль не показываем
-      role: member.role 
+      role: member.role,
+      pin: '' // ПИН тоже не показываем
     });
     setIsModalOpen(true);
   };
 
   const handleAddClick = () => {
     setEditingMember(null);
-    setFormData({ name: '', phone: '', password: '', role: 'waiter' });
+    setFormData({ name: '', phone: '', password: '', role: 'waiter', pin: '' });
     setIsModalOpen(true);
   };
 
@@ -64,6 +73,12 @@ export const StaffManager = ({ restaurantId }: IStaffManagerProps) => {
     if (!formData.name || !formData.phone || (!editingMember && !formData.password)) {
       return toast.info('Заполните обязательные поля');
     }
+    
+    // ПИН должен быть 4 цифры
+    if (formData.pin && formData.pin.length !== 4) {
+      return toast.info('ПИН должен быть ровно 4 цифры');
+    }
+
     trigger('medium');
 
     if (editingMember) {

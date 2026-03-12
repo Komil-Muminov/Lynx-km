@@ -140,3 +140,47 @@ export const updateStaff = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Ошибка при обновлении данных сотрудника' });
   }
 };
+
+/**
+ * Установка ПИН-кода для сотрудника
+ */
+export const setPin = async (req: Request, res: Response) => {
+  try {
+    const { userId, pin } = req.body;
+    
+    // Проверка прав (только админ/менеджер или сам юзер)
+    if (req.user?.userId !== userId && req.user?.role !== EUserRole.ADMIN && req.user?.role !== EUserRole.MANAGER) {
+      return res.status(403).json({ message: 'Нет прав на установку ПИН-кода' });
+    }
+
+    if (!pin || pin.length !== 4) {
+      return res.status(400).json({ message: 'ПИН-код должен состоять из 4 цифр' });
+    }
+
+    const pinHash = await bcrypt.hash(pin, 10);
+    await User.findByIdAndUpdate(userId, { pinHash });
+
+    res.json({ message: 'ПИН-код успешно установлен' });
+  } catch (error) {
+    res.status(500).json({ message: 'Ошибка при установке ПИН-кода' });
+  }
+};
+
+/**
+ * Переключение статуса смены
+ */
+export const toggleShift = async (req: Request, res: Response) => {
+  try {
+    const user = await User.findById(req.user?.userId);
+    if (!user) {
+      return res.status(404).json({ message: 'Пользователь не найден' });
+    }
+
+    user.isOnShift = !user.isOnShift;
+    await user.save();
+
+    res.json({ isOnShift: user.isOnShift, message: user.isOnShift ? 'Вы вышли на смену' : 'Смена завершена' });
+  } catch (error) {
+    res.status(500).json({ message: 'Ошибка при переключении смены' });
+  }
+};

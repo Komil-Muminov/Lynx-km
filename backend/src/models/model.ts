@@ -30,6 +30,7 @@ export interface IRestaurant extends Document {
   logoUrl: string;
   address: string;
   ownerId: mongoose.Types.ObjectId;
+  tableCount: number; // Количество столов для генерации QR
   createdAt: Date;
   updatedAt: Date;
 }
@@ -38,7 +39,7 @@ export interface IUser extends Document {
   name: string;
   phone: string;
   role: EUserRole;
-  restaurantId?: Types.ObjectId; // null для SuperAdmin
+  restaurantId?: mongoose.Types.ObjectId; // null для SuperAdmin
   passwordHash: string;
   pinHash?: string; // Экранированный ПИН-код (4 цифры)
   isOnShift: boolean; // Статус смены
@@ -97,6 +98,7 @@ const RestaurantSchema = new Schema<IRestaurant>({
   type: { type: String, enum: Object.values(ERestaurantType), required: true },
   logoUrl: { type: String, default: '' },
   address: { type: String, required: true },
+  tableCount: { type: Number, default: 10 },
   ownerId: { type: Schema.Types.ObjectId, ref: 'User', required: true }
 }, { timestamps: true });
 

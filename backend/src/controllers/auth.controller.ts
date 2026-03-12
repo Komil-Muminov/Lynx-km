@@ -57,6 +57,82 @@ export const register = async (req: Request, res: Response) => {
   }
 };
 
+// Схема валидации для логина по ПИН
+const loginPinSchema = z.object({
+  phone: z.string(),
+  pin: z.string().length(4),
+});
+
+/**
+ * Авторизация пользователя по ПИН-коду (для персонала)
+ */
+export const loginPin = async (req: Request, res: Response) => {
+  try {
+    const { phone, pin } = loginPinSchema.parse(req.body);
+
+    const user = await User.findOne({ phone });
+    if (!user || !user.pinHash) {
+      return res.status(401).json({ message: 'Неверный номер телефона или ПИН-код' });
+    }
+
+    const isMatch = await bcrypt.compare(pin, user.pinHash);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Неверный номер телефона или ПИН-код' });
+    }
+
+    // Автоматически ставим "На смене" при входе по ПИН
+    user.isOnShift = true;
+    await user.save();
+
+    // Создание токена
+    const token = jwt.sign(
+      { userId: user._id, role: user.role, restaurantId: user.restaurantId, isOnShift: true },
+      JWT_SECRET,
+      { expiresIn: '24h' }
+    );
+
+    res.json({
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        phone: user.phone,
+        role: user.role,
+        restaurantId: user.restaurantId,
+        isOnShift: true
+      },
+    });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return res.status(400).json({ errors: error.errors });
+    }
+    res.status(500).json({ message: 'Ошибка сервера при входе по ПИН' });
+  }
+};
+
+/**
+ * Выход из системы (сброс статуса смены)
+ */
+export const logout = async (req: Request, res: Response) => {
+  try {
+    const userId = (req as any).user?.userId;
+    if (!userId) {
+      return res.status(401).json({ message: 'Не авторизован' });
+    }
+
+    const user = await User.findById(userId);
+    if (user) {
+      user.isOnShift = false;
+      await user.save();
+    }
+
+    res.json({ message: 'Выход выполнен успешно' });
+  } catch (error) {
+    console.error('Logout error:', error);
+    res.status(500).json({ message: 'Ошибка сервера при выходе' });
+  }
+};
+
 /**
  * Авторизация пользователя
  */
@@ -76,7 +152,7 @@ export const login = async (req: Request, res: Response) => {
 
     // Создание токена
     const token = jwt.sign(
-      { userId: user._id, role: user.role, restaurantId: user.restaurantId },
+      { userId: user._id, role: user.role, restaurantId: user.restaurantId, isOnShift: user.isOnShift },
       JWT_SECRET,
       { expiresIn: '24h' }
     );
@@ -89,6 +165,7 @@ export const login = async (req: Request, res: Response) => {
         phone: user.phone,
         role: user.role,
         restaurantId: user.restaurantId,
+        isOnShift: user.isOnShift
       },
     });
   } catch (error) {

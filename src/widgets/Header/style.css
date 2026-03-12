@@ -107,6 +107,45 @@
 }
 
 /* Правый блок */
+.header__shift-badge {
+  flex-direction: row;
+  align-items: center;
+  padding: 4px 10px;
+  background-color: #f3f4f6;
+  border-radius: 20px;
+  margin-right: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.header__shift-badge--on {
+  background-color: #ecfdf5;
+  border-color: #10b981;
+}
+
+.header__shift-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background-color: #9ca3af;
+  margin-right: 6px;
+}
+
+.header__shift-badge--on .header__shift-dot {
+  background-color: #10b981;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
+}
+
+.header__shift-text {
+  font-size: 10px;
+  font-weight: 800;
+  color: #6b7280;
+  letter-spacing: 0.5px;
+}
+
+.header__shift-badge--on .header__shift-text {
+  color: #047857;
+}
+
 .header__right {
   flex-direction: row;
   align-items: center;

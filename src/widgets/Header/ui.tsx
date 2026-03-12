@@ -8,16 +8,27 @@ import './style.css';
 interface IProps {
   role?: 'guest' | 'waiter' | 'chef' | 'cashier' | 'admin';
   isDark?: boolean;
+  isOnShift?: boolean;
   onToggleRole?: () => void;
   onToggleTheme?: () => void;
+  onToggleShift?: () => void;
 }
 
-export const Header = ({ role = 'guest', isDark = false, onToggleRole, onToggleTheme }: IProps) => {
+export const Header = ({ 
+  role = 'guest', 
+  isDark = false, 
+  isOnShift = false,
+  onToggleRole, 
+  onToggleTheme,
+  onToggleShift
+}: IProps) => {
+  const isStaff = role !== 'guest' && role !== 'admin';
+
   return (
     <view className="header">
-      {/* Фоновый blur-слой вместо ::before (Lynx не поддерживает псевдо-элементы) */}
+      {/* Фоновый blur-слой */}
       <view className="header__blur-layer" />
-      {/* Лого + название */}
+      
       <view className="header__logo-container">
         <view className="header__logo-icon-wrapper">
           <text className="header__logo-sparkle header__logo-sparkle--small">✦</text>
@@ -26,8 +37,18 @@ export const Header = ({ role = 'guest', isDark = false, onToggleRole, onToggleT
         <text className="header__title">PHENOMEN</text>
       </view>
 
-      {/* Правый слот — управление (роль, тема) */}
       <view className="header__right">
+        {/* Индикатор смены для персонала */}
+        {isStaff && onToggleShift && (
+          <view 
+            className={`header__shift-badge ${isOnShift ? 'header__shift-badge--on' : ''} press-effect`} 
+            bindtap={onToggleShift}
+          >
+            <view className="header__shift-dot" />
+            <text className="header__shift-text">{isOnShift ? 'НА СМЕНЕ' : 'ВНЕ СМЕНЫ'}</text>
+          </view>
+        )}
+
         {onToggleRole && (
           <view className="header__action-btn" bindtap={onToggleRole}>
             <text className="header__action-text">

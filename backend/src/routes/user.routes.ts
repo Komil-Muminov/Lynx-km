@@ -27,6 +27,18 @@ router.patch(
   userController.updateStaff
 );
 
+router.patch(
+  '/shift', 
+  protect, 
+  userController.toggleShift
+);
+
+router.post(
+  '/set-pin', 
+  protect, 
+  userController.setPin
+);
+
 router.delete(
   '/:id', 
   protect, 

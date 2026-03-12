@@ -1,0 +1,82 @@
+.qr-gen {
+  margin: 20px 16px;
+}
+
+.qr-gen__header {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.qr-gen__title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.qr-gen__count {
+  font-size: 14px;
+  color: #666;
+  background-color: #f0f0f0;
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+
+.qr-gen__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.qr-gen__card {
+  padding: 16px;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.qr-gen__table-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  border-radius: 24px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.qr-gen__table-number {
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.qr-gen__table-label {
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.qr-gen__btn {
+  width: 100%;
+  height: 36px;
+  background-color: #f3f4f6;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.qr-gen__btn-text {
+  color: #4f46e5;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.press-effect:active {
+  opacity: 0.7;
+  transform: scale(0.96);
+}

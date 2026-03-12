@@ -1,0 +1,87 @@
+.efficiency {
+  margin: 16px;
+}
+
+.efficiency__title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+}
+
+.efficiency__row {
+  flex-direction: row;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.efficiency__card {
+  flex: 1;
+  padding: 16px;
+  align-items: center;
+  justify-content: center;
+}
+
+.efficiency__card--main {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.efficiency__card--main .efficiency__value,
+.efficiency__card--main .efficiency__label {
+  color: #ffffff;
+}
+
+.efficiency__value {
+  font-size: 24px;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.efficiency__label {
+  font-size: 11px;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.efficiency__list {
+  background-color: #f9fafb;
+  padding: 16px;
+  border-radius: 16px;
+}
+
+.efficiency__list-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4b5563;
+  margin-bottom: 12px;
+}
+
+.efficiency__chef {
+  margin-bottom: 12px;
+}
+
+.efficiency__chef-name {
+  font-size: 13px;
+  color: #1f2937;
+  margin-bottom: 4px;
+}
+
+.efficiency__chef-bar-wrap {
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.efficiency__chef-bar {
+  height: 8px;
+  background: linear-gradient(90deg, #6366f1, #a855f7);
+  border-radius: 4px;
+}
+
+.efficiency__chef-count {
+  font-size: 11px;
+  color: #6b7280;
+  font-weight: 600;
+}

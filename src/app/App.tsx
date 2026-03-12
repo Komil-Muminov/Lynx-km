@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { QueryProvider, CartProvider, GuestSessionProvider, ToastProvider } from './providers/index.js';
+import { useMutationQuery } from '@shared/api/hooks/index.js';
 import { FavoritesProvider } from '@features/Favorites/index.js';
 import { GuestMenu } from '@pages/GuestMenu/index.js';
 import { WaiterHome } from '@pages/WaiterHome/index.js';
@@ -10,36 +11,62 @@ import { Header } from '@widgets/Header/index.js';
 import { _axios } from '@shared/api/_axios.js';
 import { NetworkBanner } from '@shared/ui/NetworkBanner/index.js';
 import './App.css';
+import { PinLogin } from '@pages/PinLogin/index.js';
+
 export const App = () => {
   const [role, setRole] = useState<'guest' | 'waiter' | 'chef' | 'cashier' | 'admin'>('guest');
+  const [isOnShift, setIsOnShift] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [isDark, setIsDark] = useState(false);
   const [isGuestReady, setIsGuestReady] = useState(false);
 
-  useEffect(() => {
-    if (role !== 'guest') {
-      _axios.defaults.headers.common['Authorization'] = `Bearer debug-token-${role}`;
-    } else {
-      delete _axios.defaults.headers.common['Authorization'];
+  const toggleShiftMutation = useMutationQuery({
+    onSuccess: (data: any) => {
+      setIsOnShift(data.isOnShift);
     }
-  }, [role]);
+  });
 
-  const toggleRole = () => {
-    if (role === 'guest') setRole('waiter');
-    else if (role === 'waiter') setRole('chef');
-    else if (role === 'chef') setRole('cashier');
-    else if (role === 'cashier') setRole('admin');
-    else setRole('guest');
+  const logoutMutation = useMutationQuery({
+    onSuccess: () => {
+      setIsOnShift(false);
+      setRole('guest');
+    }
+  });
+
+  const handleToggleShift = () => {
+    toggleShiftMutation.mutate({
+      url: '/api/users/shift',
+      method: 'PATCH'
+    });
   };
 
-  const roleLabel = role === 'guest' 
-    ? '👤 Гость' 
-    : role === 'waiter' 
-    ? '🍽 Оф-ант' 
-    : role === 'chef' 
-    ? '👨‍🍳 Повар' 
-    : role === 'cashier' 
-    ? '💳 Кассир' 
-    : '🤵 Рук-ль';
+  const handleLoginSuccess = (user: any) => {
+    setRole(user.role);
+    setIsOnShift(true); // Всегда true при входе по ПИН (согласно новой логике)
+    setIsLoggingIn(false);
+    _axios.defaults.headers.common['Authorization'] = `Bearer dev-token`; 
+  };
+
+  const toggleRole = () => {
+    if (role === 'guest') {
+      setIsLoggingIn(true);
+      return;
+    }
+    
+    // При выходе (переходе в гостя) - сбрасываем смену
+    if ((role as string) !== 'guest') {
+      logoutMutation.mutate({
+        url: '/api/auth/logout',
+        method: 'POST'
+      });
+      return;
+    }
+
+    // Демо-переключение
+    const roles: any[] = ['guest', 'waiter', 'chef', 'cashier', 'admin'];
+    const next = roles[(roles.indexOf(role) + 1) % roles.length];
+    setRole(next);
+  };
 
   return (
     <QueryProvider>
@@ -48,34 +75,42 @@ export const App = () => {
           <FavoritesProvider>
             <view className={`app-container ${isDark ? 'app-container--dark' : ''}`}>
             <NetworkBanner />
-            {/* Глобальная шапка приложения */}
-            {(role !== 'guest' || isGuestReady) && (
-              <Header 
-                role={role} 
-                isDark={isDark} 
-                onToggleRole={toggleRole} 
-                onToggleTheme={() => setIsDark(!isDark)} 
+            
+            {isLoggingIn ? (
+              <PinLogin 
+                onLoginSuccess={handleLoginSuccess} 
+                onBack={() => setIsLoggingIn(false)} 
               />
+            ) : (
+              <>
+                {(role !== 'guest' || isGuestReady) && (
+                  <Header 
+                    role={role} 
+                    isDark={isDark} 
+                    isOnShift={isOnShift}
+                    onToggleRole={toggleRole} 
+                    onToggleTheme={() => setIsDark(!isDark)} 
+                    onToggleShift={handleToggleShift}
+                  />
+                )}
+
+                <view className="app-content">
+                  {role === 'guest' ? (
+                    <GuestSessionProvider onReady={setIsGuestReady}>
+                      <GuestMenu />
+                    </GuestSessionProvider>
+                  ) : role === 'waiter' ? (
+                    <WaiterHome />
+                  ) : role === 'chef' ? (
+                    <ChefHome />
+                  ) : role === 'cashier' ? (
+                    <CashierHome />
+                  ) : (
+                    <ManagerHome />
+                  )}
+                </view>
+              </>
             )}
-
-            {/* Контентная область — ровно один активный экран всегда */}
-            <view className="app-content">
-              {role === 'guest' ? (
-                <GuestSessionProvider onReady={setIsGuestReady}>
-                  <GuestMenu />
-                </GuestSessionProvider>
-              ) : role === 'waiter' ? (
-                <WaiterHome />
-              ) : role === 'chef' ? (
-                <ChefHome />
-              ) : role === 'cashier' ? (
-                <CashierHome />
-              ) : (
-                <ManagerHome />
-              )}
-            </view>
-
-            {/* Панель отладки удалена, перенесена в шапку */}
           </view>
         </FavoritesProvider>
       </ToastProvider>
