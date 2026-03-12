@@ -1,18 +1,19 @@
 .checkout-orders {
   flex: 1;
-  background-color: #f8f9fa;
-  padding: 16px;
+  background-color: transparent;
+  padding: 0 20px 20px;
 }
 
-/* Статистика смены */
+/* Статистика смены — Высокий контраст и Стиль */
 .checkout-stats {
-  background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+  background: linear-gradient(135deg, #1c1c1e 0%, #0c0c0e 100%);
   border-radius: 24px;
   padding: 24px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   flex-direction: row;
   align-items: center;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
 }
 
 .checkout-stats__item {
@@ -22,157 +23,112 @@
 
 .checkout-stats__divider {
   width: 1px;
-  height: 40px;
-  background-color: rgba(255, 255, 255, 0.1);
-  margin: 0 10px;
+  height: 48px;
+  background-color: rgba(255, 255, 255, 0.08);
+  margin: 0 16px;
 }
 
 .checkout-stats__value {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 900;
   color: #ffffff;
   letter-spacing: -1px;
 }
 
 .checkout-stats__label {
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.3);
   letter-spacing: 0.5px;
   margin-top: 4px;
-  font-weight: 600;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
-.checkout-orders__status-label {
-  font-size: 10px;
-  font-weight: 900;
-  color: #8e8e93;
-  padding: 4px 10px;
-  border-radius: 8px;
-  background-color: #f2f2f7;
-}
-
-/* Поиск и Вкладки */
+/* Поиск и Вкладки — Glassmorphism Style */
 .checkout-controls {
-  margin-bottom: 20px;
-  gap: 12px;
+  margin-bottom: 24px;
+  gap: 16px;
 }
 
 .checkout-search {
   flex-direction: row;
   align-items: center;
-  background-color: #ffffff;
-  height: 52px;
-  border-radius: 16px;
-  padding: 0 16px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  background-color: rgba(255, 255, 255, 0.04);
+  height: 56px;
+  border-radius: 18px;
+  padding: 0 20px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .checkout-search__icon {
   font-size: 18px;
-  margin-right: 10px;
-  opacity: 0.5;
+  margin-right: 12px;
+  opacity: 0.4;
 }
 
 .checkout-search__input {
   flex: 1;
-  font-size: 15px;
-  color: #1a1a1a;
+  font-size: 16px;
+  color: #ffffff;
   height: 100%;
 }
 
 .checkout-tabs {
   flex-direction: row;
-  background-color: rgba(0, 0, 0, 0.03);
-  padding: 4px;
-  border-radius: 14px;
+  background-color: rgba(255, 255, 255, 0.03);
+  padding: 6px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .checkout-tabs__item {
   flex: 1;
-  height: 40px;
+  height: 44px;
   justify-content: center;
   align-items: center;
-  border-radius: 11px;
+  border-radius: 12px;
 }
 
 .checkout-tabs__item--active {
   background-color: #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .checkout-tabs__text {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
-  color: #8e8e93;
+  color: rgba(255, 255, 255, 0.3);
 }
 
 .checkout-tabs__item--active .checkout-tabs__text {
-  color: #007aff;
+  color: #0c0c0e;
 }
 
-/* Список */
+/* Список заказов */
 .checkout-orders__scroll {
   flex: 1;
 }
 
 .checkout-orders__list {
-  gap: 16px;
+  gap: 20px;
   padding-bottom: 40px;
 }
 
-/* Карточка заказа v3 (Ultra Premium) */
+/* --- PREMIUM CASHIER CARD --- */
 .checkout-card {
-  background-color: #ffffff;
+  background-color: #1c1c1e;
   border-radius: 32px;
   padding: 24px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.3);
   position: relative;
   overflow: hidden;
-  margin-bottom: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.02);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.checkout-card--neon {
-  border: 2px solid #ff9500;
-  box-shadow: 0 0 25px rgba(255, 149, 0, 0.25);
-  animation: cardShimmer 3s infinite;
-}
-
-@keyframes cardShimmer {
-  0% { border-color: #ff9500; }
-  50% { border-color: #ff3b30; }
-  100% { border-color: #ff9500; }
-}
-
-.checkout-card__bill-badge {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 24px;
-  background: linear-gradient(90deg, #ff9500 0%, #ff3b30 100%);
-  justify-content: center;
-  align-items: center;
-}
-
-.checkout-card__bill-text {
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: 900;
-  letter-spacing: 1px;
-}
-
-.checkout-card:active {
-  transform: scale(0.98) translateY(4px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 4px;
 }
 
 .checkout-card__header {
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 24px;
 }
 
@@ -183,19 +139,19 @@
 }
 
 .checkout-card__table-circle {
-  width: 56px;
-  height: 56px;
-  background: linear-gradient(135deg, #f0f0f4 0%, #e2e2e8 100%);
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #2c2c2e 0%, #1c1c1e 100%);
   border-radius: 20px;
   justify-content: center;
   align-items: center;
-  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.8), 0 4px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .checkout-card__table-id {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 900;
-  color: #1a1a1a;
+  color: #ffffff;
   letter-spacing: -1px;
 }
 
@@ -204,56 +160,50 @@
 }
 
 .checkout-card__time {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 800;
-  color: #1a1a1a;
+  color: #ffffff;
 }
 
 .checkout-card__id {
-  font-size: 11px;
-  color: #8e8e93;
-  font-weight: 600;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.3);
+  font-weight: 700;
 }
 
 /* Статус со свечением */
 .checkout-card__status-glow {
-  padding: 8px 14px;
-  border-radius: 12px;
+  padding: 8px 16px;
+  border-radius: 50px;
 }
 
 .checkout-card__status-glow--ready {
-  background-color: #ff9500;
-  box-shadow: 0 0 20px rgba(255, 149, 0, 0.4);
-  animation: glowPulse 2s infinite;
-}
-
-.checkout-card__status-glow--pending {
-  background-color: #ff2d55;
-  box-shadow: 0 0 15px rgba(255, 45, 85, 0.2);
-}
-
-.checkout-card__status-glow--paid {
-  background-color: #34c759;
+  background: rgba(255, 159, 10, 0.15);
+  border: 1px solid rgba(255, 159, 10, 0.3);
+  box-shadow: 0 0 15px rgba(255, 159, 10, 0.2);
 }
 
 .checkout-card__status-text-v3 {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 900;
-  color: #ffffff;
+  color: #ff9f0a;
   letter-spacing: 0.5px;
 }
 
-@keyframes glowPulse {
-  0% { opacity: 0.8; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.05); }
-  100% { opacity: 0.8; transform: scale(1); }
+.checkout-card__status-glow--paid .checkout-card__status-text-v3 {
+  color: #32d74b;
 }
 
+.checkout-card__status-glow--paid {
+  background: rgba(50, 215, 75, 0.1);
+}
+
+/* Контент карточки */
 .checkout-card__content {
-  background-color: #f8f9fb;
+  background-color: rgba(255, 255, 255, 0.03);
   border-radius: 20px;
-  padding: 16px;
-  margin-bottom: 20px;
+  padding: 20px;
+  margin-bottom: 24px;
 }
 
 .checkout-card__row {
@@ -263,477 +213,169 @@
 }
 
 .checkout-card__label {
-  font-size: 14px;
-  color: #8e8e93;
-  font-weight: 600;
-}
-
-.checkout-card__value {
-  font-size: 16px;
-  font-weight: 800;
-  color: #1a1a1a;
-}
-
-.checkout-card__modifiers {
-  margin: 16px 0;
-  gap: 12px;
-}
-
-.checkout-card__mod-item {
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.checkout-card__mod-title {
-  font-size: 13px;
-  color: #666;
-}
-
-.checkout-card__mod-selector {
-  flex-direction: row;
-  align-items: center;
-  background-color: #f8f9fa;
-  border-radius: 12px;
-  padding: 4px;
-}
-
-.checkout-card__mod-btn {
-  width: 28px;
-  height: 28px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.checkout-card__mod-btn-icon {
-  font-size: 16px;
-  color: #1a1a1a;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.3);
   font-weight: 700;
 }
 
-.checkout-card__mod-value {
-  padding: 0 12px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #1a1a1a;
+.checkout-card__value {
+  font-size: 18px;
+  font-weight: 800;
+  color: #ffffff;
 }
 
 .checkout-card__total {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-top: 8px;
-  padding: 20px;
-  background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);
-  border-radius: 20px;
-  border: 1px solid rgba(0, 122, 255, 0.05);
+  padding: 24px;
+  background-color: rgba(255, 255, 255, 0.02);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .checkout-card__total-label {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 800;
-  color: #1a1a1a;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .checkout-card__total-amount {
-  font-size: 36px;
+  font-size: 40px;
   font-weight: 900;
-  color: #007aff;
+  color: #ffffff;
   letter-spacing: -2px;
-  text-shadow: 0 4px 10px rgba(0, 122, 255, 0.15);
 }
 
+/* Кнопки */
 .checkout-card__pay-btn {
-  height: 64px;
-  background: linear-gradient(135deg, #007aff 0%, #004596 100%);
-  border-radius: 20px;
+  height: 72px;
+  background-color: #ffffff;
+  border-radius: 22px;
   justify-content: center;
   align-items: center;
-  margin-top: 16px;
-  box-shadow: 0 12px 24px rgba(0, 122, 255, 0.3);
-}
-
-.checkout-card__pay-btn--printing {
-  background-color: #e0e0e0;
+  margin-top: 20px;
 }
 
 .checkout-card__pay-text {
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: 700;
+  color: #000000;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+
+.checkout-card__pay-btn--printing {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .checkout-card__pay-btn--printing .checkout-card__pay-text {
-  color: #888;
+  color: rgba(255, 255, 255, 0.3);
 }
 
-/* Анимация чека */
-.checkout-card__receipt-paper {
-  position: absolute;
-  top: -60px;
-  left: 20px;
-  right: 20px;
-  height: 80px;
-  background-color: #fdfdfd;
-  border: 1px solid #eee;
-  border-bottom: 2px dashed #ddd;
-  padding: 12px;
-  animation: receiptSlide 2s ease-in-out;
-  z-index: 20;
-}
-
-.checkout-card__receipt-line {
-  height: 4px;
-  background-color: #eee;
-  margin-bottom: 6px;
-  border-radius: 2px;
-}
-
-.checkout-card__receipt-line--short {
-  width: 60%;
-}
-
-@keyframes receiptSlide {
-  0% { transform: translateY(0); opacity: 0; }
-  20% { opacity: 1; }
-  50% { transform: translateY(100px); }
-  80% { opacity: 1; }
-  100% { transform: translateY(120px); opacity: 0; }
-}
-
-.checkout-orders__empty {
-  flex: 1;
-  padding: 60px 40px;
-  align-items: center;
-  justify-content: center;
-}
-
-.checkout-orders__empty-icon {
-  font-size: 48px;
-  margin-bottom: 16px;
-}
-
-.checkout-orders__empty-title {
-  font-size: 20px;
-  font-weight: 700;
-  color: #1a1a1a;
-  text-align: center;
-}
-
-.checkout-orders__empty-sub {
-  font-size: 14px;
-  color: #888;
-  margin-top: 4px;
-  text-align: center;
-}
-
-/* Модальное окно деталей */
-.order-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-  /* Lynx не поддерживает backdrop-filter: blur, поэтому используем полупрозрачность */
-  z-index: 100;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-
-.order-modal {
-  width: 100%;
-  max-width: 400px;
-  background-color: #ffffff;
-  border-radius: 28px;
-  max-height: 80%;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-  animation: modalPop 0.3s cubic-bezier(0.17, 0.89, 0.32, 1.28) forwards;
-}
-
-@keyframes modalPop {
-  0% { transform: scale(0.9); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
-}
-
-.order-modal__header {
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 24px;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.order-modal__title {
-  font-size: 18px;
-  font-weight: 800;
-  color: #1a1a1a;
-}
-
-.order-modal__close {
-  width: 32px;
-  height: 32px;
-  background-color: #f5f5f7;
-  border-radius: 16px;
-  justify-content: center;
-  align-items: center;
-}
-
-.order-modal__close-icon {
-  font-size: 14px;
-  color: #8e8e93;
-}
-
-.order-modal__info {
-  padding: 20px 24px;
-  gap: 12px;
-}
-
-.order-modal__info-row {
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.order-modal__info-label {
-  font-size: 14px;
-  color: #8e8e93;
-}
-
-.order-modal__info-value {
-  font-size: 14px;
-  font-weight: 700;
-  color: #1a1a1a;
-}
-
-.order-modal__status {
-  font-size: 11px;
-  font-weight: 800;
-  padding: 4px 10px;
-  border-radius: 20px;
-}
-
-.order-modal__status--ready { background-color: #fff3e0; color: #e65100; }
-.order-modal__status--pending { background-color: #fce4ec; color: #c2185b; }
-.order-modal__status--paid { background-color: #e8f5e9; color: #2e7d32; }
-
-.order-modal__divider {
-  height: 1px;
-  background-color: #f0f0f0;
-}
-
-.order-modal__items {
-  flex: 1;
-  padding: 20px 24px;
-}
-
-.order-modal__items-title {
-  font-size: 13px;
-  font-weight: 700;
-  color: #8e8e93;
-  letter-spacing: 0.5px;
-  margin-bottom: 16px;
-}
-
-.order-modal__item {
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-.order-modal__item-main {
-  flex: 1;
-  flex-direction: row;
-  align-items: center;
-  gap: 8px;
-}
-
-.order-modal__item-name {
-  font-size: 15px;
-  font-weight: 600;
-  color: #1a1a1a;
-}
-
-.order-modal__item-qty {
-  font-size: 13px;
-  color: #8e8e93;
-  background-color: #f5f5f7;
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-
-.order-modal__item-price {
-  font-size: 15px;
-  font-weight: 700;
-  color: #1a1a1a;
-}
-
-.order-modal__footer {
-  padding: 24px;
-  border-top: 1px solid #f0f0f0;
-  gap: 16px;
-}
-
-.order-modal__total-row {
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.order-modal__total-label {
-  font-size: 16px;
-  font-weight: 700;
-  color: #1a1a1a;
-}
-
-.order-modal__total-val {
-  font-size: 24px;
-  font-weight: 900;
-  color: #007aff;
-}
-
-.order-modal__paid-badge {
-  background-color: #e8f5e9;
-  padding: 12px;
-  border-radius: 12px;
-  align-items: center;
-}
-
-.order-modal__paid-text {
-  color: #2e7d32;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 1px;
-}
-
-/* Close Day styles */
-.checkout-header-row {
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.checkout-close-btn {
-  background-color: #ff4d4f;
-  padding: 8px 16px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(255, 77, 79, 0.2);
-}
-
-.checkout-close-btn__text {
-  color: white;
-  font-size: 14px;
-  font-weight: 600;
-}
-
+/* Модалка закрытия дня */
 .checkout-modal-overlay {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.9);
   z-index: 1000;
   justify-content: center;
   align-items: center;
+  padding: 32px;
 }
 
 .checkout-modal {
-  width: 90%;
-  max-width: 400px;
-  background-color: white;
-  border-radius: 20px;
-  padding: 24px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 440px;
+  background-color: #1c1c1e;
+  border-radius: 40px;
+  padding: 40px 32px;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .checkout-modal__title {
-  font-size: 20px;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 8px;
+  font-size: 28px;
+  font-weight: 900;
+  color: #ffffff;
+  margin-bottom: 12px;
   text-align: center;
+  letter-spacing: -0.5px;
 }
 
 .checkout-modal__desc {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 24px;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 32px;
   text-align: center;
+  line-height: 22px;
 }
 
 .checkout-modal__row {
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: 16px;
-  padding: 12px;
-  background-color: #f8f8f8;
-  border-radius: 12px;
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 20px;
 }
 
 .checkout-modal__label {
-  font-size: 14px;
-  color: #666;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .checkout-modal__value {
-  font-size: 16px;
-  font-weight: 700;
-  color: #1a1a1a;
-}
-
-.checkout-modal__input-wrap {
-  margin-bottom: 24px;
+  font-size: 18px;
+  font-weight: 800;
+  color: #ffffff;
 }
 
 .checkout-modal__input {
-  margin-top: 8px;
-  height: 54px;
-  border: 2px solid #eee;
-  border-radius: 12px;
-  padding: 0 16px;
-  font-size: 18px;
-  font-weight: 700;
-  color: #1a1a1a;
+  margin-top: 12px;
+  height: 64px;
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  padding: 0 20px;
+  font-size: 24px;
+  font-weight: 900;
+  color: #ffffff;
 }
 
 .checkout-modal__actions {
   flex-direction: row;
-  gap: 12px;
+  gap: 16px;
+  margin-top: 32px;
 }
 
 .checkout-modal__btn {
   flex: 1;
-  height: 50px;
+  height: 64px;
   justify-content: center;
   align-items: center;
-  border-radius: 12px;
+  border-radius: 18px;
 }
 
 .checkout-modal__btn--cancel {
-  background-color: #f5f5f5;
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 .checkout-modal__btn--submit {
-  background-color: #1a1a1a;
+  background-color: #ffffff;
 }
 
 .checkout-modal__btn-text {
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 800;
 }
 
 .checkout-modal__btn--cancel .checkout-modal__btn-text {
-  color: #666;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .checkout-modal__btn--submit .checkout-modal__btn-text {
-  color: white;
+  color: #000000;
 }

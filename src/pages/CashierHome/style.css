@@ -3,17 +3,19 @@
   flex-direction: column;
   width: 100%;
   height: 100%;
-  background-color: transparent; /* Фон из App.css */
+  background-color: #0c0c0e; /* Глубокий премиальный черный */
 }
 
+/* Island Header */
 .cashier-page__header {
-  padding: 24px 20px 20px;
+  margin: 16px 20px 10px;
+  padding: 18px 24px;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 24px 20px;
-  background-color: #ffffff;
-  border-bottom: 1px solid #f0f0f0;
 }
 
 .cashier-page__header-left {
@@ -21,15 +23,16 @@
 }
 
 .cashier-page__title {
-  font-size: 22px;
-  font-weight: 800;
-  color: #1a1a1a;
+  font-size: 24px;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: -0.5px;
 }
 
 .cashier-page__subtitle {
   font-size: 13px;
-  color: #888;
-  margin-top: 2px;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 500;
 }
 
 .cashier-page__header-right {
@@ -37,47 +40,51 @@
 }
 
 .cashier-page__shift-badge {
-  padding: 4px 10px;
-  background-color: #e6f7ed;
-  border-radius: 8px;
+  padding: 6px 14px;
+  background-color: rgba(50, 215, 75, 0.1);
+  border-radius: 10px;
   margin-bottom: 4px;
 }
 
 .cashier-page__shift-text {
   font-size: 11px;
-  color: #2ea44f;
-  font-weight: 600;
+  color: #32d74b;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .cashier-page__time {
-  font-size: 16px;
-  font-weight: 600;
-  color: #1a1a1a;
+  font-size: 18px;
+  font-weight: 800;
+  color: #ffffff;
 }
 
 .cashier-page__content {
   flex: 1;
-  background-color: #f8f9fa;
+  background-color: transparent;
 }
 
 .cashier-page__footer {
   flex-direction: row;
   align-items: center;
-  padding: 12px 20px;
-  background-color: #ffffff;
-  border-top: 1px solid #f0f0f0;
+  padding: 16px 24px;
+  background-color: transparent;
 }
 
 .cashier-page__status-indicator {
-  width: 8px;
-  height: 8px;
-  background-color: #2ea44f;
-  border-radius: 4px;
-  margin-right: 8px;
+  width: 6px;
+  height: 6px;
+  background-color: #32d74b;
+  border-radius: 3px;
+  margin-right: 12px;
+  box-shadow: 0 0 10px rgba(50, 215, 75, 0.5);
 }
 
 .cashier-page__power {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 800;
-  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
