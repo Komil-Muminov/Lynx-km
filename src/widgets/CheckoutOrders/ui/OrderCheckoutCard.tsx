@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import dayjs from 'dayjs';
 import { useMutationQuery } from '@shared/api/hooks/index.js';
 import { getEnvVar } from '@shared/config/index.js';
 import { useHaptic } from '@shared/lib/hooks/index.js';
 import { useQueryClient } from '@tanstack/react-query';
 import type { IOrder } from '@entities/Order/index.js';
 import { OrderDetailsModal } from './OrderDetailsModal.js';
+import { SplitBillModal } from './SplitBillModal.js';
 
 interface IOrderCheckoutCardProps {
   order: IOrder;
@@ -18,6 +20,7 @@ export const OrderCheckoutCard = ({ order, restaurantId }: IOrderCheckoutCardPro
   const [tipsVal, setTipsVal] = useState<number>(0);
   const [isPrinting, setIsPrinting] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
+  const [showSplit, setShowSplit] = useState(false);
 
   const statusMutation = useMutationQuery();
 
@@ -76,7 +79,14 @@ export const OrderCheckoutCard = ({ order, restaurantId }: IOrderCheckoutCardPro
         <view className="checkout-card__content">
           <view className="checkout-card__row">
             <text className="checkout-card__label">Заказ:</text>
-            <text className="checkout-card__value">{order.totalPrice} д.</text>
+            <view className="checkout-card__price-row">
+              <text className="checkout-card__value">{order.totalPrice} д.</text>
+              {order.status !== 'paid' && (
+                <view className="checkout-card__split-link press-effect" catchtap={(e: any) => { e.stopPropagation(); setShowSplit(true); }}>
+                  <text className="checkout-card__split-link-text">Разделить ✂️</text>
+                </view>
+              )}
+            </view>
           </view>
         </view>
 
@@ -136,6 +146,10 @@ export const OrderCheckoutCard = ({ order, restaurantId }: IOrderCheckoutCardPro
 
       {showDetails && (
         <OrderDetailsModal order={order} onClose={() => setShowDetails(false)} />
+      )}
+
+      {showSplit && (
+        <SplitBillModal order={order} onClose={() => setShowSplit(false)} />
       )}
     </>
   );

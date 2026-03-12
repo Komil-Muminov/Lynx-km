@@ -13,7 +13,6 @@ interface IProps {
 const CALL_ACTIONS = [
   { type: ECallType.WAITER,  emoji: '🙋', label: 'Официант',  mod: '--waiter'  },
   { type: ECallType.HOOKAH,  emoji: '💨', label: 'Кальянщик', mod: '--hookah'  },
-  { type: ECallType.PAYMENT, emoji: '💳', label: 'Счёт',      mod: '--bill'    },
 ] as const;
 
 export const CallStaffWidget = ({ restaurantId, tableId }: IProps) => {

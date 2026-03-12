@@ -75,6 +75,19 @@ export const GuestSessionProvider = ({ children, onReady }: IProps) => {
     if (data) setSession(data);
   }, [data]);
 
+  // Полинг статуса заказа для гостя
+  const { data: latestOrder } = useGetQuery<any[]>(
+    ['guest-order-status', session?.restaurantId, session?.tableId],
+    `/api/orders/restaurant/${session?.restaurantId}`,
+    {},
+    { 
+      enabled: !!session, 
+      refetchInterval: 5000 
+    }
+  );
+
+  const isPaid = latestOrder?.find(o => o.tableId === session?.tableId)?.status === 'paid';
+
   // QR получен через нативный клиент
   if (hasQrParams) {
     if (isLoading) {
@@ -170,6 +183,25 @@ export const GuestSessionProvider = ({ children, onReady }: IProps) => {
     <GuestSessionContext.Provider value={{ session, setSession, isLoading: false }}>
       <view className="session-container">
         {children}
+        
+        {isPaid && (
+          <view className="payment-success-overlay">
+            <view className="payment-success-card">
+              <view className="payment-success-icon">
+                <text className="payment-success-check">✓</text>
+              </view>
+              <text className="payment-success-title">Счет оплачен</text>
+              <text className="payment-success-msg">Спасибо за визит! Будем рады видеть вас снова.</text>
+              
+              <view className="payment-success-btn press-effect" bindtap={() => {
+                // В реальном приложении здесь может быть переход к отзыву или закрытие приложения
+                setSession(null); 
+              }}>
+                <text className="payment-success-btn-txt">Завершить сессию</text>
+              </view>
+            </view>
+          </view>
+        )}
       </view>
     </GuestSessionContext.Provider>
   );

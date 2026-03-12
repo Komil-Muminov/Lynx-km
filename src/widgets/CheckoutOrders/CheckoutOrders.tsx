@@ -106,7 +106,7 @@ export const CheckoutOrders = ({ restaurantId }: IProps) => {
               <OrderCheckoutCard 
                 key={order._id} 
                 order={order} 
-                restaurantId={restaurantId} 
+                restaurantId={restaurantId}
               />
             ))}
           </view>

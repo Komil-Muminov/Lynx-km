@@ -126,6 +126,36 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.checkout-card--neon {
+  border: 2px solid #ff9500;
+  box-shadow: 0 0 25px rgba(255, 149, 0, 0.25);
+  animation: cardShimmer 3s infinite;
+}
+
+@keyframes cardShimmer {
+  0% { border-color: #ff9500; }
+  50% { border-color: #ff3b30; }
+  100% { border-color: #ff9500; }
+}
+
+.checkout-card__bill-badge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 24px;
+  background: linear-gradient(90deg, #ff9500 0%, #ff3b30 100%);
+  justify-content: center;
+  align-items: center;
+}
+
+.checkout-card__bill-text {
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
 .checkout-card:active {
   transform: scale(0.98) translateY(4px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
