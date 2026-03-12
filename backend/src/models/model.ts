@@ -38,8 +38,10 @@ export interface IUser extends Document {
   name: string;
   phone: string;
   role: EUserRole;
-  restaurantId?: mongoose.Types.ObjectId; // null для SuperAdmin
+  restaurantId?: Types.ObjectId; // null для SuperAdmin
   passwordHash: string;
+  pinHash?: string; // Экранированный ПИН-код (4 цифры)
+  isOnShift: boolean; // Статус смены
   createdAt: Date;
   updatedAt: Date;
 }
@@ -103,7 +105,9 @@ const UserSchema = new Schema<IUser>({
   phone: { type: String, required: true, unique: true },
   role: { type: String, enum: Object.values(EUserRole), required: true },
   restaurantId: { type: Schema.Types.ObjectId, ref: 'Restaurant' },
-  passwordHash: { type: String, required: true }
+  passwordHash: { type: String, required: true },
+  pinHash: { type: String },
+  isOnShift: { type: Boolean, default: false }
 }, { timestamps: true });
 
 const MenuSchema = new Schema<IMenu>({
