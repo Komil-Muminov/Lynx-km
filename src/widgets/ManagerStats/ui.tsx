@@ -9,6 +9,8 @@ interface IStats {
   todayOrdersCount: number;
   todayCommission: number;
   averageBill: number;
+  avgPrepTime: number;
+  topDish: string;
 }
 
 interface IManagerStatsProps {
@@ -80,6 +82,16 @@ export const ManagerStats = ({ restaurantId }: IManagerStatsProps) => {
           <text className="manager-stats__value manager-stats__value-commission">
             {formatPrice(stats.todayCommission)}
           </text>
+        </view>
+
+        <view className="manager-stats__card manager-stats__card--accent">
+          <text className="manager-stats__label">🏆 Топ блюдо</text>
+          <text className="manager-stats__value manager-stats__value-top">{stats.topDish}</text>
+        </view>
+
+        <view className="manager-stats__card">
+          <text className="manager-stats__label">⏱ Ср. время готовки</text>
+          <text className="manager-stats__value manager-stats__value-time">{stats.avgPrepTime} мин</text>
         </view>
       </view>
     </view>

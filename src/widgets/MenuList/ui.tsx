@@ -47,6 +47,7 @@ export const MenuList = ({ restaurantId }: IProps) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeDish, setActiveDish] = useState<IMenuItem | null>(null);
   const [matchSuggestion, setMatchSuggestion] = useState<IMenuItem | null>(null);
+  const [particles, setParticles] = useState<Array<{ id: number; x: number; y: number }>>([]);
 
   const { data: menu, isLoading, isError, refetch } = useGetQuery<IMenu>(
     ['menu', restaurantId],
@@ -263,6 +264,20 @@ export const MenuList = ({ restaurantId }: IProps) => {
           </view>
         </view>
       )}
+
+      {/* Частицы для анимации полета в корзину (v7.0) */}
+      {particles.map(particle => (
+        <view 
+          key={particle.id} 
+          className="cart-particle"
+          style={{ 
+            left: `${particle.x}px`, 
+            top: `${particle.y}px` 
+          }}
+        >
+          <view className="cart-particle__inner" />
+        </view>
+      ))}
 
       {/* Bottom Sheet детали */}
       <BottomSheet

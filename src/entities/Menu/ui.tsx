@@ -19,8 +19,8 @@ export const MenuItemCard = memo(({ item, quantity, onAdd, onRemove, onPress }: 
   const { toggle, isFavorite } = useFavorites();
   const { trigger } = useHaptic();
 
-  const handleAdd = () => {
-    onAdd(item);
+  const handleAdd = (e: any) => {
+    onAdd(item, e);
     setIsAdded(true);
   };
 
@@ -69,7 +69,7 @@ export const MenuItemCard = memo(({ item, quantity, onAdd, onRemove, onPress }: 
                   <text className="menu-card__qty-icon">−</text>
                 </view>
                 <text className="menu-card__qty-val">{quantity}</text>
-                <view className="menu-card__qty-btn press-effect" bindtap={handleAdd}>
+                <view className="menu-card__qty-btn press-effect" bindtap={(e) => handleAdd(e)}>
                   <text className="menu-card__qty-icon">+</text>
                 </view>
               </view>
@@ -77,7 +77,7 @@ export const MenuItemCard = memo(({ item, quantity, onAdd, onRemove, onPress }: 
               /* Кнопка добавить */
               <view
                 className={`menu-card__add-btn press-effect ${isAdded ? 'menu-card__add-btn--success' : ''}`}
-                bindtap={handleAdd}
+                bindtap={(e) => handleAdd(e)}
               >
                 <text className="menu-card__add-text">
                   {isAdded ? '✅ Добавлено' : '+ В корзину'}
