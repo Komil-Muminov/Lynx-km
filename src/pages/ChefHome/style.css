@@ -27,34 +27,32 @@
   display: flex;
   flex-direction: row;
   background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
-  padding: 5px;
-  margin-top: 8px;
+  padding: 6px;
+  border-radius: 18px;
+  margin-top: 16px;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .chef-page__tab {
   flex: 1;
-  padding: 12px 0;
+  padding: 14px 6px;
+  border-radius: 14px;
+  justify-content: center;
   align-items: center;
-  border-radius: 12px;
-  transition: background-color 0.2s ease;
 }
 
 .chef-page__tab--active {
-  background-color: #ff3b30;
-  box-shadow: 0 4px 12px rgba(255, 59, 48, 0.3);
+  background-color: #ffffff;
 }
 
 .chef-page__tab-txt {
+  color: rgba(255, 255, 255, 0.4);
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.5);
   font-weight: 700;
-  letter-spacing: 0.5px;
 }
 
 .chef-page__tab-txt--active {
-  color: #ffffff;
+  color: #1c1c1e;
 }
 
 .chef-page__content {

@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import { useHaptic } from '@shared/lib/hooks/index.js';
 import { EmptyState } from '@shared/ui/EmptyState/index.js';
 import { KitchenOrdersSkeleton } from './ui/index.js';
+import { useAudio } from '@shared/lib/hooks/index.js';
 import type { IOrder } from '@entities/Order/index.js';
 import './style.css';
 
@@ -18,30 +19,48 @@ const ACTIVE_STATUSES = ['pending', 'cooking'] as const;
 
 // Читабельные лейблы статусов
 const STATUS_LABELS: Record<string, string> = {
-  pending: 'В очереди',
-  cooking: 'Готовится',
+  pending: 'Новый заказ',
+  cooking: 'В работе',
 };
 
 const API_URL = getEnvVar('API_URL');
 
 // Пороговые значения времени (в минутах)
 const TIME_THRESHOLDS = {
-  WARNING: 10,
-  CRITICAL: 20
+  WARNING: 8, // Чуть раньше подгоняем
+  CRITICAL: 15
 };
 
 export const KitchenOrders = ({ restaurantId }: IProps) => {
   const queryClient = useQueryClient();
   const { trigger } = useHaptic();
+  const { playNotification } = useAudio();
 
   const { data: orders, isLoading } = useGetQuery<IOrder[]>(
     ['kitchen-orders', restaurantId],
-    `${API_URL}/api/orders/restaurant/${restaurantId}`
+    `${API_URL}/api/orders/restaurant/${restaurantId}`,
+    {},
+    { refetchInterval: 10000 } // Опрашиваем чаще
   );
 
   const statusMutation = useMutationQuery();
-
   const [now, setNow] = React.useState(dayjs());
+  const prevOrdersCount = React.useRef(0);
+
+  // Следим за новыми заказами
+  React.useEffect(() => {
+    if (!orders) return;
+    
+    const activeOrders = orders.filter(o => ACTIVE_STATUSES.includes(o.status as any));
+    
+    // Если стало больше активных заказов, чем было — играем звук
+    if (activeOrders.length > prevOrdersCount.current) {
+      playNotification();
+      trigger('heavy');
+    }
+    
+    prevOrdersCount.current = activeOrders.length;
+  }, [orders]);
 
   React.useEffect(() => {
     const timer = setInterval(() => setNow(dayjs()), 60000); // Обновляем каждую минуту
