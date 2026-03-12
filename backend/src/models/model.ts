@@ -95,8 +95,6 @@ export interface IOrder extends Document {
   status: 'draft' | 'pending' | 'cooking' | 'ready' | 'paid' | 'cancelled';
   cookingAt?: Date; // Когда повар начал готовить
   readyAt?: Date;   // Когда заказ стал готов к выдаче
-  waiterId?: mongoose.Types.ObjectId; // Официант, открывший заказ
-  chefId?: mongoose.Types.ObjectId;   // Повар, приготовивший заказ
   createdAt: Date;
   updatedAt: Date;
 }
@@ -170,9 +168,7 @@ const OrderSchema = new Schema<IOrder>({
     default: 'pending' 
   },
   cookingAt: { type: Date },
-  readyAt: { type: Date },
-  waiterId: { type: Schema.Types.ObjectId, ref: 'User' },
-  chefId: { type: Schema.Types.ObjectId, ref: 'User' }
+  readyAt: { type: Date }
 }, { timestamps: true });
 
 const CommissionSchema = new Schema<ICommission>({

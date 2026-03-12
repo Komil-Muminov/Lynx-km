@@ -101,10 +101,6 @@ export const updateOrderStatus = async (req: Request, res: Response) => {
     // Новая логика v7.0: Фиксируем время для аналитики
     if (status === 'cooking' && oldStatus !== 'cooking') {
       order.cookingAt = new Date();
-      // Привязываем повара
-      if (req.user?.role === EUserRole.CHEF) {
-        order.chefId = new mongoose.Types.ObjectId(req.user.userId);
-      }
     }
     if (status === 'ready' && oldStatus !== 'ready') {
       order.readyAt = new Date();
@@ -124,11 +120,6 @@ export const updateOrderStatus = async (req: Request, res: Response) => {
           'order_ready'
         );
       }
-    }
-
-    // Привязываем официанта, если он управляет заказом и он еще не привязан
-    if (req.user?.role === EUserRole.WAITER && !order.waiterId) {
-      order.waiterId = new mongoose.Types.ObjectId(req.user.userId);
     }
 
     // Если передана скидка или чаевые, сохраняем (обычно при status='paid')
