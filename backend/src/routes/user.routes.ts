@@ -39,6 +39,13 @@ router.post(
   userController.setPin
 );
 
+router.get(
+  '/shifts/:restaurantId', 
+  protect, 
+  authorize(EUserRole.ADMIN, EUserRole.MANAGER), 
+  userController.getShiftHistory
+);
+
 router.delete(
   '/:id', 
   protect, 

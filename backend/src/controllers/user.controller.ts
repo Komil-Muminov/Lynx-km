@@ -210,3 +210,27 @@ export const toggleShift = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Ошибка при переключении смены' });
   }
 };
+
+/**
+ * Получение истории смен ресторана
+ */
+export const getShiftHistory = async (req: Request, res: Response) => {
+  try {
+    const { restaurantId } = req.params;
+    
+    // Безопасность
+    if (req.user?.role !== EUserRole.SUPER_ADMIN && req.user?.restaurantId?.toString() !== restaurantId) {
+      return res.status(403).json({ message: 'Нет доступа к истории этого заведения' });
+    }
+
+    const shifts = await Shift.find({ restaurantId })
+      .populate('userId', 'name role')
+      .sort({ startTime: -1 })
+      .limit(100);
+
+    res.json(shifts);
+  } catch (error) {
+    console.error('Error fetching shift history:', error);
+    res.status(500).json({ message: 'Ошибка при получении истории смен' });
+  }
+};

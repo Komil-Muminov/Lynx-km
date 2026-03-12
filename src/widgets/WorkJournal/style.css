@@ -1,0 +1,107 @@
+.work-journal {
+  margin: 20px 16px;
+}
+
+.work-journal__header {
+  margin-bottom: 16px;
+}
+
+.work-journal__title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.work-journal__subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-top: 2px;
+}
+
+.work-journal__list {
+  gap: 12px;
+}
+
+.work-journal__item {
+  padding: 16px;
+  border-radius: 12px;
+  background-color: #fcfcfc;
+}
+
+.work-journal__item-main {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.work-journal__name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.work-journal__role {
+  font-size: 12px;
+  color: #888;
+  margin-top: 2px;
+}
+
+.work-journal__status {
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.work-journal__status--active {
+  background-color: #e8f5e9;
+}
+
+.work-journal__status--active .work-journal__status-text {
+  color: #2e7d32;
+}
+
+.work-journal__status--completed {
+  background-color: #f5f5f5;
+}
+
+.work-journal__status--completed .work-journal__status-text {
+  color: #616161;
+}
+
+.work-journal__status-text {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.work-journal__item-details {
+  flex-direction: row;
+  gap: 24px;
+  padding-top: 12px;
+  border-top-width: 1px;
+  border-top-color: #f0f0f0;
+}
+
+.work-journal__time-block {
+  gap: 4px;
+}
+
+.work-journal__label {
+  font-size: 11px;
+  color: #999;
+}
+
+.work-journal__value {
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+}
+
+.work-journal__empty {
+  padding: 40px 0;
+  align-items: center;
+}
+
+.work-journal__empty-text {
+  color: #999;
+  font-size: 14px;
+}
