@@ -50,7 +50,6 @@
   font-size: 11px;
   color: #32d74b;
   font-weight: 800;
-  text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
@@ -86,5 +85,4 @@
   font-weight: 800;
   color: rgba(255, 255, 255, 0.3);
   letter-spacing: 1px;
-  text-transform: uppercase;
 }

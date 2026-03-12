@@ -97,6 +97,8 @@
 
 .guest-menu__content {
   flex: 1;
+  display: flex;
+  flex-direction: column;
   padding: 20px 16px;
   padding-bottom: 150px;
   min-height: 0;

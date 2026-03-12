@@ -9,7 +9,7 @@ export const getEnvVar = (key: string): string => {
   
   // Возвращаем дефолты для fallback
   const fallbacks: Record<string, string> = {
-    'API_URL': 'http://localhost:5000'
+    'API_URL': 'http://192.168.100.15:5000'
   };
   
   return fallbacks[key] || '';

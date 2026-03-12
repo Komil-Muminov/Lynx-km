@@ -109,6 +109,7 @@ export const KitchenOrders = ({ restaurantId }: IProps) => {
         <view className="kitchen-orders__grid">
           {activeOrders.map((order) => (
             <view key={order._id} className={`kitchen-orders__card kitchen-orders__card-${order.status} ${getUrgencyClass(order.createdAt)}`}>
+              <view className="kitchen-orders__accent-bar" />
               <view className="kitchen-orders__card-header">
                 <view className="kitchen-orders__table-badge">
                   <text className="kitchen-orders__table">Стол {order.tableId}</text>

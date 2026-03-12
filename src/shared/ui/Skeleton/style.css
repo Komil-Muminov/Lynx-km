@@ -5,8 +5,7 @@
 }
 
 /* Бегущий блик поверх заглушки */
-.skeleton::after {
-  content: '';
+.skeleton__shimmer {
   position: absolute;
   top: 0;
   left: -100%;
@@ -31,7 +30,7 @@
   background-color: #2a2a3a;
 }
 
-.app-container--dark .skeleton::after {
+.app-container--dark .skeleton__shimmer {
   background: linear-gradient(
     90deg,
     transparent 0%,

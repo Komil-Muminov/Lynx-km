@@ -46,7 +46,7 @@ export function App() {
 							/>
 						)}
 					</view>
-					<text className="Title">React2</text>
+					<text className="Title">REACT</text>
 					<text className="Subtitle">on Lynx</text>
 				</view>
 				<view className="Content">
@@ -56,8 +56,7 @@ export function App() {
 					/>
 					<text className="Description">Tap the logo and have fun!</text>
 					<text className="Hint">
-						Edit <text style={{ fontStyle: "italic" }}>src/App.tsx </text>
-						to see updates!
+						Edit src/App.tsx to see updates!
 					</text>
 					{/* Добавляем счётчик */}
 					<view className="Counter">
@@ -78,7 +77,7 @@ export function App() {
 						</view>
 					</view>
 				</view>
-				<view style={{ flex: 1 }} />
+					<view className="Spacer" />
 			</view>
 		</view>
 	);

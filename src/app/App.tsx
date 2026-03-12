@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { QueryProvider, CartProvider, GuestSessionProvider, ToastProvider } from './providers/index.js';
+import React, { useState } from 'react';
+import { GuestSessionProvider } from './providers/index.js';
 import { useMutationQuery } from '@shared/api/hooks/index.js';
-import { FavoritesProvider } from '@features/Favorites/index.js';
 import { GuestMenu } from '@pages/GuestMenu/index.js';
 import { WaiterHome } from '@pages/WaiterHome/index.js';
 import { ChefHome } from '@pages/ChefHome/index.js';
@@ -10,16 +9,18 @@ import { ManagerHome } from '@pages/ManagerHome/index.js';
 import { Header } from '@widgets/Header/index.js';
 import { _axios } from '@shared/api/_axios.js';
 import { NetworkBanner } from '@shared/ui/NetworkBanner/index.js';
-import './App.css';
 import { PinLogin } from '@pages/PinLogin/index.js';
 import { StaffNotifications } from '@widgets/StaffNotifications/index.js';
+import './App.css';
+
+import { useGuestSession } from './providers/index.js';
 
 export const App = () => {
+  const { session } = useGuestSession();
   const [role, setRole] = useState<'guest' | 'waiter' | 'chef' | 'cashier' | 'admin'>('guest');
   const [isOnShift, setIsOnShift] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [isDark, setIsDark] = useState(false);
-  const [isGuestReady, setIsGuestReady] = useState(false);
 
   const toggleShiftMutation = useMutationQuery({
     onSuccess: (data: any) => {
@@ -43,80 +44,49 @@ export const App = () => {
 
   const handleLoginSuccess = (user: any) => {
     setRole(user.role);
-    setIsOnShift(true); // Всегда true при входе по ПИН (согласно новой логике)
+    setIsOnShift(true); 
     setIsLoggingIn(false);
     _axios.defaults.headers.common['Authorization'] = `Bearer dev-token`; 
   };
 
   const toggleRole = () => {
-    if (role === 'guest') {
-      setIsLoggingIn(true);
-      return;
-    }
-    
-    // При выходе (переходе в гостя) - сбрасываем смену
-    if ((role as string) !== 'guest') {
-      logoutMutation.mutate({
-        url: '/api/auth/logout',
-        method: 'POST'
-      });
-      return;
-    }
-
-    // Демо-переключение
-    const roles: any[] = ['guest', 'waiter', 'chef', 'cashier', 'admin'];
-    const next = roles[(roles.indexOf(role) + 1) % roles.length];
-    setRole(next);
+    // Циклическое переключение всех ролей для тестирования UI
+    const roles: Array<'guest' | 'waiter' | 'chef' | 'cashier' | 'admin'> = ['guest', 'waiter', 'chef', 'cashier', 'admin'];
+    const currentIndex = roles.indexOf(role);
+    const nextIndex = (currentIndex + 1) % roles.length;
+    setRole(roles[nextIndex]);
   };
 
   return (
-    <QueryProvider>
-      <CartProvider>
-        <ToastProvider>
-          <FavoritesProvider>
-            <view className={`app-container ${isDark ? 'app-container--dark' : ''}`}>
-            <NetworkBanner />
-            {role !== 'guest' && <StaffNotifications />}
-            
-            {isLoggingIn ? (
-              <PinLogin 
-                onLoginSuccess={handleLoginSuccess} 
-                onBack={() => setIsLoggingIn(false)} 
-              />
-            ) : (
-              <>
-                {(role !== 'guest' || isGuestReady) && (
-                  <Header 
-                    role={role} 
-                    isDark={isDark} 
-                    isOnShift={isOnShift}
-                    onToggleRole={toggleRole} 
-                    onToggleTheme={() => setIsDark(!isDark)} 
-                    onToggleShift={handleToggleShift}
-                  />
-                )}
-
-                <view className="app-content">
-                  {role === 'guest' ? (
-                    <GuestSessionProvider onReady={setIsGuestReady}>
-                      <GuestMenu />
-                    </GuestSessionProvider>
-                  ) : role === 'waiter' ? (
-                    <WaiterHome />
-                  ) : role === 'chef' ? (
-                    <ChefHome />
-                  ) : role === 'cashier' ? (
-                    <CashierHome />
-                  ) : (
-                    <ManagerHome />
-                  )}
-                </view>
-              </>
-            )}
-          </view>
-        </FavoritesProvider>
-      </ToastProvider>
-    </CartProvider>
-  </QueryProvider>
+    <view className={`app-container ${isDark ? 'app-container--dark' : ''}`}>
+      <NetworkBanner />
+      {role !== 'guest' && <StaffNotifications />}
+      
+      <view className="app-main">
+        {(role !== 'guest' || !!session) && (
+          <Header 
+            role={role} 
+            isDark={isDark} 
+            isOnShift={isOnShift}
+            onToggleRole={toggleRole} 
+            onToggleTheme={() => setIsDark(!isDark)} 
+            onToggleShift={handleToggleShift}
+          />
+        )}
+        <view className="app-content">
+          {role === 'guest' ? (
+            <GuestMenu />
+          ) : role === 'waiter' ? (
+            <WaiterHome />
+          ) : role === 'chef' ? (
+            <ChefHome />
+          ) : role === 'cashier' ? (
+            <CashierHome />
+          ) : (
+            <ManagerHome />
+          )}
+        </view>
+      </view>
+    </view>
   );
 };

@@ -59,10 +59,12 @@ export const GuestSessionProvider = ({ children, onReady }: IProps) => {
   // null = экран сканирования, IGuestSession = сессия активна
   const [session, setSession] = useState<IGuestSession | null>(null);
 
-  // Сообщаем App.tsx, готовы мы (сессия есть) или показываем сканер (сессии нет)
+  // Для UI-тестирования на моках: если нет параметров QR — сразу заходим в демо
   useEffect(() => {
-    onReady?.(!!session);
-  }, [session, onReady]);
+    if (!hasQrParams && ENABLE_DEMO_MODE && !session) {
+      setSession(DEMO_SESSION);
+    }
+  }, []);
 
   // Если QR уже просканирован нативным клиентом — сразу грузим данные
   const { data, isLoading, isError } = useGetQuery<IGuestSession>(
