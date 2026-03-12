@@ -4,11 +4,12 @@
   height: 100vh;
   align-items: center;
   justify-content: center;
-  background-color: #1a1a1a;
+  background-color: #0c0c0e; /* Глубокий премиальный черный */
 }
 
 .splash--error {
-  background-color: #1a0000;
+  background-color: #0c0c0e;
+  border: 1px solid rgba(255, 59, 48, 0.2);
 }
 
 .splash__content {
@@ -18,62 +19,52 @@
 }
 
 .splash__icon {
-  font-size: 64px;
-  margin-bottom: 20px;
-  animation: pulse 1.5s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  font-size: 72px;
+  margin-bottom: 24px;
 }
 
 .splash__title {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 800;
   color: #ffffff;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
   text-align: center;
+  letter-spacing: -0.5px;
 }
 
 .splash__sub {
-  font-size: 14px;
-  color: #888;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.4);
   margin-bottom: 32px;
 }
 
-/* Три мигающие точки */
+/* Элегантный минималистичный лоадер */
 .splash__loader {
   display: flex;
   flex-direction: row;
-  gap: 8px;
+  gap: 12px;
 }
 
 .splash__dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 5px;
-  background-color: #ff5722;
-  animation: dotBounce 1.2s ease-in-out infinite;
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background-color: #ffffff;
+  animation: dotPulseLuxury 1.5s ease-in-out infinite;
 }
 
-.splash__dot:nth-child(2) {
-  animation-delay: 0.2s;
+.splash__dot:nth-child(2) { animation-delay: 0.2s; }
+.splash__dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes dotPulseLuxury {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 0.8; transform: scale(1.1); }
 }
 
-.splash__dot:nth-child(3) {
-  animation-delay: 0.4s;
-}
-
-@keyframes dotBounce {
-  0%, 100% { opacity: 0.3; transform: scale(0.8); }
-  50% { opacity: 1; transform: scale(1.2); }
-}
-
-/* --- QR SCAN SCREEN --- */
+/* --- QR SCAN SCREEN (MINIMALIST LUXURY) --- */
 .qr-scan {
   flex: 1;
-  background-color: #ffffff;
+  background-color: #0c0c0e;
   position: relative;
   overflow: hidden;
 }
@@ -84,33 +75,13 @@
   left: 0;
   right: 0;
   bottom: 0;
-  overflow: hidden;
-}
-
-.qr-scan__circle {
-  position: absolute;
-  border-radius: 500px;
-  background-color: #f0f7ff;
-}
-
-.qr-scan__circle--1 {
-  width: 400px;
-  height: 400px;
-  top: -100px;
-  right: -100px;
-}
-
-.qr-scan__circle--2 {
-  width: 300px;
-  height: 300px;
-  bottom: -50px;
-  left: -50px;
-  background-color: #fff8f0;
+  /* Мягкий градиентный отблеск для глубины */
+  background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
 }
 
 .qr-scan__content {
   flex: 1;
-  padding: 40px 24px;
+  padding: 60px 32px;
   justify-content: space-between;
   align-items: center;
   z-index: 10;
@@ -118,21 +89,22 @@
 
 .qr-scan__header {
   align-items: center;
-  margin-top: 20px;
 }
 
 .qr-scan__title {
-  font-size: 28px;
-  font-weight: 800;
-  color: #1a1a1a;
-  margin-bottom: 8px;
+  font-size: 32px;
+  font-weight: 900;
+  color: #ffffff;
+  margin-bottom: 12px;
+  letter-spacing: -1px;
 }
 
 .qr-scan__sub {
   font-size: 16px;
-  color: #666;
+  color: rgba(255, 255, 255, 0.5);
   text-align: center;
-  line-height: 22px;
+  line-height: 24px;
+  max-width: 280px;
 }
 
 .qr-scan__frame-container {
@@ -141,59 +113,61 @@
 }
 
 .qr-scan__frame {
-  width: 260px;
-  height: 260px;
-  background-color: rgba(255, 255, 255, 0.8);
-  border-radius: 24px;
+  width: 280px;
+  height: 280px;
+  background-color: rgba(255, 255, 255, 0.02);
+  border-radius: 40px;
   position: relative;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.05); /* Едва заметная грань */
 }
 
+/* Ультра-тонкие уголки */
 .qr-scan__corner {
   position: absolute;
-  width: 30px;
-  height: 30px;
-  border-color: #007aff;
-  border-width: 4px;
+  width: 40px;
+  height: 40px;
+  border-color: #ffffff;
+  border-width: 1.5px;
 }
 
-.qr-scan__corner--tl { top: 0; left: 0; border-right-width: 0; border-bottom-width: 0; border-top-left-radius: 24px; }
-.qr-scan__corner--tr { top: 0; right: 0; border-left-width: 0; border-bottom-width: 0; border-top-right-radius: 24px; }
-.qr-scan__corner--bl { bottom: 0; left: 0; border-right-width: 0; border-top-width: 0; border-bottom-left-radius: 24px; }
-.qr-scan__corner--br { bottom: 0; right: 0; border-left-width: 0; border-top-width: 0; border-bottom-right-radius: 24px; }
+.qr-scan__corner--tl { top: 0; left: 0; border-right-width: 0; border-bottom-width: 0; border-top-left-radius: 40px; }
+.qr-scan__corner--tr { top: 0; right: 0; border-left-width: 0; border-bottom-width: 0; border-top-right-radius: 40px; }
+.qr-scan__corner--bl { bottom: 0; left: 0; border-right-width: 0; border-top-width: 0; border-bottom-left-radius: 40px; }
+.qr-scan__corner--br { bottom: 0; right: 0; border-left-width: 0; border-top-width: 0; border-bottom-right-radius: 40px; }
 
 .qr-scan__icon-img {
-  width: 120px;
-  height: 120px;
-  opacity: 0.1;
+  width: 140px;
+  height: 140px;
+  opacity: 0.05;
 }
 
+/* Тонкий как волос луч */
 .qr-scan__beam {
   position: absolute;
-  top: 20px;
-  left: 20px;
-  right: 20px;
-  height: 4px;
-  background-image: linear-gradient(to right, transparent, #007aff, transparent);
-  box-shadow: 0 0 15px #007aff;
-  animation: scanMove 3s infinite ease-in-out;
-  border-radius: 2px;
+  top: 30px;
+  left: 30px;
+  right: 30px;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  animation: scanMoveLuxury 4s infinite cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@keyframes scanMove {
-  0% { top: 20px; opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { top: 236px; opacity: 0; }
+@keyframes scanMoveLuxury {
+  0%, 100% { top: 30px; opacity: 0; }
+  10%, 90% { opacity: 1; }
+  50% { top: 249px; opacity: 1; }
 }
 
 .qr-scan__hint {
-  margin-top: 20px;
+  margin-top: 32px;
   font-size: 14px;
-  color: #888;
-  font-weight: 500;
+  color: rgba(255, 255, 255, 0.3);
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .qr-scan__footer {
@@ -203,29 +177,29 @@
 
 .qr-scan__skip {
   width: 100%;
-  height: 56px;
-  background-color: #1a1a1a;
-  border-radius: 16px;
+  height: 64px;
+  background-color: #ffffff;
+  border-radius: 20px;
   justify-content: center;
   align-items: center;
   margin-bottom: 24px;
 }
 
 .qr-scan__skip-text {
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: 600;
+  color: #000000;
+  font-size: 17px;
+  font-weight: 700;
 }
 
 .qr-scan__info {
-  padding: 0 20px;
+  padding: 0 40px;
 }
 
 .qr-scan__info-text {
-  font-size: 12px;
-  color: #999;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.2);
   text-align: center;
-  line-height: 16px;
+  line-height: 18px;
 }
 
 .session-container {
@@ -235,73 +209,74 @@
   width: 100%;
 }
 
-/* --- PAYMENT SUCCESS OVERLAY --- */
+/* --- PAYMENT SUCCESS OVERLAY (MINIMALIST LUXURY) --- */
 .payment-success-overlay {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.9);
   z-index: 9999;
   justify-content: center;
   align-items: center;
-  padding: 24px;
+  padding: 32px;
 }
 
 .payment-success-card {
-  background-color: #ffffff;
-  border-radius: 32px;
-  padding: 40px 24px;
+  background-color: #1c1c1e;
+  border-radius: 40px;
+  padding: 48px 32px;
   width: 100%;
   align-items: center;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .payment-success-icon {
   width: 80px;
   height: 80px;
   border-radius: 40px;
-  background-color: #4caf50;
+  background-color: #ffffff;
   justify-content: center;
   align-items: center;
-  margin-bottom: 24px;
-  box-shadow: 0 8px 16px rgba(76, 175, 80, 0.3);
+  margin-bottom: 32px;
 }
 
 .payment-success-check {
-  color: #ffffff;
-  font-size: 40px;
+  color: #000000;
+  font-size: 32px;
   font-weight: 800;
 }
 
 .payment-success-title {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 900;
-  color: #1a1a1a;
-  margin-bottom: 12px;
+  color: #ffffff;
+  margin-bottom: 16px;
   text-align: center;
+  letter-spacing: -0.5px;
 }
 
 .payment-success-msg {
   font-size: 16px;
-  color: #666;
+  color: rgba(255, 255, 255, 0.4);
   text-align: center;
-  line-height: 22px;
-  margin-bottom: 32px;
+  line-height: 24px;
+  margin-bottom: 40px;
 }
 
 .payment-success-btn {
   width: 100%;
-  height: 56px;
-  background-color: #1a1a1a;
-  border-radius: 16px;
+  height: 64px;
+  background-color: #ffffff;
+  border-radius: 20px;
   justify-content: center;
   align-items: center;
 }
 
 .payment-success-btn-txt {
-  color: #ffffff;
-  font-size: 16px;
+  color: #000000;
+  font-size: 17px;
   font-weight: 700;
 }

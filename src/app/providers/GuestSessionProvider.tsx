@@ -133,10 +133,7 @@ export const GuestSessionProvider = ({ children, onReady }: IProps) => {
   if (!session) {
     return (
       <view className="qr-scan">
-        <view className="qr-scan__bg">
-          <view className="qr-scan__circle qr-scan__circle--1" />
-          <view className="qr-scan__circle qr-scan__circle--2" />
-        </view>
+        <view className="qr-scan__bg" />
 
         <view className="qr-scan__content">
           <view className="qr-scan__header">
