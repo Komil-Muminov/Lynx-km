@@ -4,16 +4,37 @@
   padding: 0 20px 20px;
 }
 
-/* Статистика смены — Высокий контраст и Стиль */
-.checkout-stats {
-  background: linear-gradient(135deg, #1c1c1e 0%, #0c0c0e 100%);
-  border-radius: 24px;
-  padding: 24px;
+.checkout-header-row {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
   margin-bottom: 24px;
+  gap: 16px;
+}
+
+/* Статистика смены — Glassmorphism Style */
+.checkout-stats {
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 20px;
+  padding: 20px 24px;
   flex-direction: row;
   align-items: center;
   border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+
+.checkout-close-btn {
+  background-color: #ffffff;
+  padding: 0 24px;
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkout-close-btn__text {
+  color: #000000;
+  font-size: 16px;
+  font-weight: 800;
 }
 
 .checkout-stats__item {
@@ -43,20 +64,22 @@
   font-weight: 700;
 }
 
-/* Поиск и Вкладки — Glassmorphism Style */
+/* Поиск и Вкладки */
 .checkout-controls {
+  flex-direction: row;
   margin-bottom: 24px;
   gap: 16px;
 }
 
 .checkout-search {
+  flex: 1;
   flex-direction: row;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.04);
-  height: 56px;
-  border-radius: 18px;
-  padding: 0 20px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background-color: rgba(255, 255, 255, 0.05);
+  height: 48px;
+  border-radius: 14px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .checkout-search__icon {
@@ -74,18 +97,18 @@
 
 .checkout-tabs {
   flex-direction: row;
-  background-color: rgba(255, 255, 255, 0.03);
-  padding: 6px;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 4px;
+  border-radius: 14px;
+  width: 240px;
 }
 
 .checkout-tabs__item {
   flex: 1;
-  height: 44px;
+  height: 40px;
   justify-content: center;
   align-items: center;
-  border-radius: 12px;
+  border-radius: 10px;
 }
 
 .checkout-tabs__item--active {
@@ -114,25 +137,19 @@
 
 /* --- PREMIUM CASHIER CARD --- */
 .checkout-card {
-  background-color: #1c1c1e;
-  border-radius: 32px;
+  background-color: #1a1a1c;
+  border-radius: 28px;
   padding: 24px;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   margin-bottom: 4px;
 }
 
 .checkout-card--active {
-  border-color: rgba(0, 122, 255, 0.4);
-  box-shadow: 0 0 30px rgba(0, 122, 255, 0.1);
-  animation: neonPulseCashier 2s infinite ease-in-out;
-}
-
-@keyframes neonPulseCashier {
-  0%, 100% { border-color: rgba(0, 122, 255, 0.3); }
-  50% { border-color: rgba(0, 122, 255, 0.8); box-shadow: 0 0 40px rgba(0, 122, 255, 0.2); }
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
 }
 
 .checkout-card__header {
@@ -149,20 +166,18 @@
 }
 
 .checkout-card__table-circle {
-  width: 64px;
-  height: 64px;
-  background: linear-gradient(135deg, #2c2c2e 0%, #1c1c1e 100%);
-  border-radius: 20px;
+  width: 56px;
+  height: 56px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 18px;
   justify-content: center;
   align-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .checkout-card__table-id {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 900;
   color: #ffffff;
-  letter-spacing: -1px;
 }
 
 .checkout-card__meta {
@@ -259,18 +274,19 @@
 
 /* Кнопки */
 .checkout-card__pay-btn {
-  height: 72px;
-  background-color: #ffffff;
-  border-radius: 22px;
+  height: 64px;
+  background: linear-gradient(90deg, #28c76f 0%, #32d74b 100%);
+  border-radius: 18px;
   justify-content: center;
   align-items: center;
   margin-top: 20px;
+  box-shadow: 0 8px 20px rgba(50, 215, 75, 0.3);
 }
 
 .checkout-card__pay-text {
-  color: #000000;
+  color: #ffffff;
   font-size: 18px;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: 0.5px;
 }
 

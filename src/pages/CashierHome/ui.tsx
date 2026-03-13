@@ -14,6 +14,10 @@ export const CashierHome = () => {
           <text className="cashier-page__subtitle">Lynx Cafe • Основной зал</text>
         </view>
         <view className="cashier-page__header-right">
+          <view className="cashier-page__status-badge">
+            <view className="cashier-page__status-dot" />
+            <text className="cashier-page__status-text">{"Онлайн".toUpperCase()}</text>
+          </view>
           <view className="cashier-page__shift-badge">
             <text className="cashier-page__shift-text">{"Смена открыта".toUpperCase()}</text>
           </view>
@@ -25,11 +29,6 @@ export const CashierHome = () => {
         <ErrorBoundary title="Ошибка загрузки терминала кассира">
           <CheckoutOrders restaurantId={restaurantId} />
         </ErrorBoundary>
-      </view>
-      
-      <view className="cashier-page__footer">
-        <view className="cashier-page__status-indicator" />
-        <text className="cashier-page__power">{"Система: Онлайн".toUpperCase()}</text>
       </view>
     </view>
   );
