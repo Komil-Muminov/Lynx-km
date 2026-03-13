@@ -6,12 +6,12 @@
 }
 
 .kitchen-orders__title {
-  font-size: 20px;
-  font-weight: 800;
-  color: rgba(255, 255, 255, 0.3);
-  margin-bottom: 16px;
-  letter-spacing: 1px;
-  padding-left: 4px;
+  font-size: 24px;
+  font-weight: 900;
+  color: #1a1a2e;
+  margin-bottom: 24px;
+  letter-spacing: 0.5px;
+  padding-left: 8px;
 }
 
 .kitchen-orders__scroll {
@@ -25,13 +25,13 @@
   padding-bottom: 40px;
 }
 
-/* --- KITCHEN PREMIUM CARD --- */
+/* --- KITCHEN PREMIUM GLASS CARD --- */
 .kitchen-orders__card {
-  background: #1c1c1e;
+  background-color: rgba(255, 255, 255, 0.8);
   border-radius: 32px;
   padding: 24px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 12px 32px rgba(31, 38, 135, 0.08); /* Мягкая стеклянная тень */
+  border: 1px solid #ffffff; /* Блик-рамка */
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -50,29 +50,29 @@
 
 .kitchen-orders__card-pending .kitchen-orders__accent-bar {
   background: #0a84ff;
-  box-shadow: 0 0 15px rgba(10, 132, 255, 0.5);
+  box-shadow: 0 0 12px rgba(10, 132, 255, 0.3);
 }
 
 .kitchen-orders__card-cooking .kitchen-orders__accent-bar {
   background: #ff9f0a;
-  box-shadow: 0 0 15px rgba(255, 159, 10, 0.5);
+  box-shadow: 0 0 12px rgba(255, 159, 10, 0.3);
 }
 
-/* Состояния срочности — Неоновое свечение границ */
+/* Состояния срочности — Мягкое свечение на светлом фоне */
 .kitchen-orders__card--warning {
-  border-color: rgba(255, 159, 10, 0.4);
-  box-shadow: 0 0 30px rgba(255, 159, 10, 0.1);
+  border-color: rgba(255, 159, 10, 0.6);
+  box-shadow: 0 8px 32px rgba(255, 159, 10, 0.15);
 }
 
 .kitchen-orders__card--critical {
-  border-color: rgba(255, 59, 48, 0.6);
-  box-shadow: 0 0 40px rgba(255, 59, 48, 0.2);
-  animation: neonPulseLuxury 2s infinite ease-in-out;
+  border-color: rgba(255, 59, 48, 0.8);
+  box-shadow: 0 8px 40px rgba(255, 59, 48, 0.2);
+  animation: dangerPulseGlass 2s infinite ease-in-out;
 }
 
-@keyframes neonPulseLuxury {
-  0%, 100% { border-color: rgba(255, 59, 48, 0.3); opacity: 1; }
-  50% { border-color: rgba(255, 59, 48, 0.8); }
+@keyframes dangerPulseGlass {
+  0%, 100% { border-color: rgba(255, 59, 48, 0.4); opacity: 1; }
+  50% { border-color: rgba(255, 59, 48, 0.9); }
 }
 
 /* Шапка карточки */
@@ -85,16 +85,17 @@
 }
 
 .kitchen-orders__table-badge {
-  background: rgba(255, 255, 255, 0.03);
+  background-color: #ffffff;
   padding: 10px 20px;
   border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
 .kitchen-orders__table {
   font-size: 24px;
   font-weight: 900;
-  color: #ffffff;
+  color: #1a1a2e;
   letter-spacing: -1px;
 }
 
@@ -112,7 +113,7 @@
 .kitchen-orders__elapsed {
   font-size: 16px;
   font-weight: 800;
-  color: rgba(255, 255, 255, 0.3);
+  color: #8e8e93;
 }
 
 .kitchen-orders__card--warning .kitchen-orders__elapsed {
@@ -130,7 +131,8 @@
   font-weight: 900;
   padding: 6px 14px;
   border-radius: 10px;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
 }
 
 .kitchen-orders__status-label-pending { color: #0a84ff; }
@@ -148,15 +150,16 @@
   justify-content: space-between;
   align-items: center;
   padding: 14px 20px;
-  background-color: rgba(255, 255, 255, 0.02);
+  background-color: rgba(255, 255, 255, 0.6);
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  border: 1px solid #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
 }
 
 .kitchen-orders__item-txt {
   font-size: 22px;
   font-weight: 700;
-  color: #ffffff;
+  color: #1a1a2e;
   flex: 1;
 }
 
@@ -181,20 +184,20 @@
 }
 
 .kitchen-orders__btn-start {
-  background-color: #ffffff;
+  background-color: #1a1a2e;
 }
 
 .kitchen-orders__btn-start .kitchen-orders__btn-txt {
-  color: #0c0c0e;
+  color: #ffffff;
 }
 
 .kitchen-orders__btn-ready {
-  background-color: rgba(50, 215, 75, 0.1);
+  background-color: #e5ffe7;
   border: 1px solid rgba(50, 215, 75, 0.3);
 }
 
 .kitchen-orders__btn-ready .kitchen-orders__btn-txt {
-  color: #32d74b;
+  color: #28a745;
 }
 
 .kitchen-orders__btn-txt {
