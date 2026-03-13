@@ -6,10 +6,10 @@
   background-color: #0c0c0e; /* Глубокий премиальный черный */
 }
 
-/* Luxury Island Header */
+/* Luxury Island Header Unified Standard */
 .chef-page__header {
-  margin: 16px 20px 10px;
-  padding: 18px 24px;
+  margin: 16px 20px 8px;
+  padding: 16px 24px;
   background-color: rgba(255, 255, 255, 0.03);
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.05);
@@ -71,6 +71,5 @@
   color: rgba(255, 149, 0, 0.6);
   font-size: 13px;
   font-weight: 800;
-  text-transform: uppercase;
   letter-spacing: 1px;
 }

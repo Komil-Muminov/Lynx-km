@@ -54,7 +54,7 @@ export const OrderCheckoutCard = ({ order, restaurantId }: IOrderCheckoutCardPro
   return (
     <>
       <view 
-        className={`checkout-card ${isPrinting ? 'checkout-card--printing' : ''}`}
+        className={`checkout-card ${isPrinting ? 'checkout-card--printing' : ''} ${order.status !== 'paid' ? 'checkout-card--active' : ''}`}
         bindtap={() => setShowDetails(true)}
       >
         <view className="checkout-card__header">

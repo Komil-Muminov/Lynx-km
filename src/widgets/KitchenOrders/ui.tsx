@@ -103,7 +103,7 @@ export const KitchenOrders = ({ restaurantId }: IProps) => {
 
   return (
     <view className="kitchen-orders">
-      <text className="kitchen-orders__title">Заказы на кухне</text>
+      <text className="kitchen-orders__title">{"Заказы на кухне".toUpperCase()}</text>
 
       <scroll-view className="kitchen-orders__scroll" scroll-y>
         <view className="kitchen-orders__grid">

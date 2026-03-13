@@ -41,7 +41,6 @@
   letter-spacing: 0.5px;
   margin-top: 4px;
   font-weight: 700;
-  text-transform: uppercase;
 }
 
 /* Поиск и Вкладки — Glassmorphism Style */
@@ -123,6 +122,17 @@
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.08);
   margin-bottom: 4px;
+}
+
+.checkout-card--active {
+  border-color: rgba(0, 122, 255, 0.4);
+  box-shadow: 0 0 30px rgba(0, 122, 255, 0.1);
+  animation: neonPulseCashier 2s infinite ease-in-out;
+}
+
+@keyframes neonPulseCashier {
+  0%, 100% { border-color: rgba(0, 122, 255, 0.3); }
+  50% { border-color: rgba(0, 122, 255, 0.8); box-shadow: 0 0 40px rgba(0, 122, 255, 0.2); }
 }
 
 .checkout-card__header {

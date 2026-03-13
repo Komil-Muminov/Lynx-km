@@ -81,12 +81,12 @@ export const CheckoutOrders = ({ restaurantId }: IProps) => {
         <view className="checkout-stats">
           <view className="checkout-stats__item">
             <text className="checkout-stats__value">{stats?.todayRevenue || 0} д.</text>
-            <text className="checkout-stats__label">Выручка сегодня</text>
+            <text className="checkout-stats__label">{"Выручка сегодня".toUpperCase()}</text>
           </view>
           <view className="checkout-stats__divider" />
           <view className="checkout-stats__item">
             <text className="checkout-stats__value">{stats?.averageBill || 0} д.</text>
-            <text className="checkout-stats__label">Средний чек</text>
+            <text className="checkout-stats__label">{"Средний чек".toUpperCase()}</text>
           </view>
         </view>
         

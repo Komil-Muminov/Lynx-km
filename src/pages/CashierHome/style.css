@@ -6,10 +6,10 @@
   background-color: #0c0c0e; /* Глубокий премиальный черный */
 }
 
-/* Island Header */
+/* Island Header Unified Standard */
 .cashier-page__header {
-  margin: 16px 20px 10px;
-  padding: 18px 24px;
+  margin: 16px 20px 8px; /* Чуть меньше отступ снизу */
+  padding: 16px 24px;   /* Компактнее */
   background-color: rgba(255, 255, 255, 0.03);
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.05);
@@ -50,7 +50,6 @@
   font-size: 11px;
   color: #32d74b;
   font-weight: 800;
-  text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
@@ -86,5 +85,4 @@
   font-weight: 800;
   color: rgba(255, 255, 255, 0.3);
   letter-spacing: 1px;
-  text-transform: uppercase;
 }

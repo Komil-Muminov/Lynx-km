@@ -15,7 +15,7 @@ export const CashierHome = () => {
         </view>
         <view className="cashier-page__header-right">
           <view className="cashier-page__shift-badge">
-            <text className="cashier-page__shift-text">Смена открыта</text>
+            <text className="cashier-page__shift-text">{"Смена открыта".toUpperCase()}</text>
           </view>
           <text className="cashier-page__time">15:45</text>
         </view>
@@ -29,7 +29,7 @@ export const CashierHome = () => {
       
       <view className="cashier-page__footer">
         <view className="cashier-page__status-indicator" />
-        <text className="cashier-page__power">Система: Онлайн</text>
+        <text className="cashier-page__power">{"Система: Онлайн".toUpperCase()}</text>
       </view>
     </view>
   );

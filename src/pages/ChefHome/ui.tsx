@@ -54,7 +54,7 @@ export const ChefHome = () => {
       </view>
       
       <view className="chef-page__footer">
-        <text className="chef-page__status">🔥 Жарка идет...</text>
+        <text className="chef-page__status">{"🔥 Жарка идет...".toUpperCase()}</text>
       </view>
     </view>
   );
