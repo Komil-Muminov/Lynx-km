@@ -25,6 +25,11 @@ export const CheckoutOrders = ({ restaurantId }: IProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [actualAmount, setActualAmount] = useState('');
 
+  // Заглушка для столов ресторана: 16 столов (4 ряда по 4 стола)
+  const ALL_TABLES = Array.from({ length: 16 }, (_, i) => `${i + 1}`);
+
+  const tablesToDisplay = ALL_TABLES.filter(tableId => tableId.includes(searchQuery));
+
   // Активные заказы
   const { data: activeOrdersData, isLoading: isActiveLoading } = useGetQuery<IOrder[]>(
     ['checkout-orders', restaurantId],
@@ -129,27 +134,35 @@ export const CheckoutOrders = ({ restaurantId }: IProps) => {
           <view className="checkout-orders__loading">
             <text className="checkout-orders__loading-text">Загрузка данных...</text>
           </view>
-        ) : orders.length > 0 ? (
-          <view className="checkout-orders__list">
-            {orders.map((order) => (
-              <OrderCheckoutCard 
-                key={order._id} 
-                order={order} 
-                restaurantId={restaurantId}
-              />
-            ))}
-          </view>
         ) : (
-          <view className="checkout-orders__empty">
-            <text className="checkout-orders__empty-icon">
-              {searchQuery ? '🔎' : '☕'}
-            </text>
-            <text className="checkout-orders__empty-title">
-              {searchQuery ? 'Ничего не найдено' : activeTab === 'active' ? 'Все счета оплачены' : 'История пуста'}
-            </text>
-            <text className="checkout-orders__empty-sub">
-              {searchQuery ? 'Попробуйте другой номер стола' : 'Новых заказов пока нет'}
-            </text>
+          <view className="checkout-orders__grid">
+            {tablesToDisplay.map((tableId) => {
+              const activeOrder = orders.find(o => o.tableId === tableId);
+
+              // Если есть заказ за этим столом
+              if (activeOrder) {
+                return (
+                  <view key={tableId} className="checkout-orders__grid-item">
+                    <OrderCheckoutCard 
+                      order={activeOrder} 
+                      restaurantId={restaurantId}
+                    />
+                  </view>
+                );
+              }
+
+              // Если стол свободный
+              return (
+                <view key={tableId} className="checkout-orders__grid-item">
+                  <view className="checkout-card checkout-card--free">
+                    <view className="checkout-card__free-content">
+                      <text className="checkout-card__free-number">{tableId}</text>
+                      <text className="checkout-card__free-label">Свободен</text>
+                    </view>
+                  </view>
+                </view>
+              );
+            })}
           </view>
         )}
       </scroll-view>
