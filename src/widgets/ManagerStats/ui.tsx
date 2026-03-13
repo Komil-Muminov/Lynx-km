@@ -39,6 +39,7 @@ export const ManagerStats = ({ restaurantId }: IManagerStatsProps) => {
         <view className="manager-stats__grid">
           {[1, 2, 3, 4].map((i) => (
             <view key={i} className="manager-stats__card">
+              <view className="manager-stats__accent-bar" />
               <Skeleton width="60%" height="16px" className="manager-stats__label-skeleton" />
               <Skeleton width="80%" height="32px" className="manager-stats__value-skeleton" />
             </view>
@@ -60,24 +61,28 @@ export const ManagerStats = ({ restaurantId }: IManagerStatsProps) => {
   return (
     <view className="manager-stats">
       <view className="manager-stats__grid">
-        <view className="manager-stats__card">
+        <view className="manager-stats__card manager-stats__card--revenue">
+          <view className="manager-stats__accent-bar" />
           <text className="manager-stats__label">Выручка за сегодня</text>
           <text className="manager-stats__value manager-stats__value-revenue">
             {formatPrice(stats.todayRevenue)}
           </text>
         </view>
         
-        <view className="manager-stats__card">
+        <view className="manager-stats__card manager-stats__card--orders">
+          <view className="manager-stats__accent-bar" />
           <text className="manager-stats__label">Заказов</text>
           <text className="manager-stats__value">{stats.todayOrdersCount}</text>
         </view>
         
-        <view className="manager-stats__card">
+        <view className="manager-stats__card manager-stats__card--bill">
+          <view className="manager-stats__accent-bar" />
           <text className="manager-stats__label">Средний чек</text>
           <text className="manager-stats__value">{formatPrice(stats.averageBill)}</text>
         </view>
         
-        <view className="manager-stats__card">
+        <view className="manager-stats__card manager-stats__card--commission">
+          <view className="manager-stats__accent-bar" />
           <text className="manager-stats__label">Комиссия (текущая)</text>
           <text className="manager-stats__value manager-stats__value-commission">
             {formatPrice(stats.todayCommission)}
@@ -85,11 +90,13 @@ export const ManagerStats = ({ restaurantId }: IManagerStatsProps) => {
         </view>
 
         <view className="manager-stats__card manager-stats__card--accent">
+          <view className="manager-stats__accent-bar" />
           <text className="manager-stats__label">🏆 Топ блюдо</text>
           <text className="manager-stats__value manager-stats__value-top">{stats.topDish}</text>
         </view>
 
         <view className="manager-stats__card">
+          <view className="manager-stats__accent-bar" />
           <text className="manager-stats__label">⏱ Ср. время готовки</text>
           <text className="manager-stats__value manager-stats__value-time">{stats.avgPrepTime} мин</text>
         </view>

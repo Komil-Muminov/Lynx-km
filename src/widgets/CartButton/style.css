@@ -48,8 +48,7 @@
 }
 
 /* Бегущий shimmer поверх кнопки */
-.cart-bar__btn::after {
-  content: '';
+.cart-bar__shimmer {
   position: absolute;
   top: 0;
   left: -100%;

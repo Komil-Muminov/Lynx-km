@@ -43,7 +43,7 @@ export const StaffNotifications = () => {
       {notifications?.filter(n => !n.isRead).map((n) => (
         <view key={n._id} className={`staff-notification staff-notification--${n.type}`} bindtap={() => handleRead(n._id)}>
           <view className="staff-notification__icon">
-            {n.type === 'order_ready' ? '🍳' : n.type === 'call_waiter' ? '🛎️' : '📢'}
+            <text>{n.type === 'order_ready' ? '🍳' : n.type === 'call_waiter' ? '🛎️' : '📢'}</text>
           </view>
           <view className="staff-notification__content">
             <text className="staff-notification__msg">{n.message}</text>

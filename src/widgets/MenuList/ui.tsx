@@ -1,12 +1,11 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { useGetQuery } from '@shared/api/hooks/index.js';
-import { useCart } from '@app/providers/index.js';
+import { useCart, useGuestSession } from '@app/providers/index.js';
 import { Menu } from '@entities/Menu/index.js';
 import type { IMenu, IMenuItem } from '@entities/Menu/index.js';
 import { Skeleton } from '@shared/ui/Skeleton/index.js';
 import { EmptyState } from '@shared/ui/EmptyState/index.js';
 import { BottomSheet } from '@shared/ui/BottomSheet/index.js';
-import { MenuSearch } from '@features/MenuSearch/index.js';
 import { useFavorites } from '@features/Favorites/index.js';
 import { useHaptic, useToast } from '@shared/lib/hooks/index.js';
 import { renderDishSheet } from './lib.js';
@@ -17,17 +16,16 @@ interface IProps {
 }
 
 const CATEGORY_MAP: Record<string, string> = {
-  'Завтраки': '🍳',
-  'Обеды': '🍱',
-  'Ужины': '🍝',
-  'Перекус': '🥪',
-  'Сладкое': '🍰',
-  'Традиционное': '🥘',
+  'Супы': '🍜',
+  'Горячее': '🥘',
+  'Салаты': '🥗',
+  'Напитки': '🥤',
+  'Десерты': '🍰',
   'Все': '🍽',
   '❤️ Любимое': '❤️'
 };
 
-const DEFAULT_CATEGORIES = ['Все', 'Завтраки', 'Обеды', 'Ужины', 'Перекус', 'Сладкое', 'Традиционное'];
+const DEFAULT_CATEGORIES = ['Все', 'Супы', 'Горячее', 'Салаты', 'Напитки', 'Десерты'];
 
 const MATCH_MAP: Record<string, string> = {
   'Завтраки': 'Сладкое',
@@ -40,11 +38,11 @@ const MATCH_MAP: Record<string, string> = {
 export const MenuList = ({ restaurantId }: IProps) => {
   const { items: cartItems, addItem, removeItem } = useCart();
   const { isFavorite } = useFavorites();
+  const { session } = useGuestSession();
   const { trigger } = useHaptic();
   const toast = useToast();
   
   const [selectedCategory, setSelectedCategory] = useState('Все');
-  const [searchQuery, setSearchQuery] = useState('');
   const [activeDish, setActiveDish] = useState<IMenuItem | null>(null);
   const [matchSuggestion, setMatchSuggestion] = useState<IMenuItem | null>(null);
   const [particles, setParticles] = useState<Array<{ id: number; x: number; y: number }>>([]);
@@ -115,18 +113,12 @@ export const MenuList = ({ restaurantId }: IProps) => {
     if (!menu) return [];
     
     return menu.items.filter(item => {
-      // 1. Фильтр поиска
-      const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                           item.description.toLowerCase().includes(searchQuery.toLowerCase());
-      
-      if (!matchesSearch) return false;
-
-      // 2. Фильтр категории
+      // 1. Фильтр категории
       if (selectedCategory === 'Все') return true;
       if (selectedCategory === '❤️ Любимое') return isFavorite(item._id);
       return item.category === selectedCategory;
     });
-  }, [menu, searchQuery, selectedCategory, isFavorite]);
+  }, [menu, selectedCategory, isFavorite]);
 
   /* -- Состояния загрузки и ошибок -- */
 
@@ -177,12 +169,7 @@ export const MenuList = ({ restaurantId }: IProps) => {
 
   return (
     <view className="menu-list">
-      {/* Поиск */}
-      <view className="menu-list__search-wrap">
-        <MenuSearch value={searchQuery} onChange={setSearchQuery} />
-      </view>
-
-      {/* Категории с бейджами */}
+      {/* Список блюд */}
       <scroll-view className="menu-list__tabs" scroll-x>
         {categories.map(cat => (
           <view
@@ -204,45 +191,37 @@ export const MenuList = ({ restaurantId }: IProps) => {
       <scroll-view 
         className="menu-list__scroll" 
         scroll-y 
-        style={{ flex: 1 }}
         bindscrolltoupper={() => {/* можно триггерить легкий хаптик */}}
       >
-        <refresh-view
-          className="menu-list__refresh"
-          bindrefresh={async () => {
-            trigger('medium');
-            await refetch();
-          }}
-        >
-          <view className="menu-list__refresh-content">
-            <text className="menu-list__refresh-text">Обновляем меню...</text>
-          </view>
-        </refresh-view>
-
-        {filtered.length > 0 ? (
-          <view className="menu-list__items">
-            {filtered.map((item) => {
-              const quantity = cartItems.find(i => i.menuItem._id === item._id)?.quantity || 0;
-              return (
-                <view key={item._id}>
-                  <Menu
-                    item={item}
-                    quantity={quantity}
-                    onAdd={handleAddToCart}
-                    onRemove={handleRemoveFromCart}
-                    onPress={setActiveDish}
-                  />
-                </view>
-              );
-            })}
-          </view>
-        ) : (
-          <EmptyState
-            icon={searchQuery ? '🔍' : '🍽'}
-            title={searchQuery ? 'Ничего не найдено' : 'В этой категории пусто'}
-            hint={searchQuery ? 'Попробуйте изменить запрос' : 'Выберите другую категорию'}
-          />
-        )}
+        <view className="menu-list__items-container">
+          <text style={{ fontSize: '10px', color: '#ccc' }}>
+            DEBUG: F:{filtered.length}/M:{menu?.items?.length} | L: {String(isLoading)} | S: {session ? 'OK' : 'NULL'}
+          </text>
+          {filtered.length > 0 ? (
+            <view className="menu-list__items">
+              {filtered.map((item) => {
+                const quantity = cartItems.find(i => i.menuItem._id === item._id)?.quantity || 0;
+                return (
+                  <view key={item._id}>
+                    <Menu
+                      item={item}
+                      quantity={quantity}
+                      onAdd={handleAddToCart}
+                      onRemove={handleRemoveFromCart}
+                      onPress={setActiveDish}
+                    />
+                  </view>
+                );
+              })}
+            </view>
+          ) : (
+            <EmptyState
+              icon="🍽"
+              title="В этой категории пусто"
+              hint="Выберите другую категорию"
+            />
+          )}
+        </view>
       </scroll-view>
 
 
@@ -264,20 +243,6 @@ export const MenuList = ({ restaurantId }: IProps) => {
           </view>
         </view>
       )}
-
-      {/* Частицы для анимации полета в корзину (v7.0) */}
-      {particles.map(particle => (
-        <view 
-          key={particle.id} 
-          className="cart-particle"
-          style={{ 
-            left: `${particle.x}px`, 
-            top: `${particle.y}px` 
-          }}
-        >
-          <view className="cart-particle__inner" />
-        </view>
-      ))}
 
       {/* Bottom Sheet детали */}
       <BottomSheet

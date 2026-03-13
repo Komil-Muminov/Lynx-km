@@ -5,21 +5,11 @@ import { useState, useEffect } from 'react';
  * При инициализации пытается восстановить значение по ключу.
  */
 export const usePersistedState = <T>(key: string, defaultValue: T): [T, (val: T) => void] => {
-  const [state, setState] = useState<T>(() => {
-    try {
-      const persisted = localStorage.getItem(key);
-      return persisted !== null ? JSON.parse(persisted) : defaultValue;
-    } catch {
-      return defaultValue;
-    }
-  });
+  const [state, setState] = useState<T>(defaultValue);
 
   useEffect(() => {
-    try {
-      localStorage.setItem(key, JSON.stringify(state));
-    } catch (e) {
-      console.error('Error persisting state to localStorage', e);
-    }
+    // В Lynx для персистентности нужно использовать встроенные средства хранения (например, MMKV или NativeStorage).
+    // Пока просто используем обычный стейт.
   }, [key, state]);
 
   return [state, setState];

@@ -31,6 +31,8 @@ export const Skeleton = ({
     <view 
       className={`skeleton ${className}`} 
       style={style}
-    />
+    >
+      <view className="skeleton__shimmer" />
+    </view>
   );
 };

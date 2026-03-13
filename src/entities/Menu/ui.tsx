@@ -19,8 +19,8 @@ export const MenuItemCard = memo(({ item, quantity, onAdd, onRemove, onPress }: 
   const { toggle, isFavorite } = useFavorites();
   const { trigger } = useHaptic();
 
-  const handleAdd = (e: any) => {
-    onAdd(item, e);
+  const handleAdd = () => {
+    onAdd(item);
     setIsAdded(true);
   };
 
@@ -42,11 +42,17 @@ export const MenuItemCard = memo(({ item, quantity, onAdd, onRemove, onPress }: 
   return (
     <view className="menu-card" bindtap={() => onPress?.(item)}>
       <view className="menu-card__image-container">
-        <image
-          src={item.imageUrl || ''}
-          className={`menu-card__image ${item.imageUrl ? '' : 'menu-card__image--hidden'}`}
-          mode="aspectFill"
-        />
+        {item.imageUrl ? (
+          <image
+            src={item.imageUrl}
+            className="menu-card__image"
+            mode="aspectFill"
+          />
+        ) : (
+          <view className="menu-card__image-placeholder">
+             <text>🍽</text>
+          </view>
+        )}
         <view
           className={`menu-card__favorite ${activeFavorite ? 'menu-card__favorite--active' : ''}`}
           bindtap={handleFavorite}
@@ -56,7 +62,7 @@ export const MenuItemCard = memo(({ item, quantity, onAdd, onRemove, onPress }: 
       </view>
       <view className="menu-card__info">
         <text className="menu-card__name">{item.name}</text>
-        <text className="menu-card__desc">{item.description}</text>
+        {item.description && <text className="menu-card__desc">{item.description}</text>}
 
         <view className="menu-card__bottom">
           <text className="menu-card__price">{formatPrice(item.price)}</text>
@@ -69,7 +75,7 @@ export const MenuItemCard = memo(({ item, quantity, onAdd, onRemove, onPress }: 
                   <text className="menu-card__qty-icon">−</text>
                 </view>
                 <text className="menu-card__qty-val">{quantity}</text>
-                <view className="menu-card__qty-btn press-effect" bindtap={(e) => handleAdd(e)}>
+                <view className="menu-card__qty-btn press-effect" bindtap={() => handleAdd()}>
                   <text className="menu-card__qty-icon">+</text>
                 </view>
               </view>
@@ -77,7 +83,7 @@ export const MenuItemCard = memo(({ item, quantity, onAdd, onRemove, onPress }: 
               /* Кнопка добавить */
               <view
                 className={`menu-card__add-btn press-effect ${isAdded ? 'menu-card__add-btn--success' : ''}`}
-                bindtap={(e) => handleAdd(e)}
+                bindtap={() => handleAdd()}
               >
                 <text className="menu-card__add-text">
                   {isAdded ? '✅ Добавлено' : '+ В корзину'}

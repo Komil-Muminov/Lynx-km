@@ -25,8 +25,7 @@
   border: 1px solid rgba(0, 0, 0, 0.03);
 }
 
-.manager-stats__card::after {
-  content: "";
+.manager-stats__accent-bar {
   position: absolute;
   top: 0;
   left: 0;
@@ -36,10 +35,10 @@
 }
 
 /* Градиентные полоски для разных показателей */
-.manager-stats__card:nth-child(1)::after { background: linear-gradient(90deg, #34c759, #30b151); }
-.manager-stats__card:nth-child(2)::after { background: linear-gradient(90deg, #007aff, #005bb5); }
-.manager-stats__card:nth-child(3)::after { background: linear-gradient(90deg, #5856d6, #4b49b6); }
-.manager-stats__card:nth-child(4)::after { background: linear-gradient(90deg, #ff9500, #e68600); }
+.manager-stats__card--revenue .manager-stats__accent-bar { background: linear-gradient(90deg, #34c759, #30b151); }
+.manager-stats__card--orders .manager-stats__accent-bar { background: linear-gradient(90deg, #007aff, #005bb5); }
+.manager-stats__card--bill .manager-stats__accent-bar { background: linear-gradient(90deg, #5856d6, #4b49b6); }
+.manager-stats__card--commission .manager-stats__accent-bar { background: linear-gradient(90deg, #ff9500, #e68600); }
 
 .manager-stats__label {
   font-size: 14px;
